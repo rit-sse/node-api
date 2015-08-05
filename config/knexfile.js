@@ -5,13 +5,13 @@ module.exports = {
   development: {
     client: 'sqlite3',
     connection: {
-      filename: '../db/development.db'
+      filename: './db/development.db'
     },
     seeds: {
-      directory: '../db/seeds/'
+      directory: './db/seeds/'
     },
     migrations: {
-      directory: '../db/migrations/'
+      directory: './db/migrations/'
     }
   },
 
@@ -28,7 +28,7 @@ module.exports = {
     },
     migrations: {
       tableName: 'knex_migrations',
-      directory: '../db/migrations/'
+      directory: './db/migrations/'
     }
   }
 
