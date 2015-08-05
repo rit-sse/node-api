@@ -10,7 +10,7 @@ var app = express();
 export default app;
 
 app.use(cors());
-app.use(jwt({secret: nconf.get('keys:pub')}).unless({method: 'GET', path: ['/api/token'] }));
+app.use(jwt({secret: nconf.get('keys:pub')}).unless({method: 'GET', path: ['/token'] }));
 if(nconf.get('NODE_ENV') === 'development') {
   app.use(logger('dev'));
 }

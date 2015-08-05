@@ -27,4 +27,4 @@ build/Release
 node_modules
 
 *.key
-config/database.json
+*.db

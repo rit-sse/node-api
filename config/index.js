@@ -1,14 +1,16 @@
 import nconf from 'nconf';
 import fs from 'fs';
+import knexfile from './knexfile';
 
 nconf
   .env()
-  .file('database', './database.json')
+  .use('memory');
 
-nconf.set("keys:secret", fs.readFileSync('./keys/private.key'))
-nconf.set("keys:pub", fs.readFileSync('./keys/public.key'))
-nconf.set("api:prefix", "api")
-nconf.set("api:version", "v1")
+nconf.set("keys:secret", fs.readFileSync('./keys/private.key'));
+nconf.set("keys:pub", fs.readFileSync('./keys/public.key'));
+nconf.set("api:prefix", "api");
+nconf.set("api:version", "v1");
+nconf.set("knex", knexfile);
 
 nconf.defaults({
   'NODE_ENV': 'development'
