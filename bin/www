@@ -1,0 +1,7 @@
+#!/usr/bin/env node
+
+import app from '../app';
+
+var server = app.listen(process.env.PORT || 3000, () => {
+  console.log('Express server listening on port ' + server.address().port);
+});

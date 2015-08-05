@@ -10,7 +10,8 @@
   ],
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "babel-node bin/www",
+    "keygen": "babel-node ./keygen.js"
   },
   "repository": {
     "type": "git",
@@ -23,9 +24,15 @@
   },
   "homepage": "https://github.com/rit-sse/node-api",
   "dependencies": {
+    "babel": "^5.8.20",
+    "body-parser": "^1.13.3",
     "bookshelf": "^0.8.1",
+    "cors": "^2.7.1",
     "express": "^4.13.3",
+    "express-jwt": "^3.0.1",
+    "keypair": "^1.0.0",
     "knex": "^0.8.6",
+    "morgan": "^1.6.1",
     "nconf": "^0.7.2",
     "pg": "^4.4.1",
     "sqlite3": "^3.0.9"
