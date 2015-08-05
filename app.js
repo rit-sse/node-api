@@ -4,6 +4,8 @@ import logger from 'morgan';
 import cors from 'cors';
 import jwt from 'express-jwt';
 import nconf from './config';
+import path from 'path';
+import router from './routes';
 
 var app = express();
 
@@ -17,7 +19,10 @@ if(nconf.get('NODE_ENV') === 'development') {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-require('./routes')();
+var apiConfig = nconf.get('api');
+var apiPath = path.join(apiConfig.prefix, apiConfig.version);
+
+app.use(apiPath, router);
 
 // error handlers
 app.use((req, res, next) => {

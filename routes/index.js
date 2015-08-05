@@ -1,5 +1,5 @@
-import app from '../app';
+import express from 'express';
 
-export default function() {
+var router = express.Router();
 
-}
+export default router;
