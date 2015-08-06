@@ -4,9 +4,11 @@ import bookshelf from '../config/bookshelf';
 
 console.log('Generating Keys..');
 keygen();
-console.log('Creating Empty Sqlite database...');
-fs.closeSync(fs.openSync('./db/development.db', 'w'));
-
+process.chdir('./config/');
+if(bookshelf.knex.client.config.connection.filename){
+  console.log('Creating Empty Sqlite database...');
+  fs.closeSync(fs.openSync(bookshelf.knex.client.config.connection.filename, 'w'));
+}
 
 console.log('Migrating database...');
 bookshelf.knex.migrate.latest()
