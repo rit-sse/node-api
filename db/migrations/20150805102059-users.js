@@ -1,26 +1,22 @@
-export var up = function(migration, DataTypes) {
-  migration.createTable('users', {
+export function up(queryInterface, Sequelize) {
+  queryInterface.createTable('users', {
     id: {
-      type: DataTypes.INTEGER,
+      type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
+    firstName: Sequelize.STRING,
+    lastName: Sequelize.STRING,
     dce: {
-      type: DataTypes.BOOLEAN,
+      type: Sequelize.STRING,
       allowNull: false,
       unique: true
     },
-    createdAt: {
-      type: DataTypes.DATE
-    },
-    updatedAt: {
-      type: DataTypes.DATE
-    }
+    createdAt: Sequelize.DATE,
+    updatedAt: Sequelize.DATE
   });
-};
+}
 
-export var down = function(migration, DataTypes) {
-  return migration.dropTable('users');
-};
+export function down(queryInterface, Sequelize) {
+  queryInterface.dropTable('users');
+}
