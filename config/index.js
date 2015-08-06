@@ -1,6 +1,6 @@
 import nconf from 'nconf';
 import fs from 'fs';
-import knexfile from './knexfile';
+import database from './database.json';
 
 nconf
   .env()
@@ -10,7 +10,7 @@ nconf.set("keys:secret", fs.readFileSync('./keys/private.key'));
 nconf.set("keys:pub", fs.readFileSync('./keys/public.key'));
 nconf.set("api:prefix", "api");
 nconf.set("api:version", "v1");
-nconf.set("knex", knexfile);
+nconf.set("db", database);
 
 nconf.set("pagination:perPage", 15);
 
