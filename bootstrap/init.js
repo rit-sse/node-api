@@ -14,7 +14,7 @@ bookshelf.knex.migrate.latest()
     if (log.length === 0) {
       console.log('Already up to date');
     }
-    console.log('Batch ' + batchNo + ' run: ' + log.length + ' migrations \n' + log.join('\n'));
+    console.log(`Batch ${batchNo} run: ${log.length} migrations \n${log.join('\n')}`);
     if(bookshelf.knex.client.config.seeds) {
       return bookshelf.knex.seed.run();
     }else {
@@ -25,7 +25,7 @@ bookshelf.knex.migrate.latest()
     if (log.length === 0) {
       console.log('No seed files exist');
     }
-    console.log('Ran ' + log.length + ' seed files \n' + log.join('\n'));
+    console.log(`Ran ${log.length} seed files \n${log.join('\n')}`);
     bookshelf.knex.destroy();
   })
   .catch(function(err){

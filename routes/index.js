@@ -1,5 +1,8 @@
-import express from 'express';
+import { Router } from 'express';
+import users from './users';
 
-var router = express.Router();
+var router = Router();
+
+router.use('/users', users );
 
 export default router;
