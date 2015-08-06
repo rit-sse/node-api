@@ -34,27 +34,3 @@ umzug.up().then((migrations) => {
 
   seeder();
 });
-// knex.migrate.latest()
-//   .spread(function(batchNo, log) {
-//     if (log.length === 0) {
-//       console.log('Already up to date');
-//     }
-//     console.log(`Batch ${batchNo} run: ${log.length} migrations \n${log.join('\n')}`);
-//     if(knex.client.config.seeds) {
-//       return knex.seed.run();
-//     }else {
-//       knex.destroy();
-//     }
-//   })
-//   .spread(function(log) {
-//     if (log.length === 0) {
-//       console.log('No seed files exist');
-//     }
-//     console.log(`Ran ${log.length} seed files \n${log.join('\n')}`);
-//     knex.destroy();
-//   })
-//   .catch(function(err){
-//     console.error(err.stack);
-//     knex.destroy();
-//   });
-
