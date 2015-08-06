@@ -1,26 +1,26 @@
 import fs from 'fs';
 import keygen from '../keygen';
-import bookshelf from '../config/bookshelf';
+import knex from '../config/bookshelf';
 
 console.log('Generating Keys..');
 keygen();
 process.chdir('./config/');
-if(bookshelf.knex.client.config.connection.filename){
+if(knex.client.config.connection.filename){
   console.log('Creating Empty Sqlite database...');
-  fs.closeSync(fs.openSync(bookshelf.knex.client.config.connection.filename, 'w'));
+  fs.closeSync(fs.openSync(knex.client.config.connection.filename, 'w'));
 }
 
 console.log('Migrating database...');
-bookshelf.knex.migrate.latest()
+knex.migrate.latest()
   .spread(function(batchNo, log) {
     if (log.length === 0) {
       console.log('Already up to date');
     }
     console.log(`Batch ${batchNo} run: ${log.length} migrations \n${log.join('\n')}`);
-    if(bookshelf.knex.client.config.seeds) {
-      return bookshelf.knex.seed.run();
+    if(knex.client.config.seeds) {
+      return knex.seed.run();
     }else {
-      bookshelf.knex.destroy();
+      knex.destroy();
     }
   })
   .spread(function(log) {
@@ -28,10 +28,10 @@ bookshelf.knex.migrate.latest()
       console.log('No seed files exist');
     }
     console.log(`Ran ${log.length} seed files \n${log.join('\n')}`);
-    bookshelf.knex.destroy();
+    knex.destroy();
   })
   .catch(function(err){
     console.error(err.stack);
-    bookshelf.knex.destroy();
+    knex.destroy();
   });
 
