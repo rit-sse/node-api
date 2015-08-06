@@ -11,16 +11,18 @@ var app = express();
 
 export default app;
 
+var env = nconf.get('NODE_ENV');
+
 app.use(cors());
-app.use(jwt({secret: nconf.get('keys:pub')}).unless({method: 'GET', path: ['/token'] }));
-if(nconf.get('NODE_ENV') === 'development') {
+// app.use(jwt({secret: nconf.get('keys:pub')}).unless({method: 'GET', path: ['/token'] }));
+if(env=== 'development') {
   app.use(logger('dev'));
 }
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 var apiConfig = nconf.get('api');
-var apiPath = path.join(apiConfig.prefix, apiConfig.version);
+var apiPath = `/${apiConfig.prefix}/${apiConfig.version}`;
 
 app.use(apiPath, router);
 

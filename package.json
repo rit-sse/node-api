@@ -28,6 +28,7 @@
     "babel": "^5.8.20",
     "body-parser": "^1.13.3",
     "bookshelf": "^0.8.1",
+    "checkit": "^0.5.1",
     "cors": "^2.7.1",
     "express": "^4.13.3",
     "express-jwt": "^3.0.1",
@@ -37,5 +38,9 @@
     "nconf": "^0.7.2",
     "pg": "^4.4.1",
     "sqlite3": "^3.0.9"
+  },
+  "devDependencies": {
+    "faker": "^3.0.1",
+    "randexp": "^0.4.0"
   }
 }

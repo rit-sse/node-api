@@ -12,6 +12,8 @@ nconf.set("api:prefix", "api");
 nconf.set("api:version", "v1");
 nconf.set("knex", knexfile);
 
+nconf.set("pagination:perPage", 15);
+
 nconf.defaults({
   'NODE_ENV': 'development'
 });
