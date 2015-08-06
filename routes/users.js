@@ -1,21 +1,20 @@
 import { Router } from 'express';
 import User from '../models/user';
-import whitelist from '../helpers/whitelist';
+import scopify from '../helpers/scopify';
+import {paginate} from '../helpers/paginate';
 
 var router = Router();
 
 router
   .route('/')
     .get((req, res, next) => {
-      var query = whitelist(req.query, 'firstName', 'lastName', 'dce');
-      User
-        .paginate(query, req.query.perPage, req.query.page)
+      var scopes = scopify(req.query, 'firstName', 'lastName', 'dce');
+      paginate(User.scope(scopes), req.query.perPage, req.query.page)
         .then((body) => res.send(body))
         .catch((err) => next(err));
     })
     .post((req, res, next) => {
-      var body = whitelist(req.body, 'firstName', 'lastName', 'dce');
-      new User(body).save()
+      User.create(req.body, {fields: ['firstName', 'lastName', 'dce' ]})
         .then((user) => res.send(user))
         .catch((err) => next({ err: err, status: 422}));
     });
@@ -24,8 +23,7 @@ router
   .route('/:id')
     .get((req, res, next) => {
       User
-        .where({id: req.params.id})
-        .fetch()
+        .findById(req.params.id)
         .then((user) =>{
           if(user) {
             res.send(user)
@@ -36,18 +34,16 @@ router
         .catch((err) => next(err));
     })
     .put((req, res, next) => {
-      var body = whitelist(req.body, 'firstName', 'lastName', 'dce');
       User
-        .where({id: req.params.id})
-        .fetch()
-        .then((user) => user.set(body).save())
+        .findById(req.params.id)
+        .then((user) => user.updateAttributes(req.body, ({ fields: ['firstName', 'lastName', 'dce']})))
         .then((user) => res.send(user))
         .catch((err) => next(err));
     })
     .delete((req, res, next) => {
       User
-        .where({id: req.params.id})
-        .destroy(req.params.id)
+        .findById(req.params.id)
+        .then((user) => user.destroy())
         .then(() => res.send(204));
     });
 

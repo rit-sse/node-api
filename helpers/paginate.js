@@ -2,28 +2,29 @@ import nconf from '../config';
 
 var defaultPerPage = nconf.get('pagination:perPage');
 
-export default function(query, perPage, page)  {
+export function scope(perPage, page) {
+  return {
+    limit: perPage,
+    offset: (page-1)*perPage
+  }
+}
+
+export function paginate(query, perPage, page) {
   perPage = perPage || defaultPerPage
   page = page || 1;
   return Promise.all([
-    this.query(qb => qb.where(query).count('* as count')).fetch(),
-    this.collection().query(qb => {
-      qb
-        .where(query)
-        .limit(perPage)
-        .offset((page-1)*perPage)
-    })
-    .fetch()
+    query.count(),
+    query.scope({method: ['paginate', perPage, page]}).findAll()
   ])
     .then((res) => {
-      var total = res[0].attributes.count;
+      var total = res[0];
       var data = res[1];
 
       return {
-        total: total,
-        perPage: perPage,
+        total,
+        perPage,
         currentPage: page,
-        data: data
-      }
+        data
+      };
     });
 }
