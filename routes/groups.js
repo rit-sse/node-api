@@ -1,48 +1,49 @@
 import { Router } from 'express';
-import User from '../models/user';
+import Group from '../models/group';
 import scopify from '../helpers/scopify';
+import {paginate} from '../helpers/paginate';
 
 var router = Router();
 
 router
   .route('/')
     .get((req, res, next) => {
-      var scopes = scopify(req.query, 'firstName', 'lastName', 'dce');
-      User.paginate(scopes, req.query.perPage, req.query.page)
+      var scopes = scopify(req.query, 'name', 'description');
+      Group.paginate(scopes, req.query.perPage, req.query.page)
         .then((body) => res.send(body))
         .catch((err) => next(err));
     })
     .post((req, res, next) => {
-      User.create(req.body, {fields: ['firstName', 'lastName', 'dce' ]})
-        .then((user) => res.send(user))
+      Group.create(req.body, {fields: ['name', 'description']})
+        .then((group) => res.send(group))
         .catch((err) => next({ err: err, status: 422}));
     });
 
 router
   .route('/:id')
     .get((req, res, next) => {
-      User
+      Group
         .findById(req.params.id)
-        .then((user) => {
-          if(user) {
-            res.send(user)
+        .then((group) => {
+          if(group) {
+            res.send(group)
           } else {
-            next({ message: "User not found", status: 404 })
+            next({ message: "Group not found", status: 404 })
           }
         })
         .catch((err) => next(err));
     })
     .put((req, res, next) => {
-      User
+      Group
         .findById(req.params.id)
-        .then((user) => user.updateAttributes(req.body, ({ fields: ['firstName', 'lastName', 'dce']})))
-        .then((user) => res.send(user))
+        .then((group) => group.updateAttributes(req.body, ({ fields: ['name', 'description']})))
+        .then((group) => res.send(group))
         .catch((err) => next(err));
     })
     .delete((req, res, next) => {
-      User
+      Group
         .findById(req.params.id)
-        .then((user) => user.destroy())
+        .then((group) => group.destroy())
         .then(() => res.send(204));
     });
 

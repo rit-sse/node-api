@@ -10,8 +10,6 @@ import models from './models';
 
 var app = express();
 
-export default app;
-
 var env = nconf.get('NODE_ENV');
 
 app.use(cors());
@@ -48,3 +46,5 @@ app.use((err, req, res, next) => {
     res.status(status || 500).send(err);
   }
 });
+
+export default app;

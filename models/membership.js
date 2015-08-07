@@ -1,10 +1,11 @@
 import sequelize from '../config/sequelize';
 import Sequelize from 'sequelize';
-import {scope as paginate} from '../helpers/paginate';
+import {paginateScope, paginate} from '../helpers/paginate';
 
 export default sequelize.define('memberships', {
   reason: Sequelize.STRING,
 }, {
+  classMethods: { paginate },
   scopes: {
     reason(reason) {
       return { where: { reason } }
@@ -18,6 +19,6 @@ export default sequelize.define('memberships', {
     term(termId) {
       return { where: { termId } }
     },
-    paginate
+    paginate: paginateScope
   }
 });

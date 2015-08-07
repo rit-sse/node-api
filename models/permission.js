@@ -1,6 +1,5 @@
 import sequelize from '../config/sequelize';
 import Sequelize from 'sequelize';
-import {scope as paginate} from '../helpers/paginate';
 
 export default sequelize.define('permissions', {
   name: {

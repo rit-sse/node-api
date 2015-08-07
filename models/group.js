@@ -1,6 +1,6 @@
 import sequelize from '../config/sequelize';
 import Sequelize from 'sequelize';
-import {scope as paginate} from '../helpers/paginate';
+import {paginateScope, paginate} from '../helpers/paginate';
 
 export default sequelize.define('groups', {
   name: {
@@ -9,6 +9,7 @@ export default sequelize.define('groups', {
   },
   description: Sequelize.STRING,
 }, {
+  classMethods: { paginate },
   scopes: {
     name(name) {
       return { where: { name } }
@@ -16,6 +17,6 @@ export default sequelize.define('groups', {
     description(description) {
       return { where: { description } }
     },
-    paginate
+    paginate: paginateScope
   }
 });
