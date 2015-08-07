@@ -15,6 +15,11 @@ export function up(queryInterface, Sequelize) {
       allowNull: false,
       references: { model: 'groups', key: 'id' }
     },
+    termId: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      references: { model: 'terms', key: 'id' }
+    },
     reason: Sequelize.STRING,
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE

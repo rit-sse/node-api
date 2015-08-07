@@ -1,20 +1,20 @@
 export function up(queryInterface, Sequelize) {
-  queryInterface.createTable('groups', {
+  queryInterface.createTable('terms', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
-      autoIncrement: true
     },
     name: {
       type: Sequelize.STRING,
       unique: true
     },
-    description: Sequelize.STRING,
+    startDate: Sequelize.DATE,
+    endDate: Sequelize.DATE,
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE
   });
 }
 
 export function down(queryInterface, Sequelize) {
-  queryInterface.dropTable('groups');
+  queryInterface.dropTable('terms');
 }

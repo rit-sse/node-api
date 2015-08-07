@@ -8,6 +8,7 @@ var router = Router();
 router
   .route('/')
     .get((req, res, next) => {
+      console.log(req)
       var scopes = scopify(req.query, 'firstName', 'lastName', 'dce');
       paginate(User.scope(scopes), req.query.perPage, req.query.page)
         .then((body) => res.send(body))

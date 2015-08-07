@@ -1,5 +1,5 @@
 export function up(queryInterface, Sequelize) {
-  queryInterface.createTable('group_permissions', {
+  queryInterface.createTable('groups_permissions', {
     permissionId: {
       type: Sequelize.INTEGER,
       allowNull: false,
@@ -18,5 +18,5 @@ export function up(queryInterface, Sequelize) {
 }
 
 export function down(queryInterface, Sequelize) {
-  queryInterface.dropTable('group_permissions');
+  queryInterface.dropTable('groups_permissions');
 }
