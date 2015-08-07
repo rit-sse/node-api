@@ -3,6 +3,7 @@ import Sequelize from 'sequelize';
 import {paginateScope, paginate} from '../helpers/paginate';
 
 export default sequelize.define('memberships', {
+  id: Sequelize.INTEGER,
   reason: Sequelize.STRING,
 }, {
   classMethods: { paginate },
