@@ -1,4 +1,5 @@
 import nconf from '../config';
+import Promise from 'bluebird';
 
 var defaultPerPage = nconf.get('pagination:perPage');
 
@@ -16,10 +17,7 @@ export function paginate(scopes, perPage, page) {
   scopes[1].push({method: ['paginate', perPage, page]});
   var query = this.scope(scopes[1]).findAll();
   return Promise.all([count, query])
-    .then((res) => {
-      var total = res[0];
-      var data = res[1];
-
+    .spread((total, data) => {
       return {
         total,
         perPage,

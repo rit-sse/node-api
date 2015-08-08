@@ -1,5 +1,15 @@
-import users from './users';
+import admin from './admin';
+import groups from './groups';
+import groupsPermissions  from './groups-permissions'
+import permissions from './permissions';
+import terms from './terms';
+import models from '../../models';
+models();
 
 export default function() {
-  users();
+  permissions()
+    .then(groups)
+    .then(groupsPermissions)
+    .then(terms)
+    .then(admin);
 }

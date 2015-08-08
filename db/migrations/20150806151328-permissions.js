@@ -10,6 +10,10 @@ export function up(queryInterface, Sequelize) {
       unique: true
     },
     description: Sequelize.STRING,
+    level: {
+      type: Sequelize.INTEGER,
+      defaultValue: 100
+    },
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE
   })
