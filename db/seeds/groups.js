@@ -13,7 +13,7 @@ export default function seed() {
         description: 'the officers'
       },
       {
-        name: 'mentor',
+        name: 'mentors',
         description: 'the mentors'
       }]);
     })
