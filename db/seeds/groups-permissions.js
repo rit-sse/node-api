@@ -2,13 +2,17 @@ import Group from '../../models/group';
 import Permission from '../../models/permission';
 
 export default function seed() {
-  var allPermissions = ['groups', 'memberships', 'users']
+  var allPermissions = ['groups', 'memberships']
     .reduce((arr, action) => {
       arr.push(`create ${action}`, `update ${action}`, `destroy ${action}`);
       return arr;
-    }, []);
+    }, ['read unapproved memberships']);
 
-  var admin = ['update memberships', 'destroy memberships', 'update users', 'destroy users']
+  var admin = [
+    'update memberships',
+    'destroy memberships',
+    'read unapproved memberships'
+  ];
 
   var officerPermissions = allPermissions.filter((p) => admin.indexOf(p) === -1 )
 

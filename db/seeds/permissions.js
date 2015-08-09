@@ -1,10 +1,14 @@
 import Permission from '../../models/permission';
 
 export default function seed() {
+  var permissions = [{
+    name: 'read unapproved memberships',
+    description: 'View the unapproved memberships'
+  }];
   return Permission
     .destroy({where: { }})
     .then(() => {
-      var actions = ['groups', 'memberships', 'users'];
+      var actions = ['groups', 'memberships'];
       return Permission.bulkCreate(actions.reduce((arr, action) => {
         arr.push({
           name: `create ${action}`,
@@ -19,6 +23,6 @@ export default function seed() {
           description: `Update a ${action}`
         })
         return arr;
-      }, []));
+      }, permissions));
     })
 };

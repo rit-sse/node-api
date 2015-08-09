@@ -3,10 +3,21 @@ import Sequelize from 'sequelize';
 import {paginateScope, paginate} from '../helpers/paginate';
 
 export default sequelize.define('memberships', {
-  id: Sequelize.INTEGER,
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
   reason: Sequelize.STRING,
+  endDate: Sequelize.DATE,
+  approved: Sequelize.BOOLEAN
 }, {
   classMethods: { paginate },
+  defaultScopes: {
+    where: {
+      approved: true
+    }
+  },
   scopes: {
     reason(reason) {
       return { where: { reason } }
@@ -16,6 +27,9 @@ export default sequelize.define('memberships', {
     },
     user(userId) {
       return { where: { userId } }
+    },
+    approved(approved){
+      return { where: { approved } }
     },
     term(termId) {
       return { where: { termId } }

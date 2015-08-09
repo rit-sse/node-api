@@ -9,7 +9,8 @@ var router = Router();
 router
   .route('/')
     .get((req, res, next) => {
-      var scopes = scopify(req.query, 'reason', 'group', 'user', 'term');
+      req.query.approved = req.query.approved === 'false' ? false : true;
+      var scopes = scopify(req.query, 'reason', 'group', 'user', 'term', 'approved');
       Membership.paginate(scopes, req.query.perPage, req.query.page)
         .then((body) => res.send(body))
         .catch((err) => next(err));
@@ -27,7 +28,8 @@ router
         })
         .then((term) => {
           req.body.termId = term.id;
-          return Membership.create(req.body, {fields: ['reason', 'groupId', 'userId', 'termId' ]})
+          req.body.approved = false;
+          return Membership.create(req.body, {fields: ['reason', 'approved', 'groupId', 'userId', 'termId' ]})
         })
         .then((membership) => res.send(membership))
         .catch((err) => next({ err: err, status: 422}));
@@ -50,7 +52,7 @@ router
     .put((req, res, next) => {
       Membership
         .findById(req.params.id)
-        .then((membership) => membership.updateAttributes(req.body, ({ fields: ['reason', 'groupId', 'userId', 'termId' ]})))
+        .then((membership) => membership.updateAttributes(req.body, ({ fields: ['reason', 'approved', 'endDate', 'groupId', 'userId', 'termId' ]})))
         .then((membership) => res.send(membership))
         .catch((err) => next(err));
     })

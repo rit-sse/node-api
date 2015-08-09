@@ -21,6 +21,11 @@ export function up(queryInterface, Sequelize) {
       references: { model: 'terms', key: 'id' }
     },
     reason: Sequelize.STRING,
+    endDate: Sequelize.DATE,
+    approved: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
+    },
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE
   });

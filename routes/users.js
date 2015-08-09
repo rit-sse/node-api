@@ -12,11 +12,6 @@ router
         .then((body) => res.send(body))
         .catch((err) => next(err));
     })
-    .post((req, res, next) => {
-      User.create(req.body, {fields: ['firstName', 'lastName', 'dce' ]})
-        .then((user) => res.send(user))
-        .catch((err) => next({ err: err, status: 422}));
-    });
 
 router
   .route('/:id')
@@ -32,18 +27,5 @@ router
         })
         .catch((err) => next(err));
     })
-    .put((req, res, next) => {
-      User
-        .findById(req.params.id)
-        .then((user) => user.updateAttributes(req.body, ({ fields: ['firstName', 'lastName', 'dce']})))
-        .then((user) => res.send(user))
-        .catch((err) => next(err));
-    })
-    .delete((req, res, next) => {
-      User
-        .findById(req.params.id)
-        .then((user) => user.destroy())
-        .then(() => res.send(204));
-    });
 
 export default router;
