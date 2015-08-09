@@ -3,19 +3,20 @@ import Membership from '../models/membership';
 import Term from '../models/term';
 import scopify from '../helpers/scopify';
 import {paginate} from '../helpers/paginate';
+import {needs, needsIndex, needsOne} from '../middleware/permissions'
+import jwt from '../middleware/jwt'
 
 var router = Router();
 
 router
   .route('/')
-    .get((req, res, next) => {
-      req.query.approved = req.query.approved === 'false' ? false : true;
+    .get(jwt, needsIndex('memberships'), (req, res, next) => {
       var scopes = scopify(req.query, 'reason', 'group', 'user', 'term', 'approved');
       Membership.paginate(scopes, req.query.perPage, req.query.page)
         .then((body) => res.send(body))
         .catch((err) => next(err));
     })
-    .post((req, res, next) => {
+    .post(needs('create memberships'), (req, res, next) => {
       Term
         .findOrInitialize({ where: { name: req.body.term.name } })
         .spread((term, created) => {
@@ -37,11 +38,14 @@ router
 
 router
   .route('/:id')
-    .get((req, res, next) => {
+    .get(jwt, needsOne('memberships'), (req, res, next) => {
       Membership
         .findById(req.params.id)
         .then((membership) => {
           if(membership) {
+            if(!membership.approved && !req.auth.allowed) {
+              return next({message: `User does not have permission: read unapproved memberships`, status: 403})
+            }
             res.send(membership)
           } else {
             next({ message: "Membership not found", status: 404 })
@@ -49,14 +53,14 @@ router
         })
         .catch((err) => next(err));
     })
-    .put((req, res, next) => {
+    .put(needs('update memberships'), (req, res, next) => {
       Membership
         .findById(req.params.id)
         .then((membership) => membership.updateAttributes(req.body, ({ fields: ['reason', 'approved', 'endDate', 'groupId', 'userId', 'termId' ]})))
         .then((membership) => res.send(membership))
         .catch((err) => next(err));
     })
-    .delete((req, res, next) => {
+    .delete(needs('destroy memberships'), (req, res, next) => {
       Membership
         .findById(req.params.id)
         .then((membership) => membership.destroy())

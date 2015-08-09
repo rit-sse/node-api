@@ -11,6 +11,7 @@ export default function seed() {
         return Membership
           .create({
             reason: 'admin',
+            approved: true,
             userId: user.id,
             groupId: 1,
             termId: 1

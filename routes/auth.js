@@ -34,10 +34,7 @@ router
         .verify()
         .then(() => provider.findOrCreateUser())
         .then((user) => res.send(sign({user: user[0], level: provider.authLevel})))
-        .catch((err) => {
-          err.status = 401
-          next(err)
-        })
+        .catch((err) =>  next({ err, message: err.message, status: 401}))
     });
 
 export default router;
