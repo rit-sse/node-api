@@ -8,7 +8,7 @@ export default function seed() {
   return Permission
     .destroy({where: { }})
     .then(() => {
-      var actions = ['groups', 'memberships'];
+      var actions = ['groups', 'memberships', 'officers'];
       return Permission.bulkCreate(actions.reduce((arr, action) => {
         arr.push({
           name: `create ${action}`,

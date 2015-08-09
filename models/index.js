@@ -1,5 +1,6 @@
 import Group from './group';
 import Membership from './membership';
+import Officer from './officer';
 import Permission from './permission';
 import Term from './term';
 import User from './user';
@@ -14,7 +15,10 @@ export default function() {
 
   Permission.belongsToMany(Group, { through: 'groups_permissions'});
 
+  Officer.belongsTo(User);
+
   Term.hasMany(Membership);
 
   User.hasMany(Membership);
+  User.hasOne(Officer);
 }
