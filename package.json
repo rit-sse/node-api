@@ -38,9 +38,5 @@
     "sequelize": "^3.5.1",
     "sqlite3": "^3.0.9",
     "umzug": "^1.6.0"
-  },
-  "devDependencies": {
-    "faker": "^3.0.1",
-    "randexp": "^0.4.0"
   }
 }
