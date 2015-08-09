@@ -11,17 +11,20 @@ import models from './models';
 var app = express();
 
 var env = nconf.get('NODE_ENV');
+var apiConfig = nconf.get('api');
+var apiPath = `/${apiConfig.prefix}/${apiConfig.version}`;
 
 app.use(cors());
-// app.use(jwt({secret: nconf.get('keys:pub')}).unless({method: 'GET', path: ['/token'] }));
-if(env=== 'development') {
+app.use(jwt({
+  secret: nconf.get('auth:jwt:pub'),
+  requestProperty: 'auth',
+  algorithms: ['RS256','RS384','RS512' ]
+}).unless({method: 'GET', path: [new RegExp(`^${apiPath}/auth/(?!refresh)[a-z]+$`)] }));
+if(env === 'development') {
   app.use(logger('dev'));
 }
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-
-var apiConfig = nconf.get('api');
-var apiPath = `/${apiConfig.prefix}/${apiConfig.version}`;
 
 models();
 app.use(apiPath, router);
