@@ -2,6 +2,7 @@ import { Router } from 'express';
 import Group from '../models/group';
 import scopify from '../helpers/scopify';
 import {paginate} from '../helpers/paginate';
+import { needs } from '../middleware/permissions';
 
 var router = Router();
 
@@ -13,7 +14,7 @@ router
         .then((body) => res.send(body))
         .catch((err) => next(err));
     })
-    .post((req, res, next) => {
+    .post(needs('create groups'), (req, res, next) => {
       Group.create(req.body, {fields: ['name', 'description']})
         .then((group) => res.send(group))
         .catch((err) => next({ err: err, status: 422}));
@@ -33,14 +34,14 @@ router
         })
         .catch((err) => next(err));
     })
-    .put((req, res, next) => {
+    .put(needs('update groups'), (req, res, next) => {
       Group
         .findById(req.params.id)
         .then((group) => group.updateAttributes(req.body, ({ fields: ['name', 'description']})))
         .then((group) => res.send(group))
         .catch((err) => next(err));
     })
-    .delete((req, res, next) => {
+    .delete(needs('destroy groups'), (req, res, next) => {
       Group
         .findById(req.params.id)
         .then((group) => group.destroy())

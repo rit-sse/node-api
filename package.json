@@ -31,6 +31,8 @@
     "cors": "^2.7.1",
     "express": "^4.13.3",
     "express-jwt": "^3.0.1",
+    "googleapis": "^2.1.3",
+    "jsonwebtoken": "^5.0.4",
     "keypair": "^1.0.0",
     "morgan": "^1.6.1",
     "nconf": "^0.7.2",

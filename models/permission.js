@@ -7,6 +7,7 @@ export default sequelize.define('permissions', {
     unique: true
   },
   description: Sequelize.STRING,
+  level: Sequelize.INTEGER
 }, {
   scopes: {
     name(name) {

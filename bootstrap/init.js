@@ -17,8 +17,10 @@ var umzug = new Umzug({
   }
 });
 
-console.log('Generating Keys..');
-keygen();
+if(nconf.get('keygen')) {
+  console.log('Generating Keys..');
+  keygen();
+}
 if(sequelize.options.storage ){
   console.log('Creating Empty Sqlite database...');
   fs.closeSync(fs.openSync(sequelize.options.storage, 'w'));
