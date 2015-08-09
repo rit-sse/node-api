@@ -6,10 +6,9 @@ import jwt from 'express-jwt';
 import nconf from './config';
 import path from 'path';
 import router from './routes';
+import models from './models';
 
 var app = express();
-
-export default app;
 
 var env = nconf.get('NODE_ENV');
 
@@ -24,6 +23,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 var apiConfig = nconf.get('api');
 var apiPath = `/${apiConfig.prefix}/${apiConfig.version}`;
 
+models();
 app.use(apiPath, router);
 
 // error handlers
@@ -46,3 +46,5 @@ app.use((err, req, res, next) => {
     res.status(status || 500).send(err);
   }
 });
+
+export default app;

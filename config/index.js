@@ -3,6 +3,7 @@ import fs from 'fs';
 import database from './database.json';
 
 nconf
+  .argv()
   .env()
   .use('memory');
 
