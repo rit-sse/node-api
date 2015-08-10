@@ -20,19 +20,19 @@ export default sequelize.define('memberships', {
   },
   scopes: {
     reason(reason) {
-      return { where: { reason } }
+      return { where: { reason } };
     },
     group(groupId) {
-      return { where: { groupId } }
+      return { where: { groupId } };
     },
     user(userId) {
-      return { where: { userId } }
+      return { where: { userId } };
     },
     approved(approved){
-      return { where: { approved } }
+      return { where: { approved } };
     },
     term(termId) {
-      return { where: { termId } }
+      return { where: { termId } };
     },
     paginate: paginateScope
   }

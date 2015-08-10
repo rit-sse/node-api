@@ -4,7 +4,6 @@ import logger from 'morgan';
 import cors from 'cors';
 import jwt from 'express-jwt';
 import nconf from './config';
-import path from 'path';
 import router from './routes';
 import models from './models';
 
@@ -20,7 +19,7 @@ app.use(jwt({
   requestProperty: 'auth',
   algorithms: ['RS256','RS384','RS512' ]
 }).unless({method: 'GET', path: [new RegExp(`^${apiPath}/auth/(?!refresh)[a-z]+$`)] }));
-if(env === 'development') {
+if (env === 'development') {
   app.use(logger('dev'));
 }
 app.use(bodyParser.json());
@@ -39,9 +38,8 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   if (env === 'production') {
     res.status(err.status || 500).send('internal server error!');
-  }
-  else {
-    if(env === 'development' && err.stack) {
+  } else {
+    if (env === 'development' && err.stack) {
       console.error(err.stack);
     }
     var status = err.status;

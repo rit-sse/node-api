@@ -10,10 +10,10 @@ export default sequelize.define('lingo', {
   freezeTableName: true,
   scopes: {
     phrase(phrase) {
-      return { where: { phrase } }
+      return { where: { phrase } };
     },
     definition(definition) {
-      return { where: { definition } }
+      return { where: { definition } };
     },
     paginate: paginateScope
   }

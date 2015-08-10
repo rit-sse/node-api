@@ -14,17 +14,17 @@ export default sequelize.define('groups', {
   instanceMethods: {
     addPermissionsByName(...names) {
       return Promise
-        .map(names, (name) => Permission.find({ where: {name}}))
-        .map((permission) => this.addPermission(permission));
+        .map(names, name => Permission.find({ where: {name}}))
+        .map(permission => this.addPermission(permission));
     }
   },
   classMethods: { paginate },
   scopes: {
     name(name) {
-      return { where: { name } }
+      return { where: { name } };
     },
     description(description) {
-      return { where: { description } }
+      return { where: { description } };
     },
     paginate: paginateScope
   }

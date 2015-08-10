@@ -8,10 +8,10 @@ export default sequelize.define('tips', {
   classMethods: { paginate },
   scopes: {
     body(body) {
-      return { where: { body } }
+      return { where: { body } };
     },
     user(userId) {
-      return { where: { userId } }
+      return { where: { userId } };
     },
     paginate: paginateScope
   }

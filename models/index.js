@@ -20,7 +20,7 @@ export default function() {
 
   Term.hasMany(Membership);
 
-  Tip.belongsTo(User)
+  Tip.belongsTo(User);
 
   User.hasMany(Membership);
   User.hasOne(Officer);

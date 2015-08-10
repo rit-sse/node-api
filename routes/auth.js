@@ -19,13 +19,13 @@ function sign(payload) {
 router
   .route('/:provider')
     .post((req, res, next) => {
-      if(req.params.provider === 'refresh') {
-        console.log(req.auth)
-        return res.send(sign(req.auth))
+      if (req.params.provider === 'refresh') {
+        console.log(req.auth);
+        return res.send(sign(req.auth));
       }
 
-      if(!providers[req.params.provider]) {
-        return next({message: 'invalid provider', status: 401})
+      if (!providers[req.params.provider]) {
+        return next({message: 'invalid provider', status: 401});
       }
 
       var provider = new providers[req.params.provider](req.body.secret, req.body.id);
@@ -33,8 +33,8 @@ router
       provider
         .verify()
         .then(() => provider.findOrCreateUser())
-        .then((user) => res.send(sign({user: user[0], level: provider.authLevel})))
-        .catch((err) =>  next({ err, message: err.message, status: 401}))
+        .then(user => res.send(sign({user: user[0], level: provider.authLevel})))
+        .catch(err =>  next({ err, message: err.message, status: 401}));
     });
 
 export default router;

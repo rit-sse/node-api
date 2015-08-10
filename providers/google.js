@@ -8,7 +8,7 @@ export default class GoogleProvider {
 
   constructor(token, dce) {
     this.dce = dce;
-    this.authLevel = nconf.get('auth:levels:high')
+    this.authLevel = nconf.get('auth:levels:high');
     this.token = token;
     this.client = new OAuth2(nconf.get('auth:google:id'), nconf.get('auth:google:secret'));
   }
@@ -16,17 +16,17 @@ export default class GoogleProvider {
   verify() {
     return new Promise((resolve, reject) => {
       this.client.verifyIdToken(this.token, this.client.clientId, (err, ticket) => {
-        if(err) {
+        if (err) {
           return reject(err);
         }
         this.payload = ticket.getPayload();
-        if(this.payload.hd === 'g.rit.edu'){
-          resolve()
-        }else {
+        if (this.payload.hd === 'g.rit.edu'){
+          resolve();
+        } else {
           reject('Must login with a g.rit.edu account');
         }
       });
-    })
+    });
   }
 
   findOrCreateUser() {
@@ -36,7 +36,6 @@ export default class GoogleProvider {
         user.firstName = this.payload.given_name;
         user.lastName = this.payload.family_name;
         return Promise.all([user.save(), created]);
-      })
+      });
   }
-
 }

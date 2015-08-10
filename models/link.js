@@ -9,10 +9,10 @@ export default sequelize.define('links', {
   classMethods: { paginate },
   scopes: {
     shortLink(shortLink) {
-      return { where: { shortLink } }
+      return { where: { shortLink } };
     },
     longLink(longLink) {
-      return { where: { longLink } }
+      return { where: { longLink } };
     },
     paginate: paginateScope
   }

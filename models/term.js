@@ -22,17 +22,17 @@ export default sequelize.define('terms', {
             $gte: date
           }
         }
-      }
+      };
     },
     name(name) {
-      return { where: { name } }
+      return { where: { name } };
     },
     paginate: paginateScope
   },
   validate: {
     startDateBeforeEndDate() {
       if (this.startDate > this.endDate) {
-        throw new Error('Start date must be before the end date')
+        throw new Error('Start date must be before the end date');
       }
     }
   }

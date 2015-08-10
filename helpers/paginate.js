@@ -7,11 +7,11 @@ export function paginateScope(perPage, page) {
   return {
     limit: perPage,
     offset: (page-1)*perPage
-  }
+  };
 }
 
 export function paginate(scopes, perPage, page) {
-  perPage = perPage || defaultPerPage
+  perPage = perPage || defaultPerPage;
   page = page || 1;
   var count = this.scope(scopes[0]).count();
   scopes[1].push({method: ['paginate', perPage, page]});

@@ -16,5 +16,5 @@ export default function seed() {
         name: 'mentors',
         description: 'the mentors'
       }]);
-    })
+    });
 };

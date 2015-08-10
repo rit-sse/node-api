@@ -17,8 +17,8 @@ export default sequelize.define('users', {
       return Term
         .scope({method: ['date', new Date()]})
         .find()
-        .then((term) => {
-          if(!term) {
+        .then(term => {
+          if (!term) {
             return [];
           }
           return this.getMemberships({
@@ -31,32 +31,32 @@ export default sequelize.define('users', {
                 }
               }
             }
-          })
-        })
+          });
+        });
     },
     can(permission, level) {
       return this
         .activeMemberships()
-        .map((membership) => membership.getGroup())
-        .map((group) => group.getPermissions())
+        .map(membership => membership.getGroup())
+        .map(group => group.getPermissions())
         .reduce((all,permissions) => all.concat(permissions), [])
-        .filter((p) =>  p.name === permission && level >= p.level)
-        .then((p) => {
-          if(p.length == 0) {
-            return Promise.reject(false)
+        .filter(p =>  p.name === permission && level >= p.level)
+        .then(p => {
+          if (p.length === 0) {
+            return Promise.reject(false);
           }
         });
     }
   },
   scopes: {
     firstName(firstName) {
-      return { where: { firstName } }
+      return { where: { firstName } };
     },
     lastName(lastName) {
-      return { where: { lastName } }
+      return { where: { lastName } };
     },
     dce(dce) {
-      return { where: { dce } }
+      return { where: { dce } };
     },
     paginate: paginateScope
   }

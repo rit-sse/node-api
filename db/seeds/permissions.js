@@ -29,8 +29,8 @@ export default function seed() {
           name: `update ${action}`,
           description: `Update a ${action}`,
           level: nconf.get('auth:levels:high')
-        })
+        });
         return arr;
       }, permissions));
-    })
+    });
 };

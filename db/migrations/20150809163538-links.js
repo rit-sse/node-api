@@ -12,6 +12,6 @@ export function up(queryInterface, Sequelize) {
   });
 }
 
-export function down(queryInterface, Sequelize) {
+export function down(queryInterface) {
   queryInterface.dropTable('links');
 }

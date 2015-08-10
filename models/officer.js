@@ -1,4 +1,4 @@
-import sequelize from '../config/sequelize';
+;import sequelize from '../config/sequelize';
 import Sequelize from 'sequelize';
 import {paginateScope, paginate} from '../helpers/paginate';
 
@@ -9,13 +9,13 @@ export default sequelize.define('officers', {
   classMethods: { paginate },
   scopes: {
     display(display) {
-      return { where: { display } }
+      return { where: { display } };
     },
     email(email) {
-      return { where: { email } }
+      return { where: { email } };
     },
     user(userId) {
-      return { where: { userId } }
+      return { where: { userId } };
     },
     paginate: paginateScope
   }

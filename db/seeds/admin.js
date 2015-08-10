@@ -4,10 +4,10 @@ import Membership from '../../models/membership';
 
 export default function seed() {
   var admin = nconf.get('admin');
-  if(admin) {
+  if (admin) {
     return User
       .create(admin)
-      .then((user) => {
+      .then(user => {
         return Membership
           .create({
             reason: 'admin',

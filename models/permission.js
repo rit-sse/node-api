@@ -11,10 +11,10 @@ export default sequelize.define('permissions', {
 }, {
   scopes: {
     name(name) {
-      return { where: { name } }
+      return { where: { name } };
     },
     description(description) {
-      return { where: { description } }
+      return { where: { description } };
     }
   }
 });

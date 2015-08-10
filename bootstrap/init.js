@@ -17,21 +17,21 @@ var umzug = new Umzug({
   }
 });
 
-if(nconf.get('keygen')) {
+if (nconf.get('keygen')) {
   console.log('Generating Keys..');
   keygen();
 }
-if(sequelize.options.storage ){
+if (sequelize.options.storage ){
   console.log('Creating Empty Sqlite database...');
   fs.closeSync(fs.openSync(sequelize.options.storage, 'w'));
 }
 
 console.log('Migrating database...');
-umzug.up().then((migrations) => {
-  var files = migrations.map((m) => m.file ).join('\n')
+umzug.up().then(migrations => {
+  var files = migrations.map(m => m.file ).join('\n');
   console.log(`Ran migrations:\n${files}` );
 })
-.then(()=> {
+.then(() => {
   console.log('Seeding database...');
 
   seeder();

@@ -10,6 +10,6 @@ export default function keygen() {
   fs.writeFile('./keys/slack-secret', str, () => console.log('Wrote slack secret to ./keys/slack-secret'));
 }
 
-if(require.main === module) {
+if (require.main === module) {
   keygen();
 }
