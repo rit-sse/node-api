@@ -15,6 +15,7 @@ router
         .catch((err) => next(err));
     })
     .post(needs('create tips'), (req, res, next) => {
+      req.body.userId = req.auth.user.id;
       Tip.create(req.body, {fields: ['body', 'userId']})
         .then((tip) => res.send(tip))
         .catch((err) => next({ err: err, status: 422}));
