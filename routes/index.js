@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import auth from './auth';
 import groups from './groups';
+import lingo from './lingo';
 import links from './links';
 import memberships from './memberships';
 import officers from './officers';
@@ -12,6 +13,7 @@ var router = Router();
 
 router.use('/auth', auth);
 router.use('/groups', groups );
+router.use('/lingo', lingo);
 router.use('/links', links);
 router.use('/memberships', memberships );
 router.use('/officers', officers);
