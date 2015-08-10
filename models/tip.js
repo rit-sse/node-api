@@ -1,9 +1,9 @@
 import sequelize from '../config/sequelize';
-import Sequelize from 'sequelize';
+import DataTypes from 'sequelize';
 import {paginateScope, paginate} from '../helpers/paginate';
 
 export default sequelize.define('tips', {
-  body: Sequelize.STRING
+  body: DataTypes.STRING
 }, {
   classMethods: { paginate },
   scopes: {

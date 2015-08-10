@@ -1,10 +1,10 @@
 import sequelize from '../config/sequelize';
-import Sequelize from 'sequelize';
+import DataTypes from 'sequelize';
 import {paginateScope, paginate} from '../helpers/paginate';
 
 export default sequelize.define('links', {
-  shortLink: Sequelize.STRING,
-  longLink: Sequelize.STRING,
+  shortLink: DataTypes.STRING,
+  longLink: DataTypes.STRING,
 }, {
   classMethods: { paginate },
   scopes: {

@@ -1,13 +1,13 @@
 import sequelize from '../config/sequelize';
-import Sequelize from 'sequelize';
+import DataTypes from 'sequelize';
 import {paginateScope, paginate} from '../helpers/paginate';
 import Term from './term';
 
 export default sequelize.define('users', {
-  firstName: Sequelize.STRING,
-  lastName: Sequelize.STRING,
+  firstName: DataTypes.STRING,
+  lastName: DataTypes.STRING,
   dce: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     validate: { is:  /[a-z]{2,3}\d{4}/ }
   }
 }, {

@@ -1,16 +1,16 @@
 import sequelize from '../config/sequelize';
-import Sequelize from 'sequelize';
+import DataTypes from 'sequelize';
 import {paginateScope, paginate} from '../helpers/paginate';
 
 export default sequelize.define('memberships', {
   id: {
-    type: Sequelize.INTEGER,
+    type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
-  reason: Sequelize.STRING,
-  endDate: Sequelize.DATE,
-  approved: Sequelize.BOOLEAN
+  reason: DataTypes.STRING,
+  endDate: DataTypes.DATE,
+  approved: DataTypes.BOOLEAN
 }, {
   classMethods: { paginate },
   defaultScopes: {

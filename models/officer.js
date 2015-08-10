@@ -1,10 +1,10 @@
-;import sequelize from '../config/sequelize';
-import Sequelize from 'sequelize';
+import sequelize from '../config/sequelize';
+import DataTypes from 'sequelize';
 import {paginateScope, paginate} from '../helpers/paginate';
 
 export default sequelize.define('officers', {
-  display: Sequelize.STRING,
-  email: Sequelize.STRING,
+  display: DataTypes.STRING,
+  email: DataTypes.STRING,
 }, {
   classMethods: { paginate },
   scopes: {

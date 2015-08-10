@@ -1,13 +1,13 @@
 import sequelize from '../config/sequelize';
-import Sequelize from 'sequelize';
+import DataTypes from 'sequelize';
 
 export default sequelize.define('permissions', {
   name: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     unique: true
   },
-  description: Sequelize.STRING,
-  level: Sequelize.INTEGER
+  description: DataTypes.STRING,
+  level: DataTypes.INTEGER
 }, {
   scopes: {
     name(name) {

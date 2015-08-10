@@ -1,15 +1,15 @@
 import sequelize from '../config/sequelize';
-import Sequelize from 'sequelize';
+import DataTypes from 'sequelize';
 import {paginateScope, paginate} from '../helpers/paginate';
 import Permission from './permission';
 import Promise from 'bluebird';
 
 export default sequelize.define('groups', {
   name: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     unique: true
   },
-  description: Sequelize.STRING,
+  description: DataTypes.STRING,
 }, {
   instanceMethods: {
     addPermissionsByName(...names) {

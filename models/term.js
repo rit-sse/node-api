@@ -1,14 +1,14 @@
 import sequelize from '../config/sequelize';
-import Sequelize from 'sequelize';
+import DataTypes from 'sequelize';
 import {paginateScope, paginate} from '../helpers/paginate';
 
 export default sequelize.define('terms', {
   name: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     validate: { is: /\d{4}/ }
   },
-  startDate: Sequelize.DATE,
-  endDate: Sequelize.DATE
+  startDate: DataTypes.DATE,
+  endDate: DataTypes.DATE
 }, {
   classMethods: { paginate },
   scopes: {
