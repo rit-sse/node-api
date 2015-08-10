@@ -8,12 +8,12 @@ export default function seed() {
     level: nconf.get('auth:levels:high')
   }];
 
-  var low = ['links'];
+  var low = ['links', 'tips'];
 
   return Permission
     .destroy({where: { }})
     .then(() => {
-      var actions = ['groups', 'memberships', 'officers', 'links'];
+      var actions = ['groups', 'memberships', 'officers', 'links', 'tips'];
       return Permission.bulkCreate(actions.reduce((arr, action) => {
         arr.push({
           name: `create ${action}`,

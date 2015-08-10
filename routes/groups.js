@@ -45,7 +45,7 @@ router
       Group
         .findById(req.params.id)
         .then((group) => group.destroy())
-        .then(() => res.send(204));
+        .then(() => res.sendStatus(204));
     });
 
 export default router;

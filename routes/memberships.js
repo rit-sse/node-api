@@ -64,7 +64,7 @@ router
       Membership
         .findById(req.params.id)
         .then((membership) => membership.destroy())
-        .then(() => res.send(204));
+        .then(() => res.sendStatus(204));
     });
 
 export default router;

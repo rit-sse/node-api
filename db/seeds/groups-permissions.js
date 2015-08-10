@@ -2,7 +2,7 @@ import Group from '../../models/group';
 import Permission from '../../models/permission';
 
 export default function seed() {
-  var allPermissions = ['groups', 'memberships', 'officers', 'links']
+  var allPermissions = ['groups', 'memberships', 'officers', 'links', 'tips']
     .reduce((arr, action) => {
       arr.push(`create ${action}`, `update ${action}`, `destroy ${action}`);
       return arr;

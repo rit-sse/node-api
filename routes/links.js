@@ -45,7 +45,7 @@ router
       Link
         .findById(req.params.id)
         .then((link) => link.destroy())
-        .then(() => res.send(204));
+        .then(() => res.sendStatus(204));
     });
 
 export default router;
