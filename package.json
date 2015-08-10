@@ -12,7 +12,8 @@
   "scripts": {
     "start": "babel-node bin/www",
     "keygen": "babel-node ./keygen.js",
-    "bootstrap": "babel-node ./bootstrap/init.js"
+    "bootstrap": "babel-node ./bootstrap/init.js",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -40,5 +41,8 @@
     "sequelize": "^3.5.1",
     "sqlite3": "^3.0.9",
     "umzug": "^1.6.0"
+  },
+  "devDependencies": {
+    "eslint": "^1.1.0"
   }
 }
