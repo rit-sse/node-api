@@ -20,7 +20,6 @@ router
   .route('/:provider')
     .post((req, res, next) => {
       if (req.params.provider === 'refresh') {
-        console.log(req.auth);
         return res.send(sign(req.auth));
       }
 
