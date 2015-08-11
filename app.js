@@ -11,7 +11,7 @@ var app = express();
 
 var env = nconf.get('NODE_ENV');
 var apiConfig = nconf.get('api');
-var apiPath = `/${apiConfig.prefix}/${apiConfig.version}`;
+var apiPath = env === 'development' ? `/${apiConfig.prefix}/${apiConfig.version}` : `/${apiConfig.version}`;
 
 app.use(cors());
 app.use(jwt({

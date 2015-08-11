@@ -32,7 +32,8 @@ umzug.up().then(migrations => {
   console.log(`Ran migrations:\n${files}` );
 })
 .then(() => {
-  console.log('Seeding database...');
-
-  seeder();
+  if (nconf.get('seed')) {
+    console.log('Seeding database...');
+    seeder();
+  }
 });
