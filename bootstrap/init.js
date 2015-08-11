@@ -27,7 +27,7 @@ if (sequelize.options.storage ){
 }
 
 console.log('Migrating database...');
-return umzug.up().then(migrations => {
+umzug.up().then(migrations => {
   var files = migrations.map(m => m.file ).join('\n');
   console.log(`Ran migrations:\n${files}` );
 })
