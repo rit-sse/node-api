@@ -11,7 +11,7 @@ var app = express();
 
 var env = nconf.get('NODE_ENV');
 var apiConfig = nconf.get('api');
-var apiPath = env === 'development' ? `/${apiConfig.prefix}/${apiConfig.version}` : `/${apiConfig.version}`;
+var apiPath = `/${apiConfig.prefix}/${apiConfig.version}`;
 
 app.use(cors());
 app.use(jwt({
@@ -19,9 +19,10 @@ app.use(jwt({
   requestProperty: 'auth',
   algorithms: ['RS256','RS384','RS512' ]
 }).unless({method: 'GET', path: [new RegExp(`^${apiPath}/auth/(?!refresh)[a-z]+$`)] }));
-// if (env === 'development') {
+
+if (env === 'development') {
   app.use(logger('dev'));
-// }
+}
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
