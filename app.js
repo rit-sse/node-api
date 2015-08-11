@@ -19,9 +19,9 @@ app.use(jwt({
   requestProperty: 'auth',
   algorithms: ['RS256','RS384','RS512' ]
 }).unless({method: 'GET', path: [new RegExp(`^${apiPath}/auth/(?!refresh)[a-z]+$`)] }));
-if (env === 'development') {
+// if (env === 'development') {
   app.use(logger('dev'));
-}
+// }
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
@@ -36,6 +36,7 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
+
   if (env === 'production') {
     res.status(err.status || 500).send('internal server error!');
   } else {
