@@ -21,4 +21,4 @@ export default {
     low: 10,
     high: 100
   }
-}
+};

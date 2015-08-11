@@ -16,9 +16,9 @@ export function up(queryInterface, Sequelize) {
     },
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE
-  })
+  });
 }
 
-export function down(queryInterface, Sequelize) {
+export function down(queryInterface) {
   queryInterface.dropTable('permissions');
 }

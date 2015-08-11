@@ -5,13 +5,20 @@ export function up(queryInterface, Sequelize) {
       primaryKey: true,
       autoIncrement: true
     },
-    phrase: Sequelize.STRING,
-    definition: Sequelize.STRING,
+    phrase: {
+      type: Sequelize.STRING,
+      unique: true,
+      allowNull: false
+    },
+    definition: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE
   });
 }
 
-export function down(queryInterface, Sequelize) {
+export function down(queryInterface) {
   queryInterface.dropTable('lingo');
 }

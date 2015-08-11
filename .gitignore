@@ -29,3 +29,4 @@ node_modules
 keys/
 !keys/.keep
 *.db
+config/database/production.json

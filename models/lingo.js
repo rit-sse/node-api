@@ -1,19 +1,26 @@
 import sequelize from '../config/sequelize';
-import Sequelize from 'sequelize';
+import DataTypes from 'sequelize';
 import {paginateScope, paginate} from '../helpers/paginate';
 
 export default sequelize.define('lingo', {
-  phrase: Sequelize.STRING,
-  definition: Sequelize.STRING,
+  phrase: {
+    type: DataTypes.STRING,
+    unique: true,
+    allowNull: false
+  },
+  definition: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
 }, {
   classMethods: { paginate },
   freezeTableName: true,
   scopes: {
     phrase(phrase) {
-      return { where: { phrase } }
+      return { where: { phrase } };
     },
     definition(definition) {
-      return { where: { definition } }
+      return { where: { definition } };
     },
     paginate: paginateScope
   }

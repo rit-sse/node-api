@@ -6,15 +6,22 @@ export function up(queryInterface, Sequelize) {
     },
     name: {
       type: Sequelize.STRING,
-      unique: true
+      unique: true,
+      allowNull: false
     },
-    startDate: Sequelize.DATE,
-    endDate: Sequelize.DATE,
+    startDate: {
+      type: Sequelize.DATE,
+      allowNull: false
+    },
+    endDate: {
+      type: Sequelize.DATE,
+      allowNull: false
+    },
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE
   });
 }
 
-export function down(queryInterface, Sequelize) {
+export function down(queryInterface) {
   queryInterface.dropTable('terms');
 }

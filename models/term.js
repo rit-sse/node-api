@@ -1,14 +1,24 @@
 import sequelize from '../config/sequelize';
-import Sequelize from 'sequelize';
+import DataTypes from 'sequelize';
 import {paginateScope, paginate} from '../helpers/paginate';
 
 export default sequelize.define('terms', {
   name: {
-    type: Sequelize.STRING,
-    validate: { is: /\d{4}/ }
+    type: DataTypes.STRING,
+    validate: {
+      is: /\d{4}/
+    },
+    allowNull: false,
+    unique: true
   },
-  startDate: Sequelize.DATE,
-  endDate: Sequelize.DATE
+  startDate: {
+    type: DataTypes.DATE,
+    allowNull: false
+  },
+  endDate: {
+    type: DataTypes.DATE,
+    allowNull: false
+  }
 }, {
   classMethods: { paginate },
   scopes: {
@@ -22,17 +32,17 @@ export default sequelize.define('terms', {
             $gte: date
           }
         }
-      }
+      };
     },
     name(name) {
-      return { where: { name } }
+      return { where: { name } };
     },
     paginate: paginateScope
   },
   validate: {
     startDateBeforeEndDate() {
       if (this.startDate > this.endDate) {
-        throw new Error('Start date must be before the end date')
+        throw new Error('Start date must be before the end date');
       }
     }
   }

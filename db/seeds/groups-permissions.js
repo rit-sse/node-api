@@ -1,5 +1,4 @@
 import Group from '../../models/group';
-import Permission from '../../models/permission';
 
 export default function seed() {
   var allPermissions = ['groups', 'memberships', 'officers', 'links', 'tips', 'lingo']
@@ -17,14 +16,14 @@ export default function seed() {
     'destroy officers',
   ];
 
-  var officerPermissions = allPermissions.filter((p) => admin.indexOf(p) === -1 )
+  var officerPermissions = allPermissions.filter(p => admin.indexOf(p) === -1 );
 
   return Promise.all([
     Group
       .find({where: {name: 'primary officers'}})
-      .then((group) => group.addPermissionsByName(...allPermissions)),
+      .then(group => group.addPermissionsByName(...allPermissions)),
     Group
       .find({where: {name: 'officers'}})
-      .then((group) => group.addPermissionsByName(...officerPermissions))
+      .then(group => group.addPermissionsByName(...officerPermissions))
   ]);
 };

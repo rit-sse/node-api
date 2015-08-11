@@ -1,5 +1,5 @@
 import nconf from 'nconf';
-import database from './database.json';
+import database from './database';
 import auth from './auth';
 
 nconf
@@ -11,6 +11,7 @@ nconf.set('auth', auth);
 nconf.set('api:prefix', 'api');
 nconf.set('api:version', 'v1');
 nconf.set('db', database);
+
 nconf.set('pagination:perPage', 15);
 
 nconf.defaults({

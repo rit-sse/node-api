@@ -20,7 +20,10 @@ export function up(queryInterface, Sequelize) {
       allowNull: false,
       references: { model: 'terms', key: 'id' }
     },
-    reason: Sequelize.STRING,
+    reason: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
     endDate: Sequelize.DATE,
     approved: {
       type: Sequelize.BOOLEAN,
@@ -31,6 +34,6 @@ export function up(queryInterface, Sequelize) {
   });
 }
 
-export function down(queryInterface, Sequelize) {
+export function down(queryInterface) {
   queryInterface.dropTable('memberships');
 }

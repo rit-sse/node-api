@@ -1,4 +1,22 @@
 import nconf from '../config';
-import jwt from 'express-jwt';
+import jwt from 'jsonwebtoken';
 
-export default jwt({secret: nconf.get('auth:jwt:pub'), requestProperty: 'auth',algorithms: ['RS256','RS384','RS512' ]});
+export default function(req, res, next) {
+  var token;
+  if (req.headers && req.headers.authorization) {
+    var parts = req.headers.authorization.split(' ');
+    if (parts.length === 2) {
+      var scheme = parts[0];
+      var credentials = parts[1];
+
+      if (/^Bearer$/i.test(scheme)) {
+        token = credentials;
+      }
+    }
+  }
+
+  jwt.verify(token, nconf.get('auth:jwt:pub'), {algorithm: 'RS256'}, (err, decoded) => {
+    req.auth = decoded;
+    next();
+  });
+}
