@@ -3,7 +3,11 @@ import DataTypes from 'sequelize';
 import {paginateScope, paginate} from '../helpers/paginate';
 
 export default sequelize.define('tips', {
-  body: DataTypes.STRING
+  body: {
+    type: DataTypes.STRING,
+    unique: true,
+    allowNull: false
+  }
 }, {
   classMethods: { paginate },
   scopes: {

@@ -5,8 +5,16 @@ export function up(queryInterface, Sequelize) {
       primaryKey: true,
       autoIncrement: true
     },
-    display: Sequelize.STRING,
-    email: Sequelize.STRING,
+    display: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      unique: true
+    },
+    email: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      unique: true
+    },
     userId: {
       type: Sequelize.INTEGER,
       allowNull: false,

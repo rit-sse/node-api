@@ -3,8 +3,15 @@ import DataTypes from 'sequelize';
 import {paginateScope, paginate} from '../helpers/paginate';
 
 export default sequelize.define('lingo', {
-  phrase: DataTypes.STRING,
-  definition: DataTypes.STRING,
+  phrase: {
+    type: DataTypes.STRING,
+    unique: true,
+    allowNull: false
+  },
+  definition: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
 }, {
   classMethods: { paginate },
   freezeTableName: true,

@@ -8,7 +8,11 @@ export default sequelize.define('users', {
   lastName: DataTypes.STRING,
   dce: {
     type: DataTypes.STRING,
-    validate: { is:  /[a-z]{2,3}\d{4}/ }
+    validate: {
+      is:  /[a-z]{2,3}\d{4}/
+    },
+    unique: true,
+    allowNull: false
   }
 }, {
   classMethods: { paginate },

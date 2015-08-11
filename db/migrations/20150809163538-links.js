@@ -5,8 +5,15 @@ export function up(queryInterface, Sequelize) {
       primaryKey: true,
       autoIncrement: true
     },
-    shortLink: Sequelize.STRING,
-    longLink: Sequelize.STRING,
+    shortLink: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      unique: true
+    },
+    longLink: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE
   });

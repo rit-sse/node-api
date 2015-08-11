@@ -5,7 +5,11 @@ export function up(queryInterface, Sequelize) {
       primaryKey: true,
       autoIncrement: true
     },
-    body: Sequelize.STRING,
+    body: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      unique: true
+    },
     userId: {
       type: Sequelize.INTEGER,
       allowNull: false,

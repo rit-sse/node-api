@@ -3,8 +3,15 @@ import DataTypes from 'sequelize';
 import {paginateScope, paginate} from '../helpers/paginate';
 
 export default sequelize.define('links', {
-  shortLink: DataTypes.STRING,
-  longLink: DataTypes.STRING,
+  shortLink: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true
+  },
+  longLink: {
+    type: DataTypes.STRING,
+    allowNull: false
+  }
 }, {
   classMethods: { paginate },
   scopes: {

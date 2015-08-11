@@ -20,7 +20,10 @@ export function up(queryInterface, Sequelize) {
       allowNull: false,
       references: { model: 'terms', key: 'id' }
     },
-    reason: Sequelize.STRING,
+    reason: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
     endDate: Sequelize.DATE,
     approved: {
       type: Sequelize.BOOLEAN,

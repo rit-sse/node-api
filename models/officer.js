@@ -3,8 +3,16 @@ import DataTypes from 'sequelize';
 import {paginateScope, paginate} from '../helpers/paginate';
 
 export default sequelize.define('officers', {
-  display: DataTypes.STRING,
-  email: DataTypes.STRING,
+  display: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true
+  }
 }, {
   classMethods: { paginate },
   scopes: {

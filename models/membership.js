@@ -8,9 +8,15 @@ export default sequelize.define('memberships', {
     primaryKey: true,
     autoIncrement: true
   },
-  reason: DataTypes.STRING,
+  reason: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
   endDate: DataTypes.DATE,
-  approved: DataTypes.BOOLEAN
+  approved: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  }
 }, {
   classMethods: { paginate },
   defaultScopes: {

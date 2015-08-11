@@ -5,10 +5,20 @@ import {paginateScope, paginate} from '../helpers/paginate';
 export default sequelize.define('terms', {
   name: {
     type: DataTypes.STRING,
-    validate: { is: /\d{4}/ }
+    validate: {
+      is: /\d{4}/
+    },
+    allowNull: false,
+    unique: true
   },
-  startDate: DataTypes.DATE,
-  endDate: DataTypes.DATE
+  startDate: {
+    type: DataTypes.DATE,
+    allowNull: false
+  },
+  endDate: {
+    type: DataTypes.DATE,
+    allowNull: false
+  }
 }, {
   classMethods: { paginate },
   scopes: {
