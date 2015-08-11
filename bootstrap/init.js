@@ -27,13 +27,16 @@ if (sequelize.options.storage ){
 }
 
 console.log('Migrating database...');
-umzug.up().then(migrations => {
+return umzug.up().then(migrations => {
   var files = migrations.map(m => m.file ).join('\n');
   console.log(`Ran migrations:\n${files}` );
 })
 .then(() => {
   if (nconf.get('seed')) {
     console.log('Seeding database...');
-    seeder();
+    return seeder();
   }
+})
+.then(() => {
+  sequelize.close();
 });

@@ -7,7 +7,7 @@ import models from '../../models';
 models();
 
 export default function() {
-  permissions()
+  return permissions()
     .then(groups)
     .then(groupsPermissions)
     .then(terms)
