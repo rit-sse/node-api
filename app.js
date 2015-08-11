@@ -37,17 +37,12 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-
-  if (env === 'production') {
-    res.status(err.status || 500).send('internal server error!');
-  } else {
-    if (env === 'development' && err.stack) {
-      console.error(err.stack);
-    }
-    var status = err.status;
-    delete err.status;
-    res.status(status || 500).send(err);
+  if (env === 'development' && err.stack) {
+    console.error(err.stack);
   }
+  var status = err.status;
+  delete err.status;
+  res.status(status || 500).send(err);
 });
 
 export default app;

@@ -18,6 +18,11 @@ export function needsIndex(permission) {
     req.query.approved = req.query.approved === 'false' ? false : true;
     if (req.query.approved) {
       next();
+    } else if (!req.auth) {
+      next({
+        message: `User does not have permission: read unapproved ${permission}`,
+        status: 403
+      });
     } else {
       User
         .findById(req.auth.user.id)
