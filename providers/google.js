@@ -21,9 +21,9 @@ export default class GoogleProvider {
         }
         this.payload = ticket.getPayload();
         if (this.payload.hd === 'g.rit.edu'){
-          resolve();
+          return resolve();
         } else {
-          reject('Must login with a g.rit.edu account');
+          return reject({ message: 'Must login with a g.rit.edu account'});
         }
       });
     });

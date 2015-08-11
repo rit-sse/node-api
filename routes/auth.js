@@ -27,13 +27,21 @@ router
         return next({message: 'invalid provider', status: 401});
       }
 
-      var provider = new providers[req.params.provider](req.body.secret, req.body.id);
+      var provider = new providers[req.params.provider](
+        req.body.secret,
+        req.body.id
+      );
 
       provider
         .verify()
         .then(() => provider.findOrCreateUser())
-        .then(user => res.send(sign({user: user[0], level: provider.authLevel})))
-        .catch(err =>  next({ err, message: err.message, status: 401}));
+        .then(user => res.send(sign({
+          user: user[0], level: provider.authLeve
+        })))
+        .catch(err =>  {
+          err.status = 401;
+          next(err);
+        });
     });
 
 export default router;

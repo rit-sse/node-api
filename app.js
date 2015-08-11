@@ -42,7 +42,7 @@ app.use((err, req, res, next) => {
   }
   var status = err.status;
   delete err.status;
-  res.status(status || 500).send(err);
+  res.status(status || 500).send({ error: err.message });
 });
 
 export default app;

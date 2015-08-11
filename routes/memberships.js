@@ -29,10 +29,15 @@ router
         .then(term => {
           req.body.termId = term.id;
           req.body.approved = false;
-          return Membership.create(req.body, {fields: ['reason', 'approved', 'groupId', 'userId', 'termId' ]});
+          return Membership.create(req.body, {
+            fields: ['reason', 'approved', 'groupId', 'userId', 'termId' ]
+          });
         })
         .then(membership => res.send(membership))
-        .catch(err => next({ err: err, status: 422}));
+        .catch(err => {
+          err.status = 422;
+          next(err);
+        });
     });
 
 router
@@ -43,7 +48,10 @@ router
         .then(membership => {
           if (membership) {
             if (!membership.approved && !req.auth.allowed) {
-              return next({message: `User does not have permission: read unapproved memberships`, status: 403});
+              return next({
+                message: `User does not have permission: read unapproved memberships`,
+                status: 403
+              });
             }
             res.send(membership);
           } else {
@@ -55,15 +63,37 @@ router
     .put(needs('update memberships'), (req, res, next) => {
       Membership
         .findById(req.params.id)
-        .then(membership => membership.updateAttributes(req.body, ({ fields: ['reason', 'approved', 'endDate', 'groupId', 'userId', 'termId' ]})))
-        .then(membership => res.send(membership))
+        .then(membership => {
+          if (membership) {
+            return membership.updateAttributes(req.body, {
+              fields: ['reason', 'approved', 'groupId', 'userId', 'termId' ]
+            });
+          } else {
+            next({ message: 'Membership not found', status: 404 });
+          }
+        })
+        .then(membership => {
+          if (membership) {
+            res.send(membership);
+          }
+        })
         .catch(err => next(err));
     })
     .delete(needs('destroy memberships'), (req, res, next) => {
       Membership
         .findById(req.params.id)
-        .then(membership => membership.destroy())
-        .then(() => res.sendStatus(204))
+        .then(membership => {
+          if (membership) {
+            return membership.destroy();
+          } else {
+            next({ message: 'Membership not found', status: 404 });
+          }
+        })
+        .then(membership => {
+          if (membership){
+            res.sendStatus(204);
+          }
+        })
         .catch(err => next(err));
     });
 

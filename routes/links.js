@@ -16,7 +16,10 @@ router
     .post(needs('create links'), (req, res, next) => {
       Link.create(req.body, {fields: ['shortLink', 'longLink']})
         .then(link => res.send(link))
-        .catch(err => next({ err: err, status: 422}));
+        .catch(err => {
+          err.status = 422;
+          next(err);
+        });
     });
 
 router
@@ -36,15 +39,37 @@ router
     .put(needs('update links'), (req, res, next) => {
       Link
         .findById(req.params.id)
-        .then(link => link.updateAttributes(req.body, ({ fields: ['shortLink', 'longLink']})))
-        .then(link => res.send(link))
+        .then(link => {
+          if (link) {
+            return link.updateAttributes(req.body, {
+              fields: ['shortLink', 'longLink']
+            });
+          } else {
+            next({ message: 'Link not found', status: 404 });
+          }
+        })
+        .then(link => {
+          if (link) {
+            res.send(link);
+          }
+        })
         .catch(err => next(err));
     })
     .delete(needs('destroy links'), (req, res, next) => {
       Link
         .findById(req.params.id)
-        .then(link => link.destroy())
-        .then(() => res.sendStatus(204))
+        .then(link => {
+          if (link) {
+            return link.destroy();
+          } else {
+            next({ message: 'Link not found', status: 404 });
+          }
+        })
+        .then(link => {
+          if (link){
+            res.sendStatus(204);
+          }
+        })
         .catch(err => next(err));
     });
 

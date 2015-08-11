@@ -13,9 +13,9 @@ export default class SlackProvider {
     return new Promise( (resolve, reject) => {
       var validDCE = this.dce.match(/[a-z]{2,3}\d{4}/);
       if (validDCE && this.secret === nconf.get('auth:slack:secret')){
-        resolve();
+        return resolve();
       } else {
-        reject('Invalid secret or dce');
+        return reject({ message: 'Invalid secret or dce' });
       }
     });
   }

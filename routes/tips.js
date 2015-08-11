@@ -17,7 +17,10 @@ router
       req.body.userId = req.auth.user.id;
       Tip.create(req.body, {fields: ['body', 'userId']})
         .then(tip => res.send(tip))
-        .catch(err => next({ err: err, status: 422}));
+        .catch(err => {
+          err.status = 422;
+          next(err);
+        });
     });
 
 router
@@ -37,15 +40,37 @@ router
     .put(needs('update tips'), (req, res, next) => {
       Tip
         .findById(req.params.id)
-        .then(tip => tip.updateAttributes(req.body, ({ fields: ['body', 'userId']})))
-        .then(tip => res.send(tip))
+        .then(tip => {
+          if (tip) {
+            return tip.updateAttributes(req.body, {
+              fields: ['body', 'userId']
+            });
+          } else {
+            next({ message: 'Tip not found', status: 404 });
+          }
+        })
+        .then(tip => {
+          if (tip) {
+            res.send(tip);
+          }
+        })
         .catch(err => next(err));
     })
     .delete(needs('destroy tips'), (req, res, next) => {
       Tip
         .findById(req.params.id)
-        .then(tip => tip.destroy())
-        .then(() => res.sendStatus(204))
+        .then(tip => {
+          if (tip) {
+            return tip.destroy();
+          } else {
+            next({ message: 'Tip not found', status: 404 });
+          }
+        })
+        .then(tip => {
+          if (tip){
+            res.sendStatus(204);
+          }
+        })
         .catch(err => next(err));
     });
 

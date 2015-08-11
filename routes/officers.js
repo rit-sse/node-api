@@ -16,7 +16,10 @@ router
     .post(needs('create officers'), (req, res, next) => {
       Officer.create(req.body, {fields: ['display', 'email', 'userId']})
         .then(officer => res.send(officer))
-        .catch(err => next({ err: err, status: 422}));
+        .catch(err => {
+          err.status = 422;
+          next(err);
+        });
     });
 
 router
@@ -36,15 +39,37 @@ router
     .put(needs('update officers'), (req, res, next) => {
       Officer
         .findById(req.params.id)
-        .then(officer => officer.updateAttributes(req.body, ({ fields: ['display', 'email', 'userId']})))
-        .then(officer => res.send(officer))
+        .then(officer => {
+          if (officer) {
+            return officer.updateAttributes(req.body, {
+              fields: ['display', 'email', 'userId']
+            });
+          } else {
+            next({ message: 'Officer not found', status: 404 });
+          }
+        })
+        .then(officer => {
+          if (officer) {
+            res.send(officer);
+          }
+        })
         .catch(err => next(err));
     })
     .delete(needs('destroy officers'), (req, res, next) => {
       Officer
         .findById(req.params.id)
-        .then(officer => officer.destroy())
-        .then(() => res.sendStatus(204))
+        .then(officer => {
+          if (officer) {
+            return officer.destroy();
+          } else {
+            next({ message: 'Officer not found', status: 404 });
+          }
+        })
+        .then(officer => {
+          if (officer){
+            res.sendStatus(204);
+          }
+        })
         .catch(err => next(err));
     });
 
