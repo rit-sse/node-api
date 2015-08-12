@@ -10,10 +10,10 @@ export function up(queryInterface, Sequelize) {
       allowNull: false,
       references: { model: 'users', key: 'id' }
     },
-    groupId: {
+    committeeId: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      references: { model: 'groups', key: 'id' }
+      references: { model: 'committees', key: 'id' }
     },
     termId: {
       type: Sequelize.INTEGER,

@@ -1,5 +1,5 @@
 export function up(queryInterface, Sequelize) {
-  queryInterface.createTable('groups', {
+  queryInterface.createTable('committees', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -7,14 +7,14 @@ export function up(queryInterface, Sequelize) {
     },
     name: {
       type: Sequelize.STRING,
+      allowNull: false,
       unique: true
     },
-    description: Sequelize.STRING,
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE
   });
 }
 
 export function down(queryInterface) {
-  queryInterface.dropTable('groups');
+  queryInterface.dropTable('committees');
 }

@@ -15,10 +15,13 @@ export function up(queryInterface, Sequelize) {
       allowNull: false,
       unique: true
     },
-    userId: {
+    committeeId: {
       type: Sequelize.INTEGER,
-      allowNull: false,
       references: { model: 'users', key: 'id' }
+    },
+    primary: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
     },
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE
