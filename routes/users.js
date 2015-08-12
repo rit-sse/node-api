@@ -1,15 +1,23 @@
 import { Router } from 'express';
 import User from '../models/user';
 import scopify from '../helpers/scopify';
+import paginate from '../middleware/paginate';
 
 var router = Router();
 
 router
   .route('/')
-    .get((req, res, next) => {
+    .get(paginate, (req, res, next) => {
       var scopes = scopify(req.query, 'firstName', 'lastName', 'dce');
-      User.paginate(scopes, req.query.perPage, req.query.page)
-        .then(body => res.send(body))
+      User
+        .scope(scopes)
+        .findAndCountAll()
+        .then(result => res.send({
+          total: result.count,
+          perPage: req.query.perPage,
+          currentPage: req.query.page,
+          data: result.rows
+        }))
         .catch(err => next(err));
     });
 

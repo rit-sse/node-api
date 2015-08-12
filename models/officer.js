@@ -1,6 +1,6 @@
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
-import {paginateScope, paginate} from '../helpers/paginate';
+import paginate from '../helpers/paginate';
 
 export default sequelize.define('officers', {
   display: {
@@ -19,7 +19,6 @@ export default sequelize.define('officers', {
   },
   endDate: DataTypes.DATE
 }, {
-  classMethods: { paginate },
   scopes: {
     display(display) {
       return { where: { display } };
@@ -39,6 +38,6 @@ export default sequelize.define('officers', {
     term(termId) {
       return { where: { termId } };
     },
-    paginate: paginateScope
+    paginate
   }
 });

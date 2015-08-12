@@ -1,6 +1,6 @@
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
-import {paginateScope, paginate} from '../helpers/paginate';
+import paginate from '../helpers/paginate';
 
 export default sequelize.define('links', {
   shortLink: {
@@ -13,7 +13,6 @@ export default sequelize.define('links', {
     allowNull: false
   }
 }, {
-  classMethods: { paginate },
   scopes: {
     shortLink(shortLink) {
       return { where: { shortLink } };
@@ -21,6 +20,6 @@ export default sequelize.define('links', {
     longLink(longLink) {
       return { where: { longLink } };
     },
-    paginate: paginateScope
+    paginate
   }
 });

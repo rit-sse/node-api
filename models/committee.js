@@ -1,6 +1,6 @@
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
-import {paginateScope, paginate} from '../helpers/paginate';
+import paginate from '../helpers/paginate';
 
 export default sequelize.define('committees', {
   name: {
@@ -13,6 +13,6 @@ export default sequelize.define('committees', {
     name(name) {
       return { where: { name } };
     },
-    paginate: paginateScope
+    paginate
   }
 });

@@ -1,6 +1,6 @@
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
-import {paginateScope, paginate} from '../helpers/paginate';
+import paginate from '../helpers/paginate';
 
 export default sequelize.define('lingo', {
   phrase: {
@@ -17,7 +17,6 @@ export default sequelize.define('lingo', {
     defaultValue: false
   }
 }, {
-  classMethods: { paginate },
   freezeTableName: true,
   defaultScopes: {
     where: {
@@ -31,6 +30,6 @@ export default sequelize.define('lingo', {
     definition(definition) {
       return { where: { definition } };
     },
-    paginate: paginateScope
+    paginate
   }
 });

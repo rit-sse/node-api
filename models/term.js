@@ -1,6 +1,6 @@
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
-import {paginateScope, paginate} from '../helpers/paginate';
+import paginate from '../helpers/paginate';
 
 export default sequelize.define('terms', {
   name: {
@@ -25,8 +25,7 @@ export default sequelize.define('terms', {
       return this
         .scope({method: ['date', new Date()]})
         .find();
-    },
-    paginate
+    }
   },
   scopes: {
     date(date) {
@@ -44,7 +43,7 @@ export default sequelize.define('terms', {
     name(name) {
       return { where: { name } };
     },
-    paginate: paginateScope
+    paginate
   },
   validate: {
     startDateBeforeEndDate() {

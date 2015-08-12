@@ -3,15 +3,23 @@ import Tip from '../models/tip';
 import scopify from '../helpers/scopify';
 import { needs, needsApprovedIndex, needsApprovedOne} from '../middleware/permissions';
 import jwt from '../middleware/jwt';
+import paginate from '../middleware/paginate';
 
 var router = Router();
 
 router
   .route('/')
-    .get(jwt, needsApprovedIndex('tips'), (req, res, next) => {
+    .get(jwt, paginate, needsApprovedIndex('tips'), (req, res, next) => {
       var scopes = scopify(req.query, 'body', 'user');
-      Tip.paginate(scopes, req.query.perPage, req.query.page)
-        .then(body => res.send(body))
+      Tip
+        .scope(scopes)
+        .findAndCountAll()
+        .then(result => res.send({
+          total: result.count,
+          perPage: req.query.perPage,
+          currentPage: req.query.page,
+          data: result.rows
+        }))
         .catch(err => next(err));
     })
     .post((req, res, next) => {

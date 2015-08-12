@@ -2,15 +2,22 @@ import { Router } from 'express';
 import Link from '../models/link';
 import scopify from '../helpers/scopify';
 import { needs } from '../middleware/permissions';
+import paginate from '../middleware/paginate';
 
 var router = Router();
 
 router
   .route('/')
-    .get((req, res, next) => {
+    .get(paginate, (req, res, next) => {
       var scopes = scopify(req.query, 'shortLink', 'longLink');
-      Link.paginate(scopes, req.query.perPage, req.query.page)
-        .then(body => res.send(body))
+      Link.scope(scopes)
+        .findAndCountAll()
+        .then(result => res.send({
+          total: result.count,
+          perPage: req.query.perPage,
+          currentPage: req.query.page,
+          data: result.rows
+        }))
         .catch(err => next(err));
     })
     .post(needs('links', 'create'), (req, res, next) => {

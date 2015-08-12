@@ -1,6 +1,6 @@
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
-import {paginateScope, paginate} from '../helpers/paginate';
+import paginate from '../helpers/paginate';
 
 export default sequelize.define('memberships', {
   reason: {
@@ -12,7 +12,6 @@ export default sequelize.define('memberships', {
     defaultValue: false
   }
 }, {
-  classMethods: { paginate },
   defaultScopes: {
     where: {
       approved: true
@@ -34,6 +33,6 @@ export default sequelize.define('memberships', {
     term(termId) {
       return { where: { termId } };
     },
-    paginate: paginateScope
+    paginate
   }
 });

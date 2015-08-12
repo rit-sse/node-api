@@ -3,12 +3,13 @@ import Officer from '../models/officer';
 import Term from '../models/term';
 import scopify from '../helpers/scopify';
 import { needs } from '../middleware/permissions';
+import paginate from '../middleware/paginate';
 
 var router = Router();
 
 router
   .route('/')
-    .get((req, res, next) => {
+    .get(paginate, (req, res, next) => {
       if (req.query.primary === 'true') {
         req.query.primary = true;
       } else if (req.query.primary === 'false') {
@@ -17,8 +18,15 @@ router
         delete req.query.primary;
       }
       var scopes = scopify(req.query, 'display', 'email', 'user', 'term', 'primary', 'committee');
-      Officer.paginate(scopes, req.query.perPage, req.query.page)
-        .then(body => res.send(body))
+      Officer
+        .scope(scopes)
+        .findAndCountAll()
+        .then(result => res.send({
+          total: result.count,
+          perPage: req.query.perPage,
+          currentPage: req.query.page,
+          data: result.rows
+        }))
         .catch(err => next(err));
     })
     .post(needs('officers', 'create'), (req, res, next) => {

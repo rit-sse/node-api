@@ -9,6 +9,10 @@ export function up(queryInterface, Sequelize) {
       type: Sequelize.STRING,
       allowNull: false
     },
+    description: {
+      type: Sequelize.TEXT,
+      allowNull: false
+    },
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE
   });

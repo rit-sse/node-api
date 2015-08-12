@@ -1,6 +1,6 @@
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
-import {paginateScope, paginate} from '../helpers/paginate';
+import paginate from '../helpers/paginate';
 import Term from './term';
 import nconf from '../config';
 import Promise from 'bluebird';
@@ -17,7 +17,6 @@ export default sequelize.define('users', {
     allowNull: false
   }
 }, {
-  classMethods: { paginate },
   instanceMethods: {
     officerFor(term) {
       return this.getOfficers({
@@ -90,6 +89,6 @@ export default sequelize.define('users', {
     dce(dce) {
       return { where: { dce } };
     },
-    paginate: paginateScope
+    paginate
   }
 });
