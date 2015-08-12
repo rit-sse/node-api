@@ -28,7 +28,7 @@ export function needsApprovedIndex(endpoint) {
         .findById(req.auth.user.id)
         .then(user => user.can(endpoint, 'unapproved', req.auth.level))
         .then(() => next())
-        .catch(err => {
+        .catch(() => {
           next({
             message: `User does not have permission: unapproved ${endpoint}`,
             status: 403

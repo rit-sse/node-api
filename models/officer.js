@@ -27,6 +27,12 @@ export default sequelize.define('officers', {
     email(email) {
       return { where: { email } };
     },
+    primary(primary) {
+      return { where: { primary } };
+    },
+    committee(committee) {
+      return { where: { primary: !committee } };
+    },
     user(userId) {
       return { where: { userId } };
     },

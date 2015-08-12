@@ -1,27 +1,28 @@
 import { Router } from 'express';
 import Officer from '../models/officer';
 import Term from '../models/term';
-import Committee from '../models/committee';
 import scopify from '../helpers/scopify';
 import { needs } from '../middleware/permissions';
-import Promise from 'bluebird';
 
 var router = Router();
 
 router
   .route('/')
     .get((req, res, next) => {
-      var scopes = scopify(req.query, 'display', 'email', 'user', 'term', 'primary');
+      if (req.query.primary === 'true') {
+        req.query.primary = true;
+      } else if (req.query.primary === 'false') {
+        req.query.primary = false;
+      } else {
+        delete req.query.primary;
+      }
+      var scopes = scopify(req.query, 'display', 'email', 'user', 'term', 'primary', 'committee');
       Officer.paginate(scopes, req.query.perPage, req.query.page)
         .then(body => res.send(body))
         .catch(err => next(err));
     })
     .post(needs('officers', 'create'), (req, res, next) => {
-      var committee;
-      if (req.body.committee) {
-        committee = Committee.create(req.body.committee, { fields: ['name'] });
-      }
-      Promise.all([Term
+      Term
         .findOrInitialize({ where: { name: req.body.term.name } })
         .spread((term, created) => {
           if (created) {
@@ -30,14 +31,10 @@ router
             term.save();
           }
           return term;
-        }),
-        committee ])
-        .spread((term, committee) => {
+        })
+        .then(term => {
           req.body.termId = term.id;
-          if (committee) {
-            req.body.committeeId = committee.id;
-          }
-          Officer.create(req.body, {fields: ['display', 'email', 'userId', 'termId', 'committeeId', 'primary']})
+          Officer.create(req.body, {fields: ['display', 'email', 'primary', 'userId', 'termId', 'committeeId']})
             .then(officer => res.send(officer))
             .catch(err => {
               err.status = 422;

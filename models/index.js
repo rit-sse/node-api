@@ -8,7 +8,9 @@ import User from './user';
 
 export default function() {
   Committee.hasOne(Officer);
+  Committee.hasMany(Membership);
 
+  Membership.belongsTo(Committee);
   Membership.belongsTo(Term);
   Membership.belongsTo(User);
 
