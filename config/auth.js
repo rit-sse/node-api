@@ -15,10 +15,5 @@ export default {
   google: {
     id: google.web.client_id,
     secret: google.web.client_secret
-  },
-
-  levels: {
-    low: 10,
-    high: 100
   }
 };
