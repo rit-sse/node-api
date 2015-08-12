@@ -12,9 +12,18 @@ export default sequelize.define('lingo', {
     type: DataTypes.STRING,
     allowNull: false
   },
+  approved: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  }
 }, {
   classMethods: { paginate },
   freezeTableName: true,
+  defaultScopes: {
+    where: {
+      approved: true
+    }
+  },
   scopes: {
     phrase(phrase) {
       return { where: { phrase } };

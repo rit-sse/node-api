@@ -20,7 +20,7 @@ export function needsApprovedIndex(endpoint) {
       next();
     } else if (!req.auth) {
       next({
-        message: `User does not have permission: read unapproved ${endpoint}`,
+        message: `User does not have permission: unapproved ${endpoint}`,
         status: 403
       });
     } else {
@@ -28,9 +28,9 @@ export function needsApprovedIndex(endpoint) {
         .findById(req.auth.user.id)
         .then(user => user.can(endpoint, 'unapproved', req.auth.level))
         .then(() => next())
-        .catch(() => {
+        .catch(err => {
           next({
-            message: `User does not have permission: read unapproved ${endpoint}`,
+            message: `User does not have permission: unapproved ${endpoint}`,
             status: 403
           });
         });

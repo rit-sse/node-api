@@ -3,6 +3,7 @@ import DataTypes from 'sequelize';
 import {paginateScope, paginate} from '../helpers/paginate';
 import Term from './term';
 import nconf from '../config';
+import Promise from 'bluebird';
 
 export default sequelize.define('users', {
   firstName: DataTypes.STRING,
@@ -29,7 +30,8 @@ export default sequelize.define('users', {
             }
           }
         }
-      });
+      })
+      .map(officership => officership.getOfficer());
     },
     mentorFor(term) {
       return this.getMentorShifts({
@@ -51,7 +53,7 @@ export default sequelize.define('users', {
           if (!term) {
             return [];
           }
-          return Promise.all[this.officershipsFor(term), this.mentorFor(term)]
+          return Promise.all([this.officershipsFor(term), this.mentorFor(term)])
             .spread((officers, mentors) => {
               var groups = [];
               if (officers.length > 0) {
@@ -71,7 +73,7 @@ export default sequelize.define('users', {
       var permission = nconf.get('permissions')[endpoint][action];
       return this
         .currentGroups()
-        .filter(group => permission[group] && level >= permission.level)
+        .filter(group => permission.groups[group] && level >= permission.level)
         .then(p => {
           if (p.length === 0) {
             return Promise.reject(false);

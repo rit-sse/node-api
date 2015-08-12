@@ -30,6 +30,12 @@ router
         .findById(req.params.id)
         .then(lingo => {
           if (lingo) {
+            if (!lingo.approved && !req.auth.allowed) {
+              return next({
+                message: `User does not have permission: unapproved lingo`,
+                status: 403
+              });
+            }
             res.send(lingo);
           } else {
             next({ message: 'Lingo not found', status: 404 });

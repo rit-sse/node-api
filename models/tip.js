@@ -7,9 +7,18 @@ export default sequelize.define('tips', {
     type: DataTypes.STRING,
     unique: true,
     allowNull: false
+  },
+  approved: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
   }
 }, {
   classMethods: { paginate },
+  defaultScopes: {
+    where: {
+      approved: true
+    }
+  },
   scopes: {
     body(body) {
       return { where: { body } };

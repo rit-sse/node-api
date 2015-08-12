@@ -11,7 +11,11 @@ export default sequelize.define('officers', {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true
-  }
+  },
+  primary: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  },
 }, {
   scopes: {
     display(display) {

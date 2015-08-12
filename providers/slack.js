@@ -5,7 +5,7 @@ export default class SlackProvider {
 
   constructor(secret, dce) {
     this.dce = dce;
-    this.authLevel = nconf.get('auth:levels:low');
+    this.authLevel = nconf.get('permissions:levels:low');
     this.secret = secret;
   }
 

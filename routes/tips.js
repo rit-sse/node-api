@@ -31,6 +31,12 @@ router
         .findById(req.params.id)
         .then(tip => {
           if (tip) {
+            if (!tip.approved && !req.auth.allowed) {
+              return next({
+                message: `User does not have permission: unapproved tips`,
+                status: 403
+              });
+            }
             res.send(tip);
           } else {
             next({ message: 'Tip not found', status: 404 });
