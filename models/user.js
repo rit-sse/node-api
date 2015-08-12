@@ -2,6 +2,7 @@ import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
 import {paginateScope, paginate} from '../helpers/paginate';
 import Term from './term';
+import nconf from '../config';
 
 export default sequelize.define('users', {
   firstName: DataTypes.STRING,
@@ -17,34 +18,60 @@ export default sequelize.define('users', {
 }, {
   classMethods: { paginate },
   instanceMethods: {
-    activeMemberships() {
+    officershipsFor(term) {
+      return this.getOfficerships({
+        where: {
+          termId: term.id,
+          endDate: {
+            $or: {
+              $eq: null,
+              $gt: new Date()
+            }
+          }
+        }
+      });
+    },
+    mentorFor(term) {
+      return this.getMentors({
+        where: {
+          termId: term.id,
+          endDate: {
+            $or: {
+              $eq: null,
+              $gt: new Date()
+            }
+          }
+        }
+      });
+    },
+    currentGroups() {
       return Term
-        .scope({method: ['date', new Date()]})
-        .find()
+        .currentTerm()
         .then(term => {
           if (!term) {
             return [];
           }
-          return this.getMemberships({
-            where: {
-              termId: term.id,
-              endDate: {
-                $or: {
-                  $eq: null,
-                  $gt: new Date()
+          return Promise.all[this.officershipsFor(term), this.mentorFor(term)]
+            .spread((officers, mentors) => {
+              var groups = [];
+              if (officers.length > 0) {
+                groups.push('officers');
+                if (officers[0].primary) {
+                  groups.push('primary');
                 }
               }
-            }
-          });
+              if (mentors.length > 0) {
+                groups.push('mentors');
+              }
+              return groups;
+            });
         });
     },
-    can(permission, level) {
+    can(action, method, level) {
+      var permission = nconf.get('permissions')[action][method];
       return this
-        .activeMemberships()
-        .map(membership => membership.getGroup())
-        .map(group => group.getPermissions())
-        .reduce((all,permissions) => all.concat(permissions), [])
-        .filter(p =>  p.name === permission && level >= p.level)
+        .currentGroups()
+        .filter(group => permission[group] && level >= permission.level)
         .then(p => {
           if (p.length === 0) {
             return Promise.reject(false);

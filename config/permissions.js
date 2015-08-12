@@ -2,7 +2,8 @@ var primary, officers, mentors = true;
 var levels = {
   low: 10,
   high: 100
-}
+};
+
 export var permissions =  {
   levels,
   agenda: {

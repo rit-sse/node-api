@@ -24,7 +24,6 @@ export function up(queryInterface, Sequelize) {
       type: Sequelize.STRING,
       allowNull: false
     },
-    endDate: Sequelize.DATE,
     approved: {
       type: Sequelize.BOOLEAN,
       defaultValue: false

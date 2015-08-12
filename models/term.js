@@ -20,7 +20,14 @@ export default sequelize.define('terms', {
     allowNull: false
   }
 }, {
-  classMethods: { paginate },
+  classMethods: {
+    currentTerm() {
+      return this
+        .scope({method: ['date', new Date()]})
+        .find();
+    },
+    paginate
+  },
   scopes: {
     date(date) {
       return {
