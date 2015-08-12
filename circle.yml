@@ -1,0 +1,8 @@
+machine:
+  node:
+    version: 0.12.0
+
+# We'll write tests one day...for now we'll just run the linter
+test:
+  override:
+    - npm run lint
