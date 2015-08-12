@@ -49,7 +49,7 @@ router
           if (membership) {
             if (!membership.approved && !req.auth.allowed) {
               return next({
-                message: `User does not have permission: read unapproved memberships`,
+                message: `User does not have permission: unapproved memberships`,
                 status: 403
               });
             }
