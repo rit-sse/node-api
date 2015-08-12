@@ -23,4 +23,4 @@ export default class SlackProvider {
   findOrCreateUser() {
     return User.findOrCreate({ where: { dce: this.dce } } );
   }
-};
+}
