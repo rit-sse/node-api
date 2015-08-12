@@ -17,4 +17,4 @@ export default function seed() {
         description: 'the mentors'
       }]);
     });
-};
+}

@@ -26,4 +26,4 @@ export default function seed() {
       .find({where: {name: 'officers'}})
       .then(group => group.addPermissionsByName(...officerPermissions))
   ]);
-};
+}
