@@ -1,11 +1,13 @@
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
+import {paginateScope, paginate} from '../helpers/paginate';
 
 export default sequelize.define('mentorShifts', {
   startTime: DataTypes.TIME,
   endTime: DataTypes.TIME,
   endDate: DataTypes.DATE
 }, {
+  classMethods: { paginate },
   scopes: {
     time(time) {
       return {
@@ -18,7 +20,8 @@ export default sequelize.define('mentorShifts', {
           }
         }
       };
-    }
+    },
+    paginate: paginateScope
   },
   validate: {
     startTimeBeforeEndTime() {

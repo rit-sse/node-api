@@ -1,24 +1,48 @@
 import { Router } from 'express';
 import Officer from '../models/officer';
+import Term from '../models/term';
+import Committee from '../models/committee';
 import scopify from '../helpers/scopify';
 import { needs } from '../middleware/permissions';
+import Promise from 'bluebird';
 
 var router = Router();
 
 router
   .route('/')
     .get((req, res, next) => {
-      var scopes = scopify(req.query, 'display', 'email');
+      var scopes = scopify(req.query, 'display', 'email', 'user', 'term', 'primary');
       Officer.paginate(scopes, req.query.perPage, req.query.page)
         .then(body => res.send(body))
         .catch(err => next(err));
     })
     .post(needs('officers', 'create'), (req, res, next) => {
-      Officer.create(req.body, {fields: ['display', 'email', 'userId']})
-        .then(officer => res.send(officer))
-        .catch(err => {
-          err.status = 422;
-          next(err);
+      var committee;
+      if (req.body.committee) {
+        committee = Committee.create(req.body.committee, { fields: ['name'] });
+      }
+      Promise.all([Term
+        .findOrInitialize({ where: { name: req.body.term.name } })
+        .spread((term, created) => {
+          if (created) {
+            term.startDate = req.body.term.startDate;
+            term.endDate = req.body.term.endDate;
+            term.save();
+          }
+          return term;
+        }),
+        committee ])
+        .spread((term, committee) => {
+          req.body.termId = term.id;
+          if (committee) {
+            req.body.committeeId = committee.id;
+          }
+          Officer.create(req.body, {fields: ['display', 'email', 'userId', 'termId', 'committeeId', 'primary']})
+            .then(officer => res.send(officer))
+            .catch(err => {
+              err.status = 422;
+              next(err);
+            });
         });
     });
 
@@ -42,7 +66,7 @@ router
         .then(officer => {
           if (officer) {
             return officer.updateAttributes(req.body, {
-              fields: ['display', 'email']
+              fields: ['display', 'email', 'userId', 'termId', 'committeeId', 'primary']
             });
           } else {
             next({ message: 'Officer not found', status: 404 });

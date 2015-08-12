@@ -1,5 +1,6 @@
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
+import {paginateScope, paginate} from '../helpers/paginate';
 
 export default sequelize.define('officers', {
   display: {
@@ -16,13 +17,22 @@ export default sequelize.define('officers', {
     type: DataTypes.BOOLEAN,
     defaultValue: false
   },
+  endDate: DataTypes.DATE
 }, {
+  classMethods: { paginate },
   scopes: {
     display(display) {
       return { where: { display } };
     },
     email(email) {
       return { where: { email } };
-    }
+    },
+    user(userId) {
+      return { where: { userId } };
+    },
+    term(termId) {
+      return { where: { termId } };
+    },
+    paginate: paginateScope
   }
 });

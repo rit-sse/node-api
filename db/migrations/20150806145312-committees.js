@@ -7,8 +7,7 @@ export function up(queryInterface, Sequelize) {
     },
     name: {
       type: Sequelize.STRING,
-      allowNull: false,
-      unique: true
+      allowNull: false
     },
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE

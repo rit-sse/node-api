@@ -19,8 +19,8 @@ export default sequelize.define('users', {
 }, {
   classMethods: { paginate },
   instanceMethods: {
-    officershipsFor(term) {
-      return this.getOfficerships({
+    officerFor(term) {
+      return this.getOfficers({
         where: {
           termId: term.id,
           endDate: {
@@ -30,8 +30,7 @@ export default sequelize.define('users', {
             }
           }
         }
-      })
-      .map(officership => officership.getOfficer());
+      });
     },
     mentorFor(term) {
       return this.getMentorShifts({
@@ -53,7 +52,7 @@ export default sequelize.define('users', {
           if (!term) {
             return [];
           }
-          return Promise.all([this.officershipsFor(term), this.mentorFor(term)])
+          return Promise.all([this.officerFor(term), this.mentorFor(term)])
             .spread((officers, mentors) => {
               var groups = [];
               if (officers.length > 0) {

@@ -28,9 +28,8 @@ router
         })
         .then(term => {
           req.body.termId = term.id;
-          req.body.approved = false;
           return Membership.create(req.body, {
-            fields: ['reason', 'approved', 'committeeId', 'userId', 'termId' ]
+            fields: ['reason','committeeId', 'userId', 'termId' ]
           });
         })
         .then(membership => res.send(membership))
