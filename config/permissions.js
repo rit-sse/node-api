@@ -71,7 +71,7 @@ export var permissions =  {
       levels: levels.high,
       groups: { primary }
     },
-    unnaproved: {
+    unapproved: {
       levels: levels.high,
       groups: { primary }
     }
@@ -103,7 +103,7 @@ export var permissions =  {
       levels: levels.high,
       groups: { primary }
     },
-    unnaproved: {
+    unapproved: {
       levels: levels.high,
       groups: { primary }
     }
@@ -145,7 +145,7 @@ export var permissions =  {
       levels: levels.high,
       groups: { primary, officers }
     },
-    unnaproved: {
+    unapproved: {
       levels: levels.high,
       groups: { primary, officers}
     }
@@ -159,7 +159,7 @@ export var permissions =  {
       levels: levels.high,
       groups: { primary, officers }
     },
-    unnaproved: {
+    unapproved: {
       levels: levels.high,
       groups: { primary, officers}
     }

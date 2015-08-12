@@ -1,6 +1,6 @@
 import nconf from '../../config';
 import User from '../../models/user';
-import Membership from '../../models/membership';
+import Officership from '../../models/officership';
 
 export default function seed() {
   var admin = nconf.get('admin');
@@ -8,12 +8,11 @@ export default function seed() {
     return User
       .create(admin)
       .then(user => {
-        return Membership
+        return Officership
           .create({
-            reason: 'admin',
             approved: true,
             userId: user.id,
-            groupId: 1,
+            officerId: 1,
             termId: 1
           });
       });

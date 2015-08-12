@@ -8,12 +8,12 @@ var router = Router();
 router
   .route('/')
     .get((req, res, next) => {
-      var scopes = scopify(req.query, 'display', 'email', 'user');
+      var scopes = scopify(req.query, 'display', 'email');
       Officer.paginate(scopes, req.query.perPage, req.query.page)
         .then(body => res.send(body))
         .catch(err => next(err));
     })
-    .post(needs('create officers'), (req, res, next) => {
+    .post(needs('officers', 'create'), (req, res, next) => {
       Officer.create(req.body, {fields: ['display', 'email', 'userId']})
         .then(officer => res.send(officer))
         .catch(err => {
@@ -36,13 +36,13 @@ router
         })
         .catch(err => next(err));
     })
-    .put(needs('update officers'), (req, res, next) => {
+    .put(needs('officers', 'update'), (req, res, next) => {
       Officer
         .findById(req.params.id)
         .then(officer => {
           if (officer) {
             return officer.updateAttributes(req.body, {
-              fields: ['display', 'email', 'userId']
+              fields: ['display', 'email']
             });
           } else {
             next({ message: 'Officer not found', status: 404 });
@@ -55,7 +55,7 @@ router
         })
         .catch(err => next(err));
     })
-    .delete(needs('destroy officers'), (req, res, next) => {
+    .delete(needs('officers', 'destroy'), (req, res, next) => {
       Officer
         .findById(req.params.id)
         .then(officer => {

@@ -32,7 +32,7 @@ export default sequelize.define('users', {
       });
     },
     mentorFor(term) {
-      return this.getMentors({
+      return this.getMentorShifts({
         where: {
           termId: term.id,
           endDate: {
@@ -67,8 +67,8 @@ export default sequelize.define('users', {
             });
         });
     },
-    can(action, method, level) {
-      var permission = nconf.get('permissions')[action][method];
+    can(endpoint, action, level) {
+      var permission = nconf.get('permissions')[endpoint][action];
       return this
         .currentGroups()
         .filter(group => permission[group] && level >= permission.level)

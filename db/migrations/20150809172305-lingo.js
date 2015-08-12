@@ -14,6 +14,10 @@ export function up(queryInterface, Sequelize) {
       type: Sequelize.STRING,
       allowNull: false
     },
+    approved: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
+    },
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE
   });

@@ -13,7 +13,7 @@ router
         .then(body => res.send(body))
         .catch(err => next(err));
     })
-    .post(needs('create links'), (req, res, next) => {
+    .post(needs('links', 'create'), (req, res, next) => {
       Link.create(req.body, {fields: ['shortLink', 'longLink']})
         .then(link => res.send(link))
         .catch(err => {
@@ -36,7 +36,7 @@ router
         })
         .catch(err => next(err));
     })
-    .put(needs('update links'), (req, res, next) => {
+    .put(needs('links', 'update'), (req, res, next) => {
       Link
         .findById(req.params.id)
         .then(link => {
@@ -55,7 +55,7 @@ router
         })
         .catch(err => next(err));
     })
-    .delete(needs('destroy links'), (req, res, next) => {
+    .delete(needs('links', 'destroy'), (req, res, next) => {
       Link
         .findById(req.params.id)
         .then(link => {

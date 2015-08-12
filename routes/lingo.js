@@ -1,19 +1,20 @@
 import { Router } from 'express';
 import Lingo from '../models/lingo';
 import scopify from '../helpers/scopify';
-import { needs } from '../middleware/permissions';
+import { needs, needsApprovedIndex, needsApprovedOne} from '../middleware/permissions';
+import jwt from '../middleware/jwt';
 
 var router = Router();
 
 router
   .route('/')
-    .get((req, res, next) => {
+    .get(jwt, needsApprovedIndex('lingo'), (req, res, next) => {
       var scopes = scopify(req.query, 'phrase', 'definition');
       Lingo.paginate(scopes, req.query.perPage, req.query.page)
         .then(body => res.send(body))
         .catch(err => next(err));
     })
-    .post(needs('create lingo'), (req, res, next) => {
+    .post((req, res, next) => {
       Lingo.create(req.body, {fields: ['phrase', 'definition']})
         .then(lingo => res.send(lingo))
         .catch(err => {
@@ -24,7 +25,7 @@ router
 
 router
   .route('/:id')
-    .get((req, res, next) => {
+    .get(jwt, needsApprovedOne('lingo'), (req, res, next) => {
       Lingo
         .findById(req.params.id)
         .then(lingo => {
@@ -36,13 +37,13 @@ router
         })
         .catch(err => next(err));
     })
-    .put(needs('update lingo'), (req, res, next) => {
+    .put(needs('lingo', 'update'), (req, res, next) => {
       Lingo
         .findById(req.params.id)
         .then(lingo => {
           if (lingo) {
             return lingo.updateAttributes(req.body, {
-              fields: ['phrase', 'definition']
+              fields: ['phrase', 'definition', 'approved']
             });
           } else {
             next({ message: 'Lingo not found', status: 404 });
@@ -55,7 +56,7 @@ router
         })
         .catch(err => next(err));
     })
-    .delete(needs('destroy lingo'), (req, res, next) => {
+    .delete(needs('lingo', 'destroy'), (req, res, next) => {
       Lingo
         .findById(req.params.id)
         .then(lingo => {

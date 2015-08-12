@@ -3,16 +3,10 @@ import DataTypes from 'sequelize';
 import {paginateScope, paginate} from '../helpers/paginate';
 
 export default sequelize.define('memberships', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-  },
   reason: {
     type: DataTypes.STRING,
     allowNull: false
   },
-  endDate: DataTypes.DATE,
   approved: {
     type: DataTypes.BOOLEAN,
     defaultValue: false

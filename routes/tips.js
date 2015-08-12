@@ -1,19 +1,20 @@
 import { Router } from 'express';
 import Tip from '../models/tip';
 import scopify from '../helpers/scopify';
-import { needs } from '../middleware/permissions';
+import { needs, needsApprovedIndex, needsApprovedOne} from '../middleware/permissions';
+import jwt from '../middleware/jwt';
 
 var router = Router();
 
 router
   .route('/')
-    .get((req, res, next) => {
+    .get(jwt, needsApprovedIndex('tips'), (req, res, next) => {
       var scopes = scopify(req.query, 'body', 'user');
       Tip.paginate(scopes, req.query.perPage, req.query.page)
         .then(body => res.send(body))
         .catch(err => next(err));
     })
-    .post(needs('create tips'), (req, res, next) => {
+    .post((req, res, next) => {
       req.body.userId = req.auth.user.id;
       Tip.create(req.body, {fields: ['body', 'userId']})
         .then(tip => res.send(tip))
@@ -25,7 +26,7 @@ router
 
 router
   .route('/:id')
-    .get((req, res, next) => {
+    .get(jwt, needsApprovedOne('tips'), (req, res, next) => {
       Tip
         .findById(req.params.id)
         .then(tip => {
@@ -37,13 +38,13 @@ router
         })
         .catch(err => next(err));
     })
-    .put(needs('update tips'), (req, res, next) => {
+    .put(needs('tips', 'update'), (req, res, next) => {
       Tip
         .findById(req.params.id)
         .then(tip => {
           if (tip) {
             return tip.updateAttributes(req.body, {
-              fields: ['body', 'userId']
+              fields: ['body', 'userId', 'approved']
             });
           } else {
             next({ message: 'Tip not found', status: 404 });
@@ -56,7 +57,7 @@ router
         })
         .catch(err => next(err));
     })
-    .delete(needs('destroy tips'), (req, res, next) => {
+    .delete(needs('tips', 'destroy'), (req, res, next) => {
       Tip
         .findById(req.params.id)
         .then(tip => {

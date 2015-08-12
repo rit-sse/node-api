@@ -1,13 +1,11 @@
 import admin from './admin';
-import groupsPermissions  from './groups-permissions';
-import permissions from './permissions';
+import officers  from './officers';
 import terms from './terms';
 import models from '../../models';
 models();
 
 export default function() {
-  return permissions()
-    .then(groupsPermissions)
+  return officers()
     .then(terms)
     .then(admin);
 }

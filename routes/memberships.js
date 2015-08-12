@@ -2,15 +2,15 @@ import { Router } from 'express';
 import Membership from '../models/membership';
 import Term from '../models/term';
 import scopify from '../helpers/scopify';
-import {needs, needsIndex, needsOne} from '../middleware/permissions';
+import {needs, needsApprovedIndex, needsApprovedOne} from '../middleware/permissions';
 import jwt from '../middleware/jwt';
 
 var router = Router();
 
 router
   .route('/')
-    .get(jwt, needsIndex('memberships'), (req, res, next) => {
-      var scopes = scopify(req.query, 'reason', 'group', 'user', 'term', 'approved');
+    .get(jwt, needsApprovedIndex('memberships'), (req, res, next) => {
+      var scopes = scopify(req.query, 'reason', 'committee', 'user', 'term', 'approved');
       Membership.paginate(scopes, req.query.perPage, req.query.page)
         .then(body => res.send(body))
         .catch(err => next(err));
@@ -30,7 +30,7 @@ router
           req.body.termId = term.id;
           req.body.approved = false;
           return Membership.create(req.body, {
-            fields: ['reason', 'approved', 'groupId', 'userId', 'termId' ]
+            fields: ['reason', 'approved', 'committeeId', 'userId', 'termId' ]
           });
         })
         .then(membership => res.send(membership))
@@ -42,7 +42,7 @@ router
 
 router
   .route('/:id')
-    .get(jwt, needsOne('memberships'), (req, res, next) => {
+    .get(jwt, needsApprovedOne('memberships'), (req, res, next) => {
       Membership
         .findById(req.params.id)
         .then(membership => {
@@ -66,7 +66,7 @@ router
         .then(membership => {
           if (membership) {
             return membership.updateAttributes(req.body, {
-              fields: ['reason', 'approved', 'groupId', 'userId', 'termId' ]
+              fields: ['reason', 'approved', 'committeeId', 'userId', 'termId' ]
             });
           } else {
             next({ message: 'Membership not found', status: 404 });
