@@ -1,6 +1,7 @@
+require("babel/register");
 var path = require('path')
+var config = require('./config/database');
+config.config = __filename;
+config['migrations-path'] = path.resolve('db', 'migrations')
 
-module.exports = {
-  'config':          path.resolve('config', 'database.json'),
-  'migrations-path': path.resolve('db', 'migrations')
-}
+module.exports = config;
