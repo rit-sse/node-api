@@ -1,6 +1,7 @@
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
 import paginate from '../helpers/paginate';
+import Term from './term';
 
 export default sequelize.define('officers', {
   display: {
@@ -37,6 +38,21 @@ export default sequelize.define('officers', {
     },
     term(termId) {
       return { where: { termId } };
+    },
+    active() {
+      return {
+        where: {
+          endDate: {
+            $or: {
+              $eq: null,
+              $gt: new Date()
+            }
+          }
+        },
+        include: [{
+          model: Term.scope({ method: ['date', new Date()]})
+        }]
+      };
     },
     paginate
   }

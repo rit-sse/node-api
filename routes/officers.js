@@ -17,7 +17,7 @@ router
       } else {
         delete req.query.primary;
       }
-      var scopes = scopify(req.query, 'display', 'email', 'user', 'term', 'primary', 'committee');
+      var scopes = scopify(req.query, 'display', 'email', 'user', 'term', 'primary', 'committee', 'active');
       Officer
         .scope(scopes)
         .findAndCountAll()
@@ -25,7 +25,13 @@ router
           total: result.count,
           perPage: req.query.perPage,
           currentPage: req.query.page,
-          data: result.rows
+          data: result.rows.map(officer => {
+            var o = officer.get({
+              plain: true
+            });
+            delete o.term;
+            return o;
+          })
         }))
         .catch(err => next(err));
     })
