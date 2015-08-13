@@ -1,7 +1,6 @@
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
 import paginate from '../helpers/paginate';
-import Term from './term';
 import nconf from '../config';
 import Promise from 'bluebird';
 
@@ -18,53 +17,23 @@ export default sequelize.define('users', {
   }
 }, {
   instanceMethods: {
-    officerFor(term) {
-      return this.getOfficers({
-        where: {
-          termId: term.id,
-          endDate: {
-            $or: {
-              $eq: null,
-              $gt: new Date()
-            }
-          }
-        }
-      });
-    },
-    mentorFor(term) {
-      return this.getMentorShifts({
-        where: {
-          termId: term.id,
-          endDate: {
-            $or: {
-              $eq: null,
-              $gt: new Date()
-            }
-          }
-        }
-      });
-    },
     currentGroups() {
-      return Term
-        .currentTerm()
-        .then(term => {
-          if (!term) {
-            return [];
+      return Promise.all([
+        this.getOfficers({ scope: 'active' }),
+        this.getMentorShifts({ scope: 'active' })
+      ])
+        .spread((officers, mentors) => {
+          var groups = [];
+          if (officers.length > 0) {
+            groups.push('officers');
+            if (officers[0].primary) {
+              groups.push('primary');
+            }
           }
-          return Promise.all([this.officerFor(term), this.mentorFor(term)])
-            .spread((officers, mentors) => {
-              var groups = [];
-              if (officers.length > 0) {
-                groups.push('officers');
-                if (officers[0].primary) {
-                  groups.push('primary');
-                }
-              }
-              if (mentors.length > 0) {
-                groups.push('mentors');
-              }
-              return groups;
-            });
+          if (mentors.length > 0) {
+            groups.push('mentors');
+          }
+          return groups;
         });
     },
     can(endpoint, action, level) {

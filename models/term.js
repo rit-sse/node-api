@@ -20,13 +20,6 @@ export default sequelize.define('terms', {
     allowNull: false
   }
 }, {
-  classMethods: {
-    currentTerm() {
-      return this
-        .scope({method: ['date', new Date()]})
-        .find();
-    }
-  },
   scopes: {
     date(date) {
       return {
