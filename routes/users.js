@@ -30,7 +30,7 @@ router
           if (user) {
             res.send(user);
           } else {
-            next({ message: 'User not found', status: 404 });
+            Promise.reject({ message: 'User not found', status: 404 });
           }
         })
         .catch(err => next(err));

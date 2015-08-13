@@ -27,7 +27,7 @@ router
     })
     .post(needs('committees', 'create'), (req, res, next) => {
       Committee.create(req.body, {fields: ['name', 'description']})
-        .then(committee => res.send(committee))
+        .then(committee => res.status(201).send(committee))
         .catch(err => {
           err.status = 422;
           next(err);
@@ -57,14 +57,10 @@ router
               fields: ['name', 'description']
             });
           } else {
-            next({ message: 'Committee not found', status: 404 });
+            Promise.reject({ message: 'Committee not found', status: 404 });
           }
         })
-        .then(committee => {
-          if (committee) {
-            res.send(committee);
-          }
-        })
+        .then(committee => res.send(committee))
         .catch(err => next(err));
     })
     .delete(needs('committees', 'destroy'), (req, res, next) => {
@@ -74,14 +70,10 @@ router
           if (committee) {
             return committee.destroy();
           } else {
-            next({ message: 'Committee not found', status: 404 });
+            Promise.reject({ message: 'Committee not found', status: 404 });
           }
         })
-        .then(committee => {
-          if (committee){
-            res.sendStatus(204);
-          }
-        })
+        .then(() => res.sendStatus(204))
         .catch(err => next(err));
     });
 

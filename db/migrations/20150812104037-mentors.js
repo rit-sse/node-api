@@ -1,9 +1,13 @@
 export function up(queryInterface, Sequelize) {
-  queryInterface.createTable('mentors', {
+  return queryInterface.createTable('mentors', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true
+    },
+    bio: {
+      type: Sequelize.TEXT,
+      allowNull: false
     },
     userId: {
       type: Sequelize.INTEGER,
@@ -18,9 +22,19 @@ export function up(queryInterface, Sequelize) {
     endDate: Sequelize.DATE,
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE
-  });
+  })
+    .then(() => {
+      queryInterface.addIndex(
+        'mentors',
+        ['userId', 'termId'],
+        {
+          indexName: 'mentorsUserTermIndex',
+          indicesType: 'UNIQUE'
+        }
+      );
+    });
 }
 
 export function down(queryInterface) {
-  queryInterface.dropTable('mentors');
+  return queryInterface.dropTable('mentors');
 }

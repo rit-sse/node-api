@@ -40,7 +40,7 @@ router
             fields: ['reason','committeeId', 'userId', 'termId' ]
           });
         })
-        .then(membership => res.send(membership))
+        .then(membership => res.status(201).send(membership))
         .catch(err => {
           err.status = 422;
           next(err);
@@ -55,14 +55,14 @@ router
         .then(membership => {
           if (membership) {
             if (!membership.approved && !req.auth.allowed) {
-              return next({
+              return Promise.reject({
                 message: `User does not have permission: unapproved memberships`,
                 status: 403
               });
             }
             res.send(membership);
           } else {
-            next({ message: 'Membership not found', status: 404 });
+            Promise.reject({ message: 'Membership not found', status: 404 });
           }
         })
         .catch(err => next(err));
@@ -76,14 +76,10 @@ router
               fields: ['reason', 'approved', 'committeeId', 'userId', 'termId' ]
             });
           } else {
-            next({ message: 'Membership not found', status: 404 });
+            Promise.reject({ message: 'Membership not found', status: 404 });
           }
         })
-        .then(membership => {
-          if (membership) {
-            res.send(membership);
-          }
-        })
+        .then(membership => res.send(membership))
         .catch(err => next(err));
     })
     .delete(needs('destroy memberships'), (req, res, next) => {
@@ -93,14 +89,10 @@ router
           if (membership) {
             return membership.destroy();
           } else {
-            next({ message: 'Membership not found', status: 404 });
+            Promise.reject({ message: 'Membership not found', status: 404 });
           }
         })
-        .then(membership => {
-          if (membership){
-            res.sendStatus(204);
-          }
-        })
+        .then(() => res.sendStatus(204))
         .catch(err => next(err));
     });
 

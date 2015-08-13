@@ -1,5 +1,5 @@
 export function up(queryInterface, Sequelize) {
-  queryInterface.createTable('lingo', {
+  return queryInterface.createTable('lingo', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -24,5 +24,5 @@ export function up(queryInterface, Sequelize) {
 }
 
 export function down(queryInterface) {
-  queryInterface.dropTable('lingo');
+  return queryInterface.dropTable('lingo');
 }

@@ -20,7 +20,7 @@ export default sequelize.define('users', {
     currentGroups() {
       return Promise.all([
         this.getOfficers({ scope: 'active' }),
-        this.getMentorShifts({ scope: 'active' })
+        this.getMentors({ scope: 'active' })
       ])
         .spread((officers, mentors) => {
           var groups = [];

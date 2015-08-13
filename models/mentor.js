@@ -1,10 +1,15 @@
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
 import paginate from '../helpers/paginate';
-import Term from './Term';
+import Term from './term';
+import Specialty from './specialty';
 
 export default sequelize.define('mentors', {
-  endDate: DataTypes.DATE
+  endDate: DataTypes.DATE,
+  bio: {
+    type: DataTypes.TEXT,
+    allowNull: false
+  }
 }, {
   scopes: {
     time(time) {
@@ -26,6 +31,20 @@ export default sequelize.define('mentors', {
         },
         include: [{
           model: Term.scope({ method: ['date', new Date()]})
+        }]
+      };
+    },
+    user(userId) {
+      return { where: { userId }};
+    },
+    term(termId) {
+      return { where: { termId }};
+    },
+    specialty(name) {
+      return {
+        include: [{
+          model: Specialty,
+          where: { name }
         }]
       };
     },

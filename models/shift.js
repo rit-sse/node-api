@@ -1,7 +1,7 @@
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
 
-export default sequelize.define('mentoringShifts', {
+export default sequelize.define('shifts', {
   startTime: DataTypes.TIME,
   endTime: DataTypes.TIME,
 }, {

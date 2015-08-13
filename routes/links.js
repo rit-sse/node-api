@@ -22,7 +22,7 @@ router
     })
     .post(needs('links', 'create'), (req, res, next) => {
       Link.create(req.body, {fields: ['shortLink', 'longLink']})
-        .then(link => res.send(link))
+        .then(link => res.status(201).send(link))
         .catch(err => {
           err.status = 422;
           next(err);
@@ -38,7 +38,7 @@ router
           if (link) {
             res.send(link);
           } else {
-            next({ message: 'Link not found', status: 404 });
+            Promise.reject({ message: 'Link not found', status: 404 });
           }
         })
         .catch(err => next(err));
@@ -52,14 +52,10 @@ router
               fields: ['shortLink', 'longLink']
             });
           } else {
-            next({ message: 'Link not found', status: 404 });
+            Promise.reject({ message: 'Link not found', status: 404 });
           }
         })
-        .then(link => {
-          if (link) {
-            res.send(link);
-          }
-        })
+        .then(link => res.send(link))
         .catch(err => next(err));
     })
     .delete(needs('links', 'destroy'), (req, res, next) => {
@@ -69,14 +65,10 @@ router
           if (link) {
             return link.destroy();
           } else {
-            next({ message: 'Link not found', status: 404 });
+            Promise.reject({ message: 'Link not found', status: 404 });
           }
         })
-        .then(link => {
-          if (link){
-            res.sendStatus(204);
-          }
-        })
+        .then(() => res.sendStatus(204))
         .catch(err => next(err));
     });
 

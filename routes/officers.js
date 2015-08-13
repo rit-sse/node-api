@@ -49,7 +49,7 @@ router
         .then(term => {
           req.body.termId = term.id;
           Officer.create(req.body, {fields: ['display', 'email', 'primary', 'userId', 'termId', 'committeeId']})
-            .then(officer => res.send(officer))
+            .then(officer => res.status(201).send(officer))
             .catch(err => {
               err.status = 422;
               next(err);
@@ -66,7 +66,7 @@ router
           if (officer) {
             res.send(officer);
           } else {
-            next({ message: 'Officer not found', status: 404 });
+            Promise.reject({ message: 'Officer not found', status: 404 });
           }
         })
         .catch(err => next(err));
@@ -80,14 +80,10 @@ router
               fields: ['display', 'email', 'userId', 'termId', 'committeeId', 'primary']
             });
           } else {
-            next({ message: 'Officer not found', status: 404 });
+            Promise.reject({ message: 'Officer not found', status: 404 });
           }
         })
-        .then(officer => {
-          if (officer) {
-            res.send(officer);
-          }
-        })
+        .then(officer => res.send(officer))
         .catch(err => next(err));
     })
     .delete(needs('officers', 'destroy'), (req, res, next) => {
@@ -100,11 +96,7 @@ router
             next({ message: 'Officer not found', status: 404 });
           }
         })
-        .then(officer => {
-          if (officer){
-            res.sendStatus(204);
-          }
-        })
+        .then(() => res.sendStatus(204))
         .catch(err => next(err));
     });
 

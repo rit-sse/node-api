@@ -24,7 +24,7 @@ router
     })
     .post((req, res, next) => {
       Lingo.create(req.body, {fields: ['phrase', 'definition']})
-        .then(lingo => res.send(lingo))
+        .then(lingo => res.status(201).send(lingo))
         .catch(err => {
           err.status = 422;
           next(err);
@@ -46,7 +46,7 @@ router
             }
             res.send(lingo);
           } else {
-            next({ message: 'Lingo not found', status: 404 });
+            Promise.reject({ message: 'Lingo not found', status: 404 });
           }
         })
         .catch(err => next(err));
@@ -60,14 +60,10 @@ router
               fields: ['phrase', 'definition', 'approved']
             });
           } else {
-            next({ message: 'Lingo not found', status: 404 });
+            Promise.reject({ message: 'Lingo not found', status: 404 });
           }
         })
-        .then(lingo => {
-          if (lingo) {
-            res.send(lingo);
-          }
-        })
+        .then(lingo => res.send(lingo))
         .catch(err => next(err));
     })
     .delete(needs('lingo', 'destroy'), (req, res, next) => {
@@ -77,14 +73,10 @@ router
           if (lingo) {
             return lingo.destroy();
           } else {
-            next({ message: 'Lingo not found', status: 404 });
+            Promise.rejtect({ message: 'Lingo not found', status: 404 });
           }
         })
-        .then(lingo => {
-          if (lingo){
-            res.sendStatus(204);
-          }
-        })
+        .then(() => res.sendStatus(204))
         .catch(err => next(err));
     });
 

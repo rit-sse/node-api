@@ -30,7 +30,7 @@ router
           if (term) {
             res.send(term);
           } else {
-            next({ message: 'Term not found', status: 404 });
+            Promise.reject({ message: 'Term not found', status: 404 });
           }
         })
         .catch(err => next(err));

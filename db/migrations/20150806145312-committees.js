@@ -1,5 +1,5 @@
 export function up(queryInterface, Sequelize) {
-  queryInterface.createTable('committees', {
+  return queryInterface.createTable('committees', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -19,5 +19,5 @@ export function up(queryInterface, Sequelize) {
 }
 
 export function down(queryInterface) {
-  queryInterface.dropTable('committees');
+  return queryInterface.dropTable('committees');
 }

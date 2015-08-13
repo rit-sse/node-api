@@ -1,5 +1,5 @@
 export function up(queryInterface, Sequelize) {
-  queryInterface.createTable('tips', {
+  return queryInterface.createTable('tips', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -25,5 +25,5 @@ export function up(queryInterface, Sequelize) {
 }
 
 export function down(queryInterface) {
-  queryInterface.dropTable('tips');
+  return queryInterface.dropTable('tips');
 }

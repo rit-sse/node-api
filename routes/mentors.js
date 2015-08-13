@@ -1,0 +1,106 @@
+import { Router } from 'express';
+import Mentor from '../models/mentor';
+import Specialty from '../models/specialty';
+import scopify from '../helpers/scopify';
+import { needs } from '../middleware/permissions';
+import paginate from '../middleware/paginate';
+
+var router = Router();
+
+router
+  .route('/')
+    .get(paginate, (req, res, next) => {
+      var scopes = scopify(req.query, 'specialty', 'user', 'term', 'active');
+      Mentor
+        .scope(scopes)
+        .findAndCountAll({
+          include: [Specialty]
+        })
+        .then(result => res.send({
+          total: result.count,
+          perPage: req.query.perPage,
+          currentPage: req.query.page,
+          data: result.rows.map(mentor => {
+            var m = mentor.get({ plain: true });
+            delete m.term;
+            return m;
+          })
+        }))
+        .catch(err => next(err));
+    })
+    .post(needs('mentors', 'create'), (req, res, next) => {
+      Mentor
+        .create(req.body, {fields: ['bio', 'userId', 'termId']})
+        .then(mentor => {
+          var arr = [mentor];
+          for (let s of req.body.specialties) {
+            arr.push(Specialty.findOrCreate({ where: { name: s}}));
+          }
+          return arr;
+        })
+        .spread((mentor, ...specialties) => [ mentor, mentor.setSpecialties(specialties.map(s => s[0].id))])
+        .spread(mentor => mentor.reload({include: [Specialty]}))
+        .then(mentor => res.status(201).send(mentor))
+        .catch(err => {
+          err.status = 422;
+          next(err);
+        });
+    });
+
+router
+  .route('/:id')
+    .get((req, res, next) => {
+      Mentor
+        .findById(req.params.id, {
+          include: [Specialty]
+        })
+        .then(mentor => {
+          if (mentor) {
+            res.send(mentor);
+          } else {
+            Promise.reject({ message: 'Mentor not found', status: 404 });
+          }
+        })
+        .catch(err => next(err));
+    })
+    .put(needs('mentors', 'update'), (req, res, next) => {
+      Mentor
+        .findById(req.params.id, {
+          include: [Specialty]
+        })
+        .then(mentor => {
+          if (mentor) {
+            return mentor.updateAttributes(req.body, {
+              fields: ['bio', 'userId', 'termId']
+            });
+          } else {
+            return Promise.reject({ message: 'Mentor not found', status: 404 });
+          }
+        })
+        .then(mentor => {
+          var arr = [mentor];
+          for (let s of req.body.specialties) {
+            arr.push(Specialty.findOrCreate({ where: { name: s}}));
+          }
+          return arr;
+        })
+        .spread((mentor, ...specialties) => [ mentor, mentor.setSpecialties(specialties.map(s => s[0].id))])
+        .spread(mentor => mentor.reload({include: [Specialty]}))
+        .then(mentor => res.send(mentor))
+        .catch(err => next(err));
+    })
+    .delete(needs('mentors', 'destroy'), (req, res, next) => {
+      Mentor
+        .findById(req.params.id)
+        .then(mentor => {
+          if (mentor) {
+            return mentor.destroy();
+          } else {
+            Promise.reject({ message: 'Mentor not found', status: 404 });
+          }
+        })
+        .then(() => res.sendStatus(204))
+        .catch(err => next(err));
+    });
+
+export default router;

@@ -1,22 +1,20 @@
 export function up(queryInterface, Sequelize) {
-  queryInterface.createTable('mentoringShifts', {
+  return queryInterface.createTable('specialties', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
-    mentorId: {
-      type: Sequelize.INTEGER,
+    name: {
+      type: Sequelize.STRING,
       allowNull: false,
-      references: { model: 'mentor', key: 'id' }
+      unique: true
     },
-    startTime: Sequelize.TIME,
-    endTime: Sequelize.TIME,
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE
   });
 }
 
 export function down(queryInterface) {
-  queryInterface.dropTable('mentoringShifts');
+  return queryInterface.dropTable('specialties');
 }
