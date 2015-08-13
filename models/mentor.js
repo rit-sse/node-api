@@ -3,22 +3,15 @@ import DataTypes from 'sequelize';
 import paginate from '../helpers/paginate';
 import Term from './Term';
 
-export default sequelize.define('mentorShifts', {
-  startTime: DataTypes.TIME,
-  endTime: DataTypes.TIME,
+export default sequelize.define('mentors', {
   endDate: DataTypes.DATE
 }, {
   scopes: {
     time(time) {
       return {
-        where: {
-          startDate: {
-            $lte: time
-          },
-          endDate: {
-            $gte: time
-          }
-        }
+        include: [{
+          model: MentorShift.scope({ method: ['time', time] })
+        }]
       };
     },
     active() {

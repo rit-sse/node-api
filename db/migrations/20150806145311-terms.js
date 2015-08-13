@@ -3,6 +3,7 @@ export function up(queryInterface, Sequelize) {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
+      autoIncrement: true
     },
     name: {
       type: Sequelize.STRING,
