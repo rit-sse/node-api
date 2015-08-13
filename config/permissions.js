@@ -20,20 +20,6 @@ export default {
       groups: { primary, officers }
     },
   },
-  events: {
-    create: {
-      level: levels.low,
-      groups: { primary, officers }
-    },
-    update: {
-      level: levels.high,
-      groups: { primary, officers }
-    },
-    destroy: {
-      level: levels.high,
-      groups: { primary, officers }
-    }
-  },
   committees: {
     create: {
       level: levels.high,
@@ -46,6 +32,20 @@ export default {
     destroy: {
       level: levels.high,
       groups: { primary }
+    }
+  },
+  events: {
+    create: {
+      level: levels.low,
+      groups: { primary, officers }
+    },
+    update: {
+      level: levels.high,
+      groups: { primary, officers }
+    },
+    destroy: {
+      level: levels.high,
+      groups: { primary, officers }
     }
   },
   headcounts: {
@@ -134,6 +134,20 @@ export default {
     destroy: {
       level: levels.high,
       groups: { primary }
+    }
+  },
+  shifts: {
+    create: {
+      level: levels.high,
+      groups: { primary, officers }
+    },
+    update: {
+      level: levels.high,
+      groups: { primary, officers }
+    },
+    destroy: {
+      level: levels.high,
+      groups: { primary, officers }
     }
   },
   quotes: {

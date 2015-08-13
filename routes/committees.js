@@ -43,7 +43,7 @@ router
           if (committee) {
             res.send(committee);
           } else {
-            next({ message: 'Committee not found', status: 404 });
+            Promise.reject({ message: 'Committee not found', status: 404 });
           }
         })
         .catch(err => next(err));
