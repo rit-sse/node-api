@@ -1,15 +1,15 @@
 export function up(queryInterface, Sequelize) {
-  queryInterface.createTable('groups_permissions', {
-    permissionId: {
+  return queryInterface.createTable('mentors_specialties', {
+    specialtyId: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      references: { model: 'permissions', key: 'id' },
+      references: { model: 'specialties', key: 'id' },
       primaryKey: true
     },
-    groupId: {
+    mentorId: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      references: { model: 'groups', key: 'id' },
+      references: { model: 'mentors', key: 'id' },
       primaryKey: true
     },
     createdAt: Sequelize.DATE,
@@ -18,5 +18,5 @@ export function up(queryInterface, Sequelize) {
 }
 
 export function down(queryInterface) {
-  queryInterface.dropTable('groups_permissions');
+  return queryInterface.dropTable('mentors_specialties');
 }

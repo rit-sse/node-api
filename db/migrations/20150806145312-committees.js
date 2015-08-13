@@ -1,5 +1,5 @@
 export function up(queryInterface, Sequelize) {
-  queryInterface.createTable('permissions', {
+  return queryInterface.createTable('committees', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -7,12 +7,11 @@ export function up(queryInterface, Sequelize) {
     },
     name: {
       type: Sequelize.STRING,
-      unique: true
+      allowNull: false
     },
-    description: Sequelize.STRING,
-    level: {
-      type: Sequelize.INTEGER,
-      defaultValue: 100
+    description: {
+      type: Sequelize.TEXT,
+      allowNull: false
     },
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE
@@ -20,5 +19,5 @@ export function up(queryInterface, Sequelize) {
 }
 
 export function down(queryInterface) {
-  queryInterface.dropTable('permissions');
+  return queryInterface.dropTable('committees');
 }

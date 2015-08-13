@@ -2,17 +2,25 @@ import { Router } from 'express';
 import Membership from '../models/membership';
 import Term from '../models/term';
 import scopify from '../helpers/scopify';
-import {needs, needsIndex, needsOne} from '../middleware/permissions';
+import {needs, needsApprovedIndex, needsApprovedOne} from '../middleware/permissions';
 import jwt from '../middleware/jwt';
+import paginate from '../middleware/paginate';
 
 var router = Router();
 
 router
   .route('/')
-    .get(jwt, needsIndex('memberships'), (req, res, next) => {
-      var scopes = scopify(req.query, 'reason', 'group', 'user', 'term', 'approved');
-      Membership.paginate(scopes, req.query.perPage, req.query.page)
-        .then(body => res.send(body))
+    .get(jwt, paginate, needsApprovedIndex('memberships'), (req, res, next) => {
+      var scopes = scopify(req.query, 'reason', 'committee', 'user', 'term', 'approved');
+      Membership
+        .scope(scopes)
+        .findAndCountAll()
+        .then(result => res.send({
+          total: result.count,
+          perPage: req.query.perPage,
+          currentPage: req.query.page,
+          data: result.rows
+        }))
         .catch(err => next(err));
     })
     .post(needs('create memberships'), (req, res, next) => {
@@ -28,12 +36,11 @@ router
         })
         .then(term => {
           req.body.termId = term.id;
-          req.body.approved = false;
           return Membership.create(req.body, {
-            fields: ['reason', 'approved', 'groupId', 'userId', 'termId' ]
+            fields: ['reason','committeeId', 'userId', 'termId' ]
           });
         })
-        .then(membership => res.send(membership))
+        .then(membership => res.status(201).send(membership))
         .catch(err => {
           err.status = 422;
           next(err);
@@ -42,20 +49,20 @@ router
 
 router
   .route('/:id')
-    .get(jwt, needsOne('memberships'), (req, res, next) => {
+    .get(jwt, needsApprovedOne('memberships'), (req, res, next) => {
       Membership
         .findById(req.params.id)
         .then(membership => {
           if (membership) {
             if (!membership.approved && !req.auth.allowed) {
-              return next({
-                message: `User does not have permission: read unapproved memberships`,
+              return Promise.reject({
+                message: `User does not have permission: unapproved memberships`,
                 status: 403
               });
             }
             res.send(membership);
           } else {
-            next({ message: 'Membership not found', status: 404 });
+            Promise.reject({ message: 'Membership not found', status: 404 });
           }
         })
         .catch(err => next(err));
@@ -66,17 +73,13 @@ router
         .then(membership => {
           if (membership) {
             return membership.updateAttributes(req.body, {
-              fields: ['reason', 'approved', 'groupId', 'userId', 'termId' ]
+              fields: ['reason', 'approved', 'committeeId', 'userId', 'termId' ]
             });
           } else {
-            next({ message: 'Membership not found', status: 404 });
+            Promise.reject({ message: 'Membership not found', status: 404 });
           }
         })
-        .then(membership => {
-          if (membership) {
-            res.send(membership);
-          }
-        })
+        .then(membership => res.send(membership))
         .catch(err => next(err));
     })
     .delete(needs('destroy memberships'), (req, res, next) => {
@@ -86,14 +89,10 @@ router
           if (membership) {
             return membership.destroy();
           } else {
-            next({ message: 'Membership not found', status: 404 });
+            Promise.reject({ message: 'Membership not found', status: 404 });
           }
         })
-        .then(membership => {
-          if (membership){
-            res.sendStatus(204);
-          }
-        })
+        .then(() => res.sendStatus(204))
         .catch(err => next(err));
     });
 

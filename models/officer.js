@@ -1,6 +1,7 @@
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
-import {paginateScope, paginate} from '../helpers/paginate';
+import paginate from '../helpers/paginate';
+import Term from './term';
 
 export default sequelize.define('officers', {
   display: {
@@ -12,9 +13,13 @@ export default sequelize.define('officers', {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true
-  }
+  },
+  primary: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  },
+  endDate: DataTypes.DATE
 }, {
-  classMethods: { paginate },
   scopes: {
     display(display) {
       return { where: { display } };
@@ -22,9 +27,33 @@ export default sequelize.define('officers', {
     email(email) {
       return { where: { email } };
     },
+    primary(primary) {
+      return { where: { primary } };
+    },
+    committee(committee) {
+      return { where: { primary: !committee } };
+    },
     user(userId) {
       return { where: { userId } };
     },
-    paginate: paginateScope
+    term(termId) {
+      return { where: { termId } };
+    },
+    active() {
+      return {
+        where: {
+          endDate: {
+            $or: {
+              $eq: null,
+              $gt: new Date()
+            }
+          }
+        },
+        include: [{
+          model: Term.scope({ method: ['date', new Date()]})
+        }]
+      };
+    },
+    paginate
   }
 });

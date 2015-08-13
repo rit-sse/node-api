@@ -1,38 +1,40 @@
 export function up(queryInterface, Sequelize) {
-  return queryInterface.createTable('memberships', {
+  return queryInterface.createTable('mentors', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true
+    },
+    bio: {
+      type: Sequelize.TEXT,
+      allowNull: false
     },
     userId: {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: { model: 'users', key: 'id' }
     },
-    committeeId: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      references: { model: 'committees', key: 'id' }
-    },
     termId: {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: { model: 'terms', key: 'id' }
     },
-    reason: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    approved: {
-      type: Sequelize.BOOLEAN,
-      defaultValue: false
-    },
+    endDate: Sequelize.DATE,
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE
-  });
+  })
+    .then(() => {
+      queryInterface.addIndex(
+        'mentors',
+        ['userId', 'termId'],
+        {
+          indexName: 'mentorsUserTermIndex',
+          indicesType: 'UNIQUE'
+        }
+      );
+    });
 }
 
 export function down(queryInterface) {
-  return queryInterface.dropTable('memberships');
+  return queryInterface.dropTable('mentors');
 }

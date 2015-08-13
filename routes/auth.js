@@ -36,7 +36,7 @@ router
         .verify()
         .then(() => provider.findOrCreateUser())
         .then(user => res.send(sign({
-          user: user[0], level: provider.authLeve
+          user: user[0], level: provider.authLevel
         })))
         .catch(err =>  {
           err.status = 401;

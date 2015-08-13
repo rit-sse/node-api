@@ -1,8 +1,9 @@
 export function up(queryInterface, Sequelize) {
-  queryInterface.createTable('terms', {
+  return queryInterface.createTable('terms', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
+      autoIncrement: true
     },
     name: {
       type: Sequelize.STRING,
@@ -23,5 +24,5 @@ export function up(queryInterface, Sequelize) {
 }
 
 export function down(queryInterface) {
-  queryInterface.dropTable('terms');
+  return queryInterface.dropTable('terms');
 }

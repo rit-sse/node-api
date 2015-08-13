@@ -1,5 +1,5 @@
 export function up(queryInterface, Sequelize) {
-  queryInterface.createTable('lingo', {
+  return queryInterface.createTable('lingo', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -14,11 +14,15 @@ export function up(queryInterface, Sequelize) {
       type: Sequelize.STRING,
       allowNull: false
     },
+    approved: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
+    },
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE
   });
 }
 
 export function down(queryInterface) {
-  queryInterface.dropTable('lingo');
+  return queryInterface.dropTable('lingo');
 }

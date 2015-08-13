@@ -1,24 +1,23 @@
 export function up(queryInterface, Sequelize) {
-  return queryInterface.createTable('links', {
+  return queryInterface.createTable('shifts', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
-    shortLink: {
-      type: Sequelize.STRING,
+    mentorId: {
+      type: Sequelize.INTEGER,
       allowNull: false,
-      unique: true
+      references: { model: 'mentors', key: 'id' }
     },
-    longLink: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
+    day: Sequelize.STRING,
+    startTime: Sequelize.TIME,
+    endTime: Sequelize.TIME,
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE
   });
 }
 
 export function down(queryInterface) {
-  return queryInterface.dropTable('links');
+  queryInterface.dropTable('shifts');
 }

@@ -1,6 +1,6 @@
 import nconf from '../../config';
 import User from '../../models/user';
-import Membership from '../../models/membership';
+import Officer from '../../models/officer';
 
 export default function seed() {
   var admin = nconf.get('admin');
@@ -8,12 +8,12 @@ export default function seed() {
     return User
       .create(admin)
       .then(user => {
-        return Membership
+        return Officer
           .create({
-            reason: 'admin',
-            approved: true,
+            display: 'President',
+            email: 'presiden@sse.se.rit.edu',
+            primary: true,
             userId: user.id,
-            groupId: 1,
             termId: 1
           });
       });

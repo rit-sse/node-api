@@ -1,7 +1,8 @@
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
-import {paginateScope, paginate} from '../helpers/paginate';
-import Term from './term';
+import paginate from '../helpers/paginate';
+import nconf from '../config';
+import Promise from 'bluebird';
 
 export default sequelize.define('users', {
   firstName: DataTypes.STRING,
@@ -15,36 +16,31 @@ export default sequelize.define('users', {
     allowNull: false
   }
 }, {
-  classMethods: { paginate },
   instanceMethods: {
-    activeMemberships() {
-      return Term
-        .scope({method: ['date', new Date()]})
-        .find()
-        .then(term => {
-          if (!term) {
-            return [];
-          }
-          return this.getMemberships({
-            where: {
-              termId: term.id,
-              endDate: {
-                $or: {
-                  $eq: null,
-                  $gt: new Date()
-                }
-              }
+    currentGroups() {
+      return Promise.all([
+        this.getOfficers({ scope: 'active' }),
+        this.getMentors({ scope: 'active' })
+      ])
+        .spread((officers, mentors) => {
+          var groups = [];
+          if (officers.length > 0) {
+            groups.push('officers');
+            if (officers[0].primary) {
+              groups.push('primary');
             }
-          });
+          }
+          if (mentors.length > 0) {
+            groups.push('mentors');
+          }
+          return groups;
         });
     },
-    can(permission, level) {
+    can(endpoint, action, level) {
+      var permission = nconf.get('permissions')[endpoint][action];
       return this
-        .activeMemberships()
-        .map(membership => membership.getGroup())
-        .map(group => group.getPermissions())
-        .reduce((all,permissions) => all.concat(permissions), [])
-        .filter(p =>  p.name === permission && level >= p.level)
+        .currentGroups()
+        .filter(group => permission.groups[group] && level >= permission.level)
         .then(p => {
           if (p.length === 0) {
             return Promise.reject(false);
@@ -62,6 +58,6 @@ export default sequelize.define('users', {
     dce(dce) {
       return { where: { dce } };
     },
-    paginate: paginateScope
+    paginate
   }
 });
