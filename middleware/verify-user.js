@@ -17,7 +17,7 @@ export default function(req, res, next) {
     }
   }
 
-  jwt.verify(token, nconf.get('auth:jwt:pub'), { algorithm: 'RS256' }, (err, decoded) => {
+  jwt.verify(token, nconf.get('auth:jwt:pub'), { algorithm: 'RS256' }, (err, decoded) => { // eslint-disable-line handle-callback-err
     req.auth = decoded;
     next();
   });

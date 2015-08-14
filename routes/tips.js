@@ -4,14 +4,14 @@ import { Router } from 'express';
 import Tip from '../models/tip';
 import scopify from '../helpers/scopify';
 import { needs, needsApprovedIndex, needsApprovedOne } from '../middleware/permissions';
-import jwt from '../middleware/jwt';
+import verifyUser from '../middleware/verify-user';
 import paginate from '../middleware/paginate';
 
-var router = Router();
+var router = Router(); // eslint-disable-line new-cap
 
 router
   .route('/')
-    .get(jwt, paginate, needsApprovedIndex('tips'), (req, res, next) => {
+    .get(verifyUser, paginate, needsApprovedIndex('tips'), (req, res, next) => {
       var scopes = scopify(req.query, 'body', 'user');
       Tip
         .scope(scopes)
@@ -36,7 +36,7 @@ router
 
 router
   .route('/:id')
-    .get(jwt, needsApprovedOne('tips'), (req, res, next) => {
+    .get(verifyUser, needsApprovedOne('tips'), (req, res, next) => {
       Tip
         .findById(req.params.id)
         .then(tip => {

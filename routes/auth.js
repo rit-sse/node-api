@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import nconf from '../config';
 import providers from '../providers';
 
-var router = Router();
+var router = Router(); // eslint-disable-line new-cap
 
 var jwtConfig = nconf.get('auth:jwt');
 

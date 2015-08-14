@@ -7,7 +7,7 @@ import scopify from '../helpers/scopify';
 import { needs } from '../middleware/permissions';
 import paginate from '../middleware/paginate';
 
-var router = Router();
+var router = Router(); // eslint-disable-line new-cap
 
 router
   .route('/')

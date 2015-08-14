@@ -41,7 +41,7 @@ app.use((req, res, next) => {
   next(err);
 });
 
-app.use((err, req, res, next) => {
+app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   if (env === 'development' && err.stack) {
     console.error(err.stack);
   }

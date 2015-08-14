@@ -4,14 +4,14 @@ import { Router } from 'express';
 import Lingo from '../models/lingo';
 import scopify from '../helpers/scopify';
 import { needs, needsApprovedIndex, needsApprovedOne } from '../middleware/permissions';
-import jwt from '../middleware/jwt';
+import verifyUser from '../middleware/verify-user';
 import paginate from '../middleware/paginate';
 
-var router = Router();
+var router = Router(); // eslint-disable-line new-cap
 
 router
   .route('/')
-    .get(jwt, paginate, needsApprovedIndex('lingo'), (req, res, next) => {
+    .get(verifyUser, paginate, needsApprovedIndex('lingo'), (req, res, next) => {
       var scopes = scopify(req.query, 'phrase', 'definition');
       Lingo
         .scope(scopes)
@@ -35,7 +35,7 @@ router
 
 router
   .route('/:id')
-    .get(jwt, needsApprovedOne('lingo'), (req, res, next) => {
+    .get(verifyUser, needsApprovedOne('lingo'), (req, res, next) => {
       Lingo
         .findById(req.params.id)
         .then(lingo => {

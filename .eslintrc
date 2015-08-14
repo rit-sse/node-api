@@ -263,7 +263,7 @@ rules:
     - 1
     - self]
   #enforce newline at the end of file with no multiple empty lines
-  eol-last: 1
+  eol-last: 2
   #require function expressions to have a name
   func-names: 2
   #enforce use of function declarations or expressions
@@ -302,7 +302,7 @@ rules:
   #disallow use of the continue statement
   no-continue: 0
   #disallow comments inline after code
-  no-inline-comments: 1
+  no-inline-comments: 0
   #disallow if as the only statement in an else block
   no-lonely-if: 1
   #disallow mixed spaces and tabs for indentation (recommended)

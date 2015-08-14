@@ -5,7 +5,7 @@ import User from '../models/user';
 import scopify from '../helpers/scopify';
 import paginate from '../middleware/paginate';
 
-var router = Router();
+var router = Router(); // eslint-disable-line new-cap
 
 router
   .route('/')

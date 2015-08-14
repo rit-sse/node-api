@@ -5,14 +5,14 @@ import Membership from '../models/membership';
 import Term from '../models/term';
 import scopify from '../helpers/scopify';
 import { needs, needsApprovedIndex, needsApprovedOne } from '../middleware/permissions';
-import jwt from '../middleware/jwt';
+import verifyUser from '../middleware/verify-user';
 import paginate from '../middleware/paginate';
 
-var router = Router();
+var router = Router(); // eslint-disable-line new-cap
 
 router
   .route('/')
-    .get(jwt, paginate, needsApprovedIndex('memberships'), (req, res, next) => {
+    .get(verifyUser, paginate, needsApprovedIndex('memberships'), (req, res, next) => {
       var scopes = scopify(req.query, 'reason', 'committee', 'user', 'term', 'approved');
       Membership
         .scope(scopes)
@@ -51,7 +51,7 @@ router
 
 router
   .route('/:id')
-    .get(jwt, needsApprovedOne('memberships'), (req, res, next) => {
+    .get(verifyUser, needsApprovedOne('memberships'), (req, res, next) => {
       Membership
         .findById(req.params.id)
         .then(membership => {

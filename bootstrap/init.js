@@ -23,7 +23,7 @@ if (nconf.get('keygen')) {
 }
 if (sequelize.options.storage) {
   console.log('Creating Empty Sqlite database...');
-  fs.closeSync(fs.openSync(sequelize.options.storage, 'w'));
+  fs.closeSync(fs.openSync(sequelize.options.storage, 'w')); // eslint-disable-line no-sync
 }
 
 console.log('Migrating database...');
