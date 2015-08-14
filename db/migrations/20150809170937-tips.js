@@ -1,26 +1,28 @@
+'use strict';
+
 export function up(queryInterface, Sequelize) {
   return queryInterface.createTable('tips', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     body: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
     },
     userId: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      references: { model: 'users', key: 'id' }
+      references: { model: 'users', key: 'id' },
     },
     approved: {
       type: Sequelize.BOOLEAN,
-      defaultValue: false
+      defaultValue: false,
     },
     createdAt: Sequelize.DATE,
-    updatedAt: Sequelize.DATE
+    updatedAt: Sequelize.DATE,
   });
 }
 

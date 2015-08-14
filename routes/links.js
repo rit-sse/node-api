@@ -1,3 +1,5 @@
+'use strict';
+
 import { Router } from 'express';
 import Link from '../models/link';
 import scopify from '../helpers/scopify';
@@ -16,12 +18,12 @@ router
           total: result.count,
           perPage: req.query.perPage,
           currentPage: req.query.page,
-          data: result.rows
+          data: result.rows,
         }))
         .catch(err => next(err));
     })
     .post(needs('links', 'create'), (req, res, next) => {
-      Link.create(req.body, {fields: ['shortLink', 'longLink']})
+      Link.create(req.body, { fields: ['shortLink', 'longLink'] })
         .then(link => res.status(201).send(link))
         .catch(err => {
           err.status = 422;
@@ -36,10 +38,9 @@ router
         .findById(req.params.id)
         .then(link => {
           if (link) {
-            res.send(link);
-          } else {
-            Promise.reject({ message: 'Link not found', status: 404 });
+            return res.send(link);
           }
+          return Promise.reject({ message: 'Link not found', status: 404 });
         })
         .catch(err => next(err));
     })
@@ -49,11 +50,10 @@ router
         .then(link => {
           if (link) {
             return link.updateAttributes(req.body, {
-              fields: ['shortLink', 'longLink']
+              fields: ['shortLink', 'longLink'],
             });
-          } else {
-            Promise.reject({ message: 'Link not found', status: 404 });
           }
+          return Promise.reject({ message: 'Link not found', status: 404 });
         })
         .then(link => res.send(link))
         .catch(err => next(err));
@@ -64,9 +64,8 @@ router
         .then(link => {
           if (link) {
             return link.destroy();
-          } else {
-            Promise.reject({ message: 'Link not found', status: 404 });
           }
+          return Promise.reject({ message: 'Link not found', status: 404 });
         })
         .then(() => res.sendStatus(204))
         .catch(err => next(err));

@@ -1,3 +1,5 @@
+'use strict';
+
 import { Router } from 'express';
 import mentors from './mentors';
 import shifts from './shifts';

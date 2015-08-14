@@ -1,3 +1,5 @@
+'use strict';
+
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
 import paginate from '../helpers/paginate';
@@ -6,22 +8,22 @@ export default sequelize.define('lingo', {
   phrase: {
     type: DataTypes.STRING,
     unique: true,
-    allowNull: false
+    allowNull: false,
   },
   definition: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   approved: {
     type: DataTypes.BOOLEAN,
-    defaultValue: false
-  }
+    defaultValue: false,
+  },
 }, {
   freezeTableName: true,
   defaultScopes: {
     where: {
-      approved: true
-    }
+      approved: true,
+    },
   },
   scopes: {
     phrase(phrase) {
@@ -30,6 +32,6 @@ export default sequelize.define('lingo', {
     definition(definition) {
       return { where: { definition } };
     },
-    paginate
-  }
+    paginate,
+  },
 });

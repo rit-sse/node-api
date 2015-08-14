@@ -1,3 +1,5 @@
+'use strict';
+
 import nconf from '../../config';
 import User from '../../models/user';
 import Officer from '../../models/officer';
@@ -14,7 +16,7 @@ export default function seed() {
             email: 'presiden@sse.se.rit.edu',
             primary: true,
             userId: user.id,
-            termId: 1
+            termId: 1,
           });
       });
   }

@@ -1,3 +1,5 @@
+'use strict';
+
 import { Router } from 'express';
 import Term from '../models/term';
 import scopify from '../helpers/scopify';
@@ -16,7 +18,7 @@ router
           total: result.count,
           perPage: req.query.perPage,
           currentPage: req.query.page,
-          data: result.rows
+          data: result.rows,
         }))
         .catch(err => next(err));
     });
@@ -28,10 +30,9 @@ router
         .findById(req.params.id)
         .then(term => {
           if (term) {
-            res.send(term);
-          } else {
-            Promise.reject({ message: 'Term not found', status: 404 });
+            return res.send(term);
           }
+          return Promise.reject({ message: 'Term not found', status: 404 });
         })
         .catch(err => next(err));
     });

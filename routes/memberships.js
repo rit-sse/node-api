@@ -1,8 +1,10 @@
+'use strict';
+
 import { Router } from 'express';
 import Membership from '../models/membership';
 import Term from '../models/term';
 import scopify from '../helpers/scopify';
-import {needs, needsApprovedIndex, needsApprovedOne} from '../middleware/permissions';
+import { needs, needsApprovedIndex, needsApprovedOne } from '../middleware/permissions';
 import jwt from '../middleware/jwt';
 import paginate from '../middleware/paginate';
 
@@ -19,7 +21,7 @@ router
           total: result.count,
           perPage: req.query.perPage,
           currentPage: req.query.page,
-          data: result.rows
+          data: result.rows,
         }))
         .catch(err => next(err));
     })
@@ -37,7 +39,7 @@ router
         .then(term => {
           req.body.termId = term.id;
           return Membership.create(req.body, {
-            fields: ['reason','committeeId', 'userId', 'termId' ]
+            fields: ['reason', 'committeeId', 'userId', 'termId'],
           });
         })
         .then(membership => res.status(201).send(membership))
@@ -57,13 +59,12 @@ router
             if (!membership.approved && !req.auth.allowed) {
               return Promise.reject({
                 message: `User does not have permission: unapproved memberships`,
-                status: 403
+                status: 403,
               });
             }
-            res.send(membership);
-          } else {
-            Promise.reject({ message: 'Membership not found', status: 404 });
+            return res.send(membership);
           }
+          return Promise.reject({ message: 'Membership not found', status: 404 });
         })
         .catch(err => next(err));
     })
@@ -73,11 +74,10 @@ router
         .then(membership => {
           if (membership) {
             return membership.updateAttributes(req.body, {
-              fields: ['reason', 'approved', 'committeeId', 'userId', 'termId' ]
+              fields: ['reason', 'approved', 'committeeId', 'userId', 'termId'],
             });
-          } else {
-            Promise.reject({ message: 'Membership not found', status: 404 });
           }
+          return Promise.reject({ message: 'Membership not found', status: 404 });
         })
         .then(membership => res.send(membership))
         .catch(err => next(err));
@@ -88,9 +88,8 @@ router
         .then(membership => {
           if (membership) {
             return membership.destroy();
-          } else {
-            Promise.reject({ message: 'Membership not found', status: 404 });
           }
+          return Promise.reject({ message: 'Membership not found', status: 404 });
         })
         .then(() => res.sendStatus(204))
         .catch(err => next(err));

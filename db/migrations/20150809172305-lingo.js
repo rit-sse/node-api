@@ -1,25 +1,27 @@
+'use strict';
+
 export function up(queryInterface, Sequelize) {
   return queryInterface.createTable('lingo', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     phrase: {
       type: Sequelize.STRING,
       unique: true,
-      allowNull: false
+      allowNull: false,
     },
     definition: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
     },
     approved: {
       type: Sequelize.BOOLEAN,
-      defaultValue: false
+      defaultValue: false,
     },
     createdAt: Sequelize.DATE,
-    updatedAt: Sequelize.DATE
+    updatedAt: Sequelize.DATE,
   });
 }
 

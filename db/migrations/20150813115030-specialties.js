@@ -1,17 +1,19 @@
+'use strict';
+
 export function up(queryInterface, Sequelize) {
   return queryInterface.createTable('specialties', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     name: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
     },
     createdAt: Sequelize.DATE,
-    updatedAt: Sequelize.DATE
+    updatedAt: Sequelize.DATE,
   });
 }
 

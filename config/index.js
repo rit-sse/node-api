@@ -1,3 +1,5 @@
+'use strict';
+
 import nconf from 'nconf';
 import database from './database';
 import permissions from './permissions';
@@ -17,7 +19,7 @@ nconf.set('permissions', permissions);
 nconf.set('pagination:perPage', 15);
 
 nconf.defaults({
-  'NODE_ENV': 'development'
+  NODE_ENV: 'development',
 });
 
 export default nconf;

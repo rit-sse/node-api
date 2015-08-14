@@ -1,3 +1,5 @@
+'use strict';
+
 import nconf from '../config';
 import User from '../models/user';
 import google from 'googleapis';
@@ -21,11 +23,10 @@ export default class GoogleProvider {
           return reject(err);
         }
         this.payload = ticket.getPayload();
-        if (this.payload.hd === 'g.rit.edu'){
+        if (this.payload.hd === 'g.rit.edu') {
           return resolve();
-        } else {
-          return reject({ message: 'Must login with a g.rit.edu account'});
         }
+        return reject({ message: 'Must login with a g.rit.edu account' });
       });
     });
   }

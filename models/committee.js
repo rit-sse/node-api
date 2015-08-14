@@ -1,3 +1,5 @@
+'use strict';
+
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
 import paginate from '../helpers/paginate';
@@ -7,12 +9,12 @@ export default sequelize.define('committees', {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
+    unique: true,
   },
   description: {
     type: DataTypes.TEXT,
-    allowNull: false
-  }
+    allowNull: false,
+  },
 }, {
   classMethods: { paginate },
   scopes: {
@@ -22,10 +24,10 @@ export default sequelize.define('committees', {
     active() {
       return {
         include: [{
-          model: Officer.scope('active')
-        }]
+          model: Officer.scope('active'),
+        }],
       };
     },
-    paginate
-  }
+    paginate,
+  },
 });

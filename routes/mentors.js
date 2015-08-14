@@ -1,3 +1,5 @@
+'use strict';
+
 import { Router } from 'express';
 import Mentor from '../models/mentor';
 import Specialty from '../models/specialty';
@@ -14,7 +16,7 @@ router
       Mentor
         .scope(scopes)
         .findAndCountAll({
-          include: [Specialty]
+          include: [Specialty],
         })
         .then(result => res.send({
           total: result.count,
@@ -24,22 +26,22 @@ router
             var m = mentor.get({ plain: true });
             delete m.term;
             return m;
-          })
+          }),
         }))
         .catch(err => next(err));
     })
     .post(needs('mentors', 'create'), (req, res, next) => {
       Mentor
-        .create(req.body, {fields: ['bio', 'userId', 'termId']})
+        .create(req.body, { fields: ['bio', 'userId', 'termId'] })
         .then(mentor => {
           var arr = [mentor];
           for (let s of req.body.specialties) {
-            arr.push(Specialty.findOrCreate({ where: { name: s}}));
+            arr.push(Specialty.findOrCreate({ where: { name: s } }));
           }
           return arr;
         })
-        .spread((mentor, ...specialties) => [ mentor, mentor.setSpecialties(specialties.map(s => s[0].id))])
-        .spread(mentor => mentor.reload({include: [Specialty]}))
+        .spread((mentor, ...specialties) => [mentor, mentor.setSpecialties(specialties.map(s => s[0].id))])
+        .spread(mentor => mentor.reload({ include: [Specialty] }))
         .then(mentor => res.status(201).send(mentor))
         .catch(err => {
           err.status = 422;
@@ -52,40 +54,38 @@ router
     .get((req, res, next) => {
       Mentor
         .findById(req.params.id, {
-          include: [Specialty]
+          include: [Specialty],
         })
         .then(mentor => {
           if (mentor) {
-            res.send(mentor);
-          } else {
-            Promise.reject({ message: 'Mentor not found', status: 404 });
+            return res.send(mentor);
           }
+          return Promise.reject({ message: 'Mentor not found', status: 404 });
         })
         .catch(err => next(err));
     })
     .put(needs('mentors', 'update'), (req, res, next) => {
       Mentor
         .findById(req.params.id, {
-          include: [Specialty]
+          include: [Specialty],
         })
         .then(mentor => {
           if (mentor) {
             return mentor.updateAttributes(req.body, {
-              fields: ['bio', 'userId', 'termId']
+              fields: ['bio', 'userId', 'termId'],
             });
-          } else {
-            return Promise.reject({ message: 'Mentor not found', status: 404 });
           }
+          return Promise.reject({ message: 'Mentor not found', status: 404 });
         })
         .then(mentor => {
           var arr = [mentor];
           for (let s of req.body.specialties) {
-            arr.push(Specialty.findOrCreate({ where: { name: s}}));
+            arr.push(Specialty.findOrCreate({ where: { name: s } }));
           }
           return arr;
         })
-        .spread((mentor, ...specialties) => [ mentor, mentor.setSpecialties(specialties.map(s => s[0].id))])
-        .spread(mentor => mentor.reload({include: [Specialty]}))
+        .spread((mentor, ...specialties) => [mentor, mentor.setSpecialties(specialties.map(s => s[0].id))])
+        .spread(mentor => mentor.reload({ include: [Specialty] }))
         .then(mentor => res.send(mentor))
         .catch(err => next(err));
     })
@@ -95,9 +95,8 @@ router
         .then(mentor => {
           if (mentor) {
             return mentor.destroy();
-          } else {
-            Promise.reject({ message: 'Mentor not found', status: 404 });
           }
+          return Promise.reject({ message: 'Mentor not found', status: 404 });
         })
         .then(() => res.sendStatus(204))
         .catch(err => next(err));

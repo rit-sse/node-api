@@ -1,3 +1,5 @@
+'use strict';
+
 import { Router } from 'express';
 import Officer from '../models/officer';
 import Term from '../models/term';
@@ -26,12 +28,10 @@ router
           perPage: req.query.perPage,
           currentPage: req.query.page,
           data: result.rows.map(officer => {
-            var o = officer.get({
-              plain: true
-            });
+            var o = officer.get({ plain: true });
             delete o.term;
             return o;
-          })
+          }),
         }))
         .catch(err => next(err));
     })
@@ -48,7 +48,7 @@ router
         })
         .then(term => {
           req.body.termId = term.id;
-          Officer.create(req.body, {fields: ['display', 'email', 'primary', 'userId', 'termId', 'committeeId']})
+          Officer.create(req.body, { fields: ['display', 'email', 'primary', 'userId', 'termId', 'committeeId'] })
             .then(officer => res.status(201).send(officer))
             .catch(err => {
               err.status = 422;
@@ -64,10 +64,9 @@ router
         .findById(req.params.id)
         .then(officer => {
           if (officer) {
-            res.send(officer);
-          } else {
-            Promise.reject({ message: 'Officer not found', status: 404 });
+            return res.send(officer);
           }
+          return Promise.reject({ message: 'Officer not found', status: 404 });
         })
         .catch(err => next(err));
     })
@@ -77,11 +76,11 @@ router
         .then(officer => {
           if (officer) {
             return officer.updateAttributes(req.body, {
-              fields: ['display', 'email', 'userId', 'termId', 'committeeId', 'primary']
+              fields: ['display', 'email', 'userId', 'termId', 'committeeId', 'primary'],
             });
-          } else {
-            Promise.reject({ message: 'Officer not found', status: 404 });
           }
+          return Promise.reject({ message: 'Officer not found', status: 404 });
+
         })
         .then(officer => res.send(officer))
         .catch(err => next(err));
@@ -92,9 +91,8 @@ router
         .then(officer => {
           if (officer) {
             return officer.destroy();
-          } else {
-            next({ message: 'Officer not found', status: 404 });
           }
+          return Promise.reject({ message: 'Officer not found', status: 404 });
         })
         .then(() => res.sendStatus(204))
         .catch(err => next(err));

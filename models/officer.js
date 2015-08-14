@@ -1,3 +1,5 @@
+'use strict';
+
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
 import paginate from '../helpers/paginate';
@@ -7,18 +9,18 @@ export default sequelize.define('officers', {
   display: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
+    unique: true,
   },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
+    unique: true,
   },
   primary: {
     type: DataTypes.BOOLEAN,
-    defaultValue: false
+    defaultValue: false,
   },
-  endDate: DataTypes.DATE
+  endDate: DataTypes.DATE,
 }, {
   scopes: {
     display(display) {
@@ -45,15 +47,15 @@ export default sequelize.define('officers', {
           endDate: {
             $or: {
               $eq: null,
-              $gt: new Date()
-            }
-          }
+              $gt: new Date(),
+            },
+          },
         },
         include: [{
-          model: Term.scope({ method: ['date', new Date()]})
-        }]
+          model: Term.scope({ method: ['date', new Date()] }),
+        }],
       };
     },
-    paginate
-  }
+    paginate,
+  },
 });

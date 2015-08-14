@@ -1,25 +1,27 @@
+'use strict';
+
 export function up(queryInterface, Sequelize) {
   return queryInterface.createTable('terms', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     name: {
       type: Sequelize.STRING,
       unique: true,
-      allowNull: false
+      allowNull: false,
     },
     startDate: {
       type: Sequelize.DATE,
-      allowNull: false
+      allowNull: false,
     },
     endDate: {
       type: Sequelize.DATE,
-      allowNull: false
+      allowNull: false,
     },
     createdAt: Sequelize.DATE,
-    updatedAt: Sequelize.DATE
+    updatedAt: Sequelize.DATE,
   });
 }
 

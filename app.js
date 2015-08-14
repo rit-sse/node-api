@@ -1,3 +1,5 @@
+'use strict';
+
 import express from 'express';
 import bodyParser from 'body-parser';
 import logger from 'morgan';
@@ -17,14 +19,17 @@ app.use(cors());
 app.use(jwt({
   secret: nconf.get('auth:jwt:pub'),
   requestProperty: 'auth',
-  algorithms: ['RS256','RS384','RS512' ]
-}).unless({method: 'GET', path: [new RegExp(`^${apiPath}/auth/(?!refresh)[a-z]+$`)] }));
+  algorithms: ['RS256', 'RS384', 'RS512'],
+}).unless({
+  method: 'GET',
+  path: [new RegExp(`^${apiPath}/auth/(?!refresh)[a-z]+$`)],
+}));
 
 if (env === 'development') {
   app.use(logger('dev'));
 }
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 models();
 app.use(apiPath, router);

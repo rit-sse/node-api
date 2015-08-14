@@ -1,3 +1,5 @@
+'use strict';
+
 import keypair from 'keypair';
 import fs from 'fs';
 import { randomBytes } from 'crypto';

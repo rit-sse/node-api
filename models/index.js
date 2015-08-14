@@ -1,3 +1,5 @@
+'use strict';
+
 import Committee from './committee';
 import Membership from './membership';
 import Mentor from './mentor';
@@ -19,7 +21,7 @@ export default function() {
   Mentor.belongsTo(Term);
   Mentor.belongsTo(User);
   Mentor.hasMany(Shift);
-  Mentor.belongsToMany(Specialty, { through: 'mentors_specialties'});
+  Mentor.belongsToMany(Specialty, { through: 'mentors_specialties' });
 
   Officer.belongsTo(Term);
   Officer.belongsTo(User);
@@ -27,7 +29,7 @@ export default function() {
 
   Shift.belongsTo(Mentor);
 
-  Specialty.belongsToMany(Mentor, { through: 'mentors_specialties'});
+  Specialty.belongsToMany(Mentor, { through: 'mentors_specialties' });
 
   Term.hasMany(Membership);
   Term.hasMany(Mentor);

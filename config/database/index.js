@@ -1,3 +1,5 @@
+'use strict';
+
 import fs from 'fs';
 
 var development =  fs.existsSync('config/database/development.json')
@@ -11,6 +13,6 @@ export default {
   development,
   production,
   migrations: {
-    path: 'db/migrations'
-  }
+    path: 'db/migrations',
+  },
 };

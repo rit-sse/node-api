@@ -1,3 +1,5 @@
+'use strict';
+
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
 import paginate from '../helpers/paginate';
@@ -5,17 +7,17 @@ import paginate from '../helpers/paginate';
 export default sequelize.define('memberships', {
   reason: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   approved: {
     type: DataTypes.BOOLEAN,
-    defaultValue: false
-  }
+    defaultValue: false,
+  },
 }, {
   defaultScopes: {
     where: {
-      approved: true
-    }
+      approved: true,
+    },
   },
   scopes: {
     reason(reason) {
@@ -27,12 +29,12 @@ export default sequelize.define('memberships', {
     user(userId) {
       return { where: { userId } };
     },
-    approved(approved){
+    approved(approved) {
       return { where: { approved } };
     },
     term(termId) {
       return { where: { termId } };
     },
-    paginate
-  }
+    paginate,
+  },
 });

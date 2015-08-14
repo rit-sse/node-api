@@ -1,21 +1,23 @@
+'use strict';
+
 export function up(queryInterface, Sequelize) {
   return queryInterface.createTable('links', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     shortLink: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
     },
     longLink: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
     },
     createdAt: Sequelize.DATE,
-    updatedAt: Sequelize.DATE
+    updatedAt: Sequelize.DATE,
   });
 }
 

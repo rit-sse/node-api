@@ -1,3 +1,5 @@
+'use strict';
+
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
 import paginate from '../helpers/paginate';
@@ -6,17 +8,17 @@ export default sequelize.define('tips', {
   body: {
     type: DataTypes.STRING,
     unique: true,
-    allowNull: false
+    allowNull: false,
   },
   approved: {
     type: DataTypes.BOOLEAN,
-    defaultValue: false
-  }
+    defaultValue: false,
+  },
 }, {
   defaultScopes: {
     where: {
-      approved: true
-    }
+      approved: true,
+    },
   },
   scopes: {
     body(body) {
@@ -25,6 +27,6 @@ export default sequelize.define('tips', {
     user(userId) {
       return { where: { userId } };
     },
-    paginate
-  }
+    paginate,
+  },
 });

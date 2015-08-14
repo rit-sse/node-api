@@ -1,3 +1,5 @@
+'use strict';
+
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
 import paginate from '../helpers/paginate';
@@ -6,12 +8,12 @@ export default sequelize.define('links', {
   shortLink: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
+    unique: true,
   },
   longLink: {
     type: DataTypes.STRING,
-    allowNull: false
-  }
+    allowNull: false,
+  },
 }, {
   scopes: {
     shortLink(shortLink) {
@@ -20,6 +22,6 @@ export default sequelize.define('links', {
     longLink(longLink) {
       return { where: { longLink } };
     },
-    paginate
-  }
+    paginate,
+  },
 });

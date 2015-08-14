@@ -1,3 +1,5 @@
+'use strict';
+
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
 import paginate from '../helpers/paginate';
@@ -10,17 +12,17 @@ export default sequelize.define('users', {
   dce: {
     type: DataTypes.STRING,
     validate: {
-      is:  /[a-z]{2,3}\d{4}/
+      is: /[a-z]{2,3}\d{4}/,
     },
     unique: true,
-    allowNull: false
-  }
+    allowNull: false,
+  },
 }, {
   instanceMethods: {
     currentGroups() {
       return Promise.all([
         this.getOfficers({ scope: 'active' }),
-        this.getMentors({ scope: 'active' })
+        this.getMentors({ scope: 'active' }),
       ])
         .spread((officers, mentors) => {
           var groups = [];
@@ -46,7 +48,7 @@ export default sequelize.define('users', {
             return Promise.reject(false);
           }
         });
-    }
+    },
   },
   scopes: {
     firstName(firstName) {
@@ -58,6 +60,6 @@ export default sequelize.define('users', {
     dce(dce) {
       return { where: { dce } };
     },
-    paginate
-  }
+    paginate,
+  },
 });

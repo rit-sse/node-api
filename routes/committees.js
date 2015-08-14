@@ -1,3 +1,5 @@
+'use strict';
+
 import { Router } from 'express';
 import Committee from '../models/committee';
 import scopify from '../helpers/scopify';
@@ -18,15 +20,15 @@ router
           perPage: req.query.perPage,
           currentPage: req.query.page,
           data: result.rows.map(committee => {
-            var c = committee.get({ plain: true});
+            var c = committee.get({ plain: true });
             delete c.officer;
             return c;
-          })
+          }),
         }))
         .catch(err => next(err));
     })
     .post(needs('committees', 'create'), (req, res, next) => {
-      Committee.create(req.body, {fields: ['name', 'description']})
+      Committee.create(req.body, { fields: ['name', 'description'] })
         .then(committee => res.status(201).send(committee))
         .catch(err => {
           err.status = 422;
@@ -41,10 +43,9 @@ router
         .findById(req.params.id)
         .then(committee => {
           if (committee) {
-            res.send(committee);
-          } else {
-            Promise.reject({ message: 'Committee not found', status: 404 });
+            return res.send(committee);
           }
+          return Promise.reject({ message: 'Committee not found', status: 404 });
         })
         .catch(err => next(err));
     })
@@ -54,11 +55,10 @@ router
         .then(committee => {
           if (committee) {
             return committee.updateAttributes(req.body, {
-              fields: ['name', 'description']
+              fields: ['name', 'description'],
             });
-          } else {
-            Promise.reject({ message: 'Committee not found', status: 404 });
           }
+          return Promise.reject({ message: 'Committee not found', status: 404 });
         })
         .then(committee => res.send(committee))
         .catch(err => next(err));
@@ -69,9 +69,8 @@ router
         .then(committee => {
           if (committee) {
             return committee.destroy();
-          } else {
-            Promise.reject({ message: 'Committee not found', status: 404 });
           }
+          return Promise.reject({ message: 'Committee not found', status: 404 });
         })
         .then(() => res.sendStatus(204))
         .catch(err => next(err));

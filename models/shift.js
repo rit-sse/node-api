@@ -1,3 +1,5 @@
+'use strict';
+
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
 import Mentor from './mentor';
@@ -6,19 +8,19 @@ import paginate from '../helpers/paginate';
 export default sequelize.define('shifts', {
   startTime: DataTypes.TIME,
   endTime: DataTypes.TIME,
-  day: DataTypes.STRING
+  day: DataTypes.STRING,
 }, {
   scopes: {
     time(time) {
       return {
         where: {
           startTime: {
-            $lte: time
+            $lte: time,
           },
           endTime: {
-            $gt: time
-          }
-        }
+            $gt: time,
+          },
+        },
       };
     },
     day(day) {
@@ -30,17 +32,17 @@ export default sequelize.define('shifts', {
     active() {
       return {
         include: [{
-          model: Mentor.scope('active')
-        }]
+          model: Mentor.scope('active'),
+        }],
       };
     },
-    paginate
+    paginate,
   },
   validate: {
     startTimeBeforeEndTime() {
       if (this.startTime > this.endTime) {
         throw new Error('Start time must be before the end time');
       }
-    }
-  }
+    },
+  },
 });

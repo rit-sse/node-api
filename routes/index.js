@@ -1,3 +1,5 @@
+'use strict';
+
 import { Router } from 'express';
 import auth from './auth';
 import committees from './committees';

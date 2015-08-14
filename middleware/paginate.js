@@ -1,3 +1,5 @@
+'use strict';
+
 import nconf from '../config';
 
 var defaultPerPage = nconf.get('pagination:perPage');
