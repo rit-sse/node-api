@@ -8,12 +8,12 @@ import { needs, needsApprovedIndex, needsApprovedOne } from '../middleware/permi
 import verifyUser from '../middleware/verify-user';
 import paginate from '../middleware/paginate';
 
-var router = Router(); // eslint-disable-line new-cap
+const router = Router(); // eslint-disable-line new-cap
 
 router
   .route('/')
     .get(verifyUser, paginate, needsApprovedIndex('memberships'), (req, res, next) => {
-      var scopes = scopify(req.query, 'reason', 'committee', 'user', 'term', 'approved');
+      const scopes = scopify(req.query, 'reason', 'committee', 'user', 'term', 'approved');
       Membership
         .scope(scopes)
         .findAndCountAll()

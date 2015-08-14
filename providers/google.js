@@ -4,7 +4,7 @@ import nconf from '../config';
 import User from '../models/user';
 import google from 'googleapis';
 
-var OAuth2 = google.auth.OAuth2;
+const OAuth2 = google.auth.OAuth2;
 
 export default class GoogleProvider {
 

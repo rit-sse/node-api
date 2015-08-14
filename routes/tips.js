@@ -7,12 +7,12 @@ import { needs, needsApprovedIndex, needsApprovedOne } from '../middleware/permi
 import verifyUser from '../middleware/verify-user';
 import paginate from '../middleware/paginate';
 
-var router = Router(); // eslint-disable-line new-cap
+const router = Router(); // eslint-disable-line new-cap
 
 router
   .route('/')
     .get(verifyUser, paginate, needsApprovedIndex('tips'), (req, res, next) => {
-      var scopes = scopify(req.query, 'body', 'user');
+      const scopes = scopify(req.query, 'body', 'user');
       Tip
         .scope(scopes)
         .findAndCountAll()

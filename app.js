@@ -9,11 +9,11 @@ import nconf from './config';
 import router from './routes';
 import models from './models';
 
-var app = express();
+const app = express();
 
-var env = nconf.get('NODE_ENV');
-var apiConfig = nconf.get('api');
-var apiPath = `/${apiConfig.prefix}/${apiConfig.version}`;
+const env = nconf.get('NODE_ENV');
+const apiConfig = nconf.get('api');
+const apiPath = `/${apiConfig.prefix}/${apiConfig.version}`;
 
 app.use(cors());
 app.use(jwt({
@@ -36,7 +36,7 @@ app.use(apiPath, router);
 
 // error handlers
 app.use((req, res, next) => {
-  var err = new Error('Not Found');
+  const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
@@ -45,8 +45,8 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   if (env === 'development' && err.stack) {
     console.error(err.stack);
   }
-  var status = err.status;
-  delete err.status;
+  const status = err.status;
+  Reflect.deleteProperty(err, 'status');
   res.status(status || 500).send({ error: err.message });
 });
 

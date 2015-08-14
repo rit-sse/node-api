@@ -5,12 +5,12 @@ import Term from '../models/term';
 import scopify from '../helpers/scopify';
 import paginate from '../middleware/paginate';
 
-var router = Router(); // eslint-disable-line new-cap
+const router = Router(); // eslint-disable-line new-cap
 
 router
   .route('/')
     .get(paginate, (req, res, next) => {
-      var scopes = scopify(req.query, 'name', 'date');
+      const scopes = scopify(req.query, 'name', 'date');
       Term
         .scope(scopes)
         .findAndCountAll()

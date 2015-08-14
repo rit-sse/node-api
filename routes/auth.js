@@ -5,9 +5,9 @@ import jwt from 'jsonwebtoken';
 import nconf from '../config';
 import providers from '../providers';
 
-var router = Router(); // eslint-disable-line new-cap
+const router = Router(); // eslint-disable-line new-cap
 
-var jwtConfig = nconf.get('auth:jwt');
+const jwtConfig = nconf.get('auth:jwt');
 
 function sign(payload) {
   return {
@@ -30,7 +30,7 @@ router
         return next({ message: 'invalid provider', status: 401 });
       }
 
-      var provider = new providers[req.params.provider](
+      const provider = new providers[req.params.provider](
         req.body.secret,
         req.body.id
       );

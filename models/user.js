@@ -25,7 +25,7 @@ export default sequelize.define('users', {
         this.getMentors({ scope: 'active' }),
       ])
         .spread((officers, mentors) => {
-          var groups = [];
+          const groups = [];
           if (officers.length > 0) {
             groups.push('officers');
             if (officers[0].primary) {
@@ -39,7 +39,7 @@ export default sequelize.define('users', {
         });
     },
     can(endpoint, action, level) {
-      var permission = nconf.get('permissions')[endpoint][action];
+      const permission = nconf.get('permissions')[endpoint][action];
       return this
         .currentGroups()
         .filter(group => permission.groups[group] && level >= permission.level)

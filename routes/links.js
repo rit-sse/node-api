@@ -6,12 +6,12 @@ import scopify from '../helpers/scopify';
 import { needs } from '../middleware/permissions';
 import paginate from '../middleware/paginate';
 
-var router = Router(); // eslint-disable-line new-cap
+const router = Router(); // eslint-disable-line new-cap
 
 router
   .route('/')
     .get(paginate, (req, res, next) => {
-      var scopes = scopify(req.query, 'shortLink', 'longLink');
+      const scopes = scopify(req.query, 'shortLink', 'longLink');
       Link.scope(scopes)
         .findAndCountAll()
         .then(result => res.send({

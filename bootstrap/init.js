@@ -8,7 +8,7 @@ import nconf from '../config';
 
 import seeder from '../db/seeds';
 
-var umzug = new Umzug({
+const umzug = new Umzug({
   storage: 'sequelize',
   storageOptions: { sequelize },
   migrations: {
@@ -28,7 +28,7 @@ if (sequelize.options.storage) {
 
 console.log('Migrating database...');
 umzug.up().then(migrations => {
-  var files = migrations.map(m => m.file ).join('\n');
+  const files = migrations.map(m => m.file ).join('\n');
   console.log(`Ran migrations:\n${files}` );
 })
 .then(() => {

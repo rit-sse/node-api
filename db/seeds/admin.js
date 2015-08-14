@@ -5,7 +5,7 @@ import User from '../../models/user';
 import Officer from '../../models/officer';
 
 export default function seed() {
-  var admin = nconf.get('admin');
+  const admin = nconf.get('admin');
   if (admin) {
     return User
       .create(admin)

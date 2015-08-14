@@ -7,12 +7,12 @@ import { needs, needsApprovedIndex, needsApprovedOne } from '../middleware/permi
 import verifyUser from '../middleware/verify-user';
 import paginate from '../middleware/paginate';
 
-var router = Router(); // eslint-disable-line new-cap
+const router = Router(); // eslint-disable-line new-cap
 
 router
   .route('/')
     .get(verifyUser, paginate, needsApprovedIndex('lingo'), (req, res, next) => {
-      var scopes = scopify(req.query, 'phrase', 'definition');
+      const scopes = scopify(req.query, 'phrase', 'definition');
       Lingo
         .scope(scopes)
         .findAndCountAll()

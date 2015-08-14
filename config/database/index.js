@@ -2,10 +2,10 @@
 
 import fs from 'fs';
 
-var development =  fs.existsSync('config/database/development.json') // eslint-disable-line no-sync
+const development =  fs.existsSync('config/database/development.json') // eslint-disable-line no-sync
   ? JSON.parse(fs.readFileSync('config/database/development.json')) // eslint-disable-line no-sync
   : null;
-var production =  fs.existsSync('config/database/production.json') // eslint-disable-line no-sync
+const production =  fs.existsSync('config/database/production.json') // eslint-disable-line no-sync
   ? JSON.parse(fs.readFileSync('config/database/production.json')) // eslint-disable-line no-sync
   : null;
 

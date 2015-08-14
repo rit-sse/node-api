@@ -6,12 +6,12 @@ import scopify from '../helpers/scopify';
 import { needs } from '../middleware/permissions';
 import paginate from '../middleware/paginate';
 
-var router = Router(); // eslint-disable-line new-cap
+const router = Router(); // eslint-disable-line new-cap
 
 router
   .route('/')
     .get(paginate, (req, res, next) => {
-      var scopes = scopify(req.query, 'name', 'active');
+      const scopes = scopify(req.query, 'name', 'active');
       Committee
         .scope(scopes)
         .findAndCountAll()
@@ -20,8 +20,8 @@ router
           perPage: req.query.perPage,
           currentPage: req.query.page,
           data: result.rows.map(committee => {
-            var c = committee.get({ plain: true });
-            delete c.officer;
+            const c = committee.get({ plain: true });
+            Reflect.deleteProperty(c, 'officer');
             return c;
           }),
         }))

@@ -7,7 +7,7 @@ import scopify from '../helpers/scopify';
 import { needs } from '../middleware/permissions';
 import paginate from '../middleware/paginate';
 
-var router = Router(); // eslint-disable-line new-cap
+const router = Router(); // eslint-disable-line new-cap
 
 router
   .route('/')
@@ -17,9 +17,9 @@ router
       } else if (req.query.primary === 'false') {
         req.query.primary = false;
       } else {
-        delete req.query.primary;
+        Reflect.deleteProperty(req.query, 'primary');
       }
-      var scopes = scopify(req.query, 'display', 'email', 'user', 'term', 'primary', 'committee', 'active');
+      const scopes = scopify(req.query, 'display', 'email', 'user', 'term', 'primary', 'committee', 'active');
       Officer
         .scope(scopes)
         .findAndCountAll()
@@ -28,8 +28,8 @@ router
           perPage: req.query.perPage,
           currentPage: req.query.page,
           data: result.rows.map(officer => {
-            var o = officer.get({ plain: true });
-            delete o.term;
+            const o = officer.get({ plain: true });
+            Reflect.deleteProperty(o, 'term');
             return o;
           }),
         }))

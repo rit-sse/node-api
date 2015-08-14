@@ -12,7 +12,7 @@ import terms from './terms';
 import tips from './tips';
 import users from './users';
 
-var router = Router(); // eslint-disable-line new-cap
+const router = Router(); // eslint-disable-line new-cap
 
 router.use('/auth', auth);
 router.use('/committees', committees);

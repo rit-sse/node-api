@@ -4,12 +4,12 @@ import nconf from '../config';
 import jwt from 'jsonwebtoken';
 
 export default function(req, res, next) {
-  var token;
+  let token;
   if (req.headers && req.headers.authorization) {
-    var parts = req.headers.authorization.split(' ');
+    const parts = req.headers.authorization.split(' ');
     if (parts.length === 2) {
-      var scheme = parts[0];
-      var credentials = parts[1];
+      const scheme = parts[0];
+      const credentials = parts[1];
 
       if (/^Bearer$/i.test(scheme)) {
         token = credentials;

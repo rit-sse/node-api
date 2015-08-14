@@ -5,12 +5,12 @@ import User from '../models/user';
 import scopify from '../helpers/scopify';
 import paginate from '../middleware/paginate';
 
-var router = Router(); // eslint-disable-line new-cap
+const router = Router(); // eslint-disable-line new-cap
 
 router
   .route('/')
     .get(paginate, (req, res, next) => {
-      var scopes = scopify(req.query, 'firstName', 'lastName', 'dce');
+      const scopes = scopify(req.query, 'firstName', 'lastName', 'dce');
       User
         .scope(scopes)
         .findAndCountAll()

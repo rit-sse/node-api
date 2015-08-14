@@ -13,7 +13,7 @@ export default class SlackProvider {
 
   verify() {
     return new Promise( (resolve, reject) => {
-      var validDCE = this.dce.match(/[a-z]{2,3}\d{4}/);
+      const validDCE = this.dce.match(/[a-z]{2,3}\d{4}/);
       if (validDCE && this.secret === nconf.get('auth:slack:secret')) {
         return resolve();
       }

@@ -1,10 +1,10 @@
 'use strict';
 
 export default function scopify(query, ...params) {
-  var scopes = [{
+  const scopes = [{
     method: ['paginate', query.perPage, query.page],
   }];
-  for (let param of params) {
+  for (const param of params) {
     if (query[param]) {
       scopes.push({
         method: [param, query[param]],

@@ -7,12 +7,12 @@ import scopify from '../helpers/scopify';
 import { needs } from '../middleware/permissions';
 import paginate from '../middleware/paginate';
 
-var router = Router(); // eslint-disable-line new-cap
+const router = Router(); // eslint-disable-line new-cap
 
 router
   .route('/')
     .get(paginate, (req, res, next) => {
-      var scopes = scopify(req.query, 'specialty', 'user', 'term', 'active');
+      const scopes = scopify(req.query, 'specialty', 'user', 'term', 'active');
       Mentor
         .scope(scopes)
         .findAndCountAll({
@@ -23,8 +23,8 @@ router
           perPage: req.query.perPage,
           currentPage: req.query.page,
           data: result.rows.map(mentor => {
-            var m = mentor.get({ plain: true });
-            delete m.term;
+            const m = mentor.get({ plain: true });
+            Reflect.deleteProperty(m, 'term');
             return m;
           }),
         }))
@@ -34,8 +34,8 @@ router
       Mentor
         .create(req.body, { fields: ['bio', 'userId', 'termId'] })
         .then(mentor => {
-          var arr = [mentor];
-          for (let s of req.body.specialties) {
+          const arr = [mentor];
+          for (const s of req.body.specialties) {
             arr.push(Specialty.findOrCreate({ where: { name: s } }));
           }
           return arr;
@@ -78,8 +78,8 @@ router
           return Promise.reject({ message: 'Mentor not found', status: 404 });
         })
         .then(mentor => {
-          var arr = [mentor];
-          for (let s of req.body.specialties) {
+          const arr = [mentor];
+          for (const s of req.body.specialties) {
             arr.push(Specialty.findOrCreate({ where: { name: s } }));
           }
           return arr;

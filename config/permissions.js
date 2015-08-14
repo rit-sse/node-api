@@ -1,7 +1,7 @@
 'use strict';
 
-var [primary, officers, mentors] = [true, true, true];
-var levels = {
+const [primary, officers, mentors] = [true, true, true];
+const levels = {
   low: 10,
   high: 100,
 };
