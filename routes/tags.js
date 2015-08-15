@@ -2,7 +2,6 @@
 
 import { Router } from 'express';
 import Tag from '../models/tag';
-import scopify from '../helpers/scopify';
 import paginate from '../middleware/paginate';
 
 const router = Router(); // eslint-disable-line new-cap
