@@ -2,10 +2,10 @@
 
 export function up(queryInterface, Sequelize) {
   return queryInterface.createTable('quotes_tags', {
-    tagId: {
-      type: Sequelize.INTEGER,
+    tagName: {
+      type: Sequelize.STRING,
       allowNull: false,
-      references: { model: 'tags', key: 'id' },
+      references: { model: 'tags', key: 'name' },
       primaryKey: true,
     },
     quoteId: {

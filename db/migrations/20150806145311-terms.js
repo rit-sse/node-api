@@ -2,14 +2,9 @@
 
 export function up(queryInterface, Sequelize) {
   return queryInterface.createTable('terms', {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
     name: {
       type: Sequelize.STRING,
-      unique: true,
+      primaryKey: true,
       allowNull: false,
     },
     startDate: {

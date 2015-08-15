@@ -6,7 +6,7 @@ import DataTypes from 'sequelize';
 export default sequelize.define('specialties', {
   name: {
     type: DataTypes.STRING,
-    unique: true,
+    primaryKey: true,
     allowNull: false,
   },
 });

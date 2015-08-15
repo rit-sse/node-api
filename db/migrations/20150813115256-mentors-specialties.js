@@ -3,9 +3,9 @@
 export function up(queryInterface, Sequelize) {
   return queryInterface.createTable('mentors_specialties', {
     specialtyId: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: false,
-      references: { model: 'specialties', key: 'id' },
+      references: { model: 'specialties', key: 'name' },
       primaryKey: true,
     },
     mentorId: {

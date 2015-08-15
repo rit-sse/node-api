@@ -38,8 +38,8 @@ export default sequelize.define('officers', {
     user(userId) {
       return { where: { userId } };
     },
-    term(termId) {
-      return { where: { termId } };
+    term(termName) {
+      return { where: { termName } };
     },
     active() {
       return {

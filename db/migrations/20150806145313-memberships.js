@@ -17,10 +17,10 @@ export function up(queryInterface, Sequelize) {
       allowNull: false,
       references: { model: 'committees', key: 'id' },
     },
-    termId: {
-      type: Sequelize.INTEGER,
+    termName: {
+      type: Sequelize.STRING,
       allowNull: false,
-      references: { model: 'terms', key: 'id' },
+      references: { model: 'terms', key: 'name' },
     },
     reason: {
       type: Sequelize.STRING,
