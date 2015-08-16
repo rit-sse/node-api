@@ -37,9 +37,9 @@ router
           return term;
         })
         .then(term => {
-          req.body.termId = term.id;
+          req.body.termName = term.name;
           return Membership.create(req.body, {
-            fields: ['reason', 'committeeId', 'userId', 'termId'],
+            fields: ['reason', 'committeeId', 'userId', 'termName'],
           });
         })
         .then(membership => res.status(201).send(membership))
@@ -74,7 +74,7 @@ router
         .then(membership => {
           if (membership) {
             return membership.updateAttributes(req.body, {
-              fields: ['reason', 'approved', 'committeeId', 'userId', 'termId'],
+              fields: ['reason', 'approved', 'committeeId', 'userId', 'termName'],
             });
           }
           return Promise.reject({ message: 'Membership not found', status: 404 });

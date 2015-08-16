@@ -3,6 +3,7 @@
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
 import paginate from '../helpers/paginate';
+import Tag from './tag';
 
 export default sequelize.define('quotes', {
   body: {
@@ -27,8 +28,13 @@ export default sequelize.define('quotes', {
     body(body) {
       return { where: { body } };
     },
-    tag(tagName) {
-      return { where: { tagName } };
+    tag(name) {
+      return {
+        include: [{
+          model: Tag,
+          where: { name },
+        }],
+      };
     },
     search(query) {
       return {

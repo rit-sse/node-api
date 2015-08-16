@@ -47,8 +47,8 @@ router
           return term;
         })
         .then(term => {
-          req.body.termId = term.id;
-          Officer.create(req.body, { fields: ['display', 'email', 'primary', 'userId', 'termId', 'committeeId'] })
+          req.body.termName = term.name;
+          Officer.create(req.body, { fields: ['display', 'email', 'primary', 'userId', 'termName', 'committeeId'] })
             .then(officer => res.status(201).send(officer))
             .catch(err => {
               err.status = 422;
@@ -76,7 +76,7 @@ router
         .then(officer => {
           if (officer) {
             return officer.updateAttributes(req.body, {
-              fields: ['display', 'email', 'userId', 'termId', 'committeeId', 'primary'],
+              fields: ['display', 'email', 'userId', 'termName', 'committeeId', 'primary'],
             });
           }
           return Promise.reject({ message: 'Officer not found', status: 404 });
