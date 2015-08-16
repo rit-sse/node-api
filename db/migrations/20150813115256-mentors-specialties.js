@@ -2,7 +2,7 @@
 
 export function up(queryInterface, Sequelize) {
   return queryInterface.createTable('mentors_specialties', {
-    specialtyId: {
+    specialtyName: {
       type: Sequelize.STRING,
       allowNull: false,
       references: { model: 'specialties', key: 'name' },

@@ -6,6 +6,7 @@ import Specialty from '../models/specialty';
 import scopify from '../helpers/scopify';
 import { needs } from '../middleware/permissions';
 import paginate from '../middleware/paginate';
+import Promise from 'bluebird';
 
 const router = Router(); // eslint-disable-line new-cap
 
@@ -15,25 +16,27 @@ router
       const scopes = scopify(req.query, 'specialty', 'user', 'term', 'active');
       Mentor
         .scope(scopes)
-        .findAndCountAll({
-          include: [Specialty],
+        .findAndCountAll()
+        .then(result => [result.count, Promise.map(result.rows, mentor => mentor.reload({ include: [{ model: Specialty, attributes: ['name'] }] }))])
+        .spread((count, mentors) => {
+          res.send({
+            total: count,
+            perPage: req.query.perPage,
+            currentPage: req.query.page,
+            data: mentors.map(mentor => {
+              const m = mentor.get({ plain: true });
+              Reflect.deleteProperty(m, 'term');
+              return m;
+            }),
+          });
         })
-        .then(result => res.send({
-          total: result.count,
-          perPage: req.query.perPage,
-          currentPage: req.query.page,
-          data: result.rows.map(mentor => {
-            const m = mentor.get({ plain: true });
-            Reflect.deleteProperty(m, 'term');
-            return m;
-          }),
-        }))
         .catch(err => next(err));
     })
     .post(needs('mentors', 'create'), (req, res, next) => {
       Mentor
-        .create(req.body, { fields: ['bio', 'userId', 'termId'] })
+        .create(req.body, { fields: ['bio', 'userId', 'termName'] })
         .then(mentor => {
+          req.body.specialties = req.body.specialties || [];
           const arr = [mentor];
           for (const spec of req.body.specialties) {
             arr.push(Specialty.findOrCreate({ where: { name: spec } }));
@@ -72,7 +75,7 @@ router
         .then(mentor => {
           if (mentor) {
             return mentor.updateAttributes(req.body, {
-              fields: ['bio', 'userId', 'termId'],
+              fields: ['bio', 'userId', 'termName'],
             });
           }
           return Promise.reject({ message: 'Mentor not found', status: 404 });

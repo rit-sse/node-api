@@ -9,4 +9,10 @@ export default sequelize.define('tags', {
     primaryKey: true,
     allowNull: false,
   },
+}, {
+  scopes: {
+    name(name) {
+      return { where: { name } };
+    },
+  },
 });

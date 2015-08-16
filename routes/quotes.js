@@ -7,6 +7,7 @@ import scopify from '../helpers/scopify';
 import { needs, needsApprovedIndex, needsApprovedOne } from '../middleware/permissions';
 import verifyUser from '../middleware/verify-user';
 import paginate from '../middleware/paginate';
+import Promise from 'bluebird';
 
 const router = Router(); // eslint-disable-line new-cap
 
@@ -16,15 +17,16 @@ router
       const scopes = scopify(req.query, 'body', 'tag', 'search');
       Quote
         .scope(scopes)
-        .findAndCountAll({
-          include: [Tag],
+        .findAndCountAll()
+        .then(result => [result.count, Promise.map(result.rows, quote => quote.reload({ include: [{ model: Tag, attributes: ['name'] }] }))])
+        .spread((count, quotes) => {
+          res.send({
+            total: count,
+            perPage: req.query.perPage,
+            currentPage: req.query.page,
+            data: quotes,
+          });
         })
-        .then(result => res.send({
-          total: result.count,
-          perPage: req.query.perPage,
-          currentPage: req.query.page,
-          data: result.rows,
-        }))
         .catch(err => next(err));
     })
     .post((req, res, next) => {
