@@ -32,6 +32,20 @@ export default sequelize.define('lingo', {
     definition(definition) {
       return { where: { definition } };
     },
+    search(query) {
+      return {
+        where: {
+          $or: {
+            phrase: {
+              $like: `%${query}%`,
+            },
+            definition: {
+              $like: `%${query}%`,
+            },
+          },
+        },
+      };
+    },
     paginate,
   },
 });

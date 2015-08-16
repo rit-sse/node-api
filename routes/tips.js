@@ -12,7 +12,7 @@ const router = Router(); // eslint-disable-line new-cap
 router
   .route('/')
     .get(verifyUser, paginate, needsApprovedIndex('tips'), (req, res, next) => {
-      const scopes = scopify(req.query, 'body', 'user');
+      const scopes = scopify(req.query, 'body', 'user', 'search');
       Tip
         .scope(scopes)
         .findAndCountAll()

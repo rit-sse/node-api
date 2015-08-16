@@ -13,7 +13,7 @@ const router = Router(); // eslint-disable-line new-cap
 router
   .route('/')
     .get(verifyUser, paginate, needsApprovedIndex('quotes'), (req, res, next) => {
-      const scopes = scopify(req.query, 'body', 'tag');
+      const scopes = scopify(req.query, 'body', 'tag', 'search');
       Quote
         .scope(scopes)
         .findAndCountAll({

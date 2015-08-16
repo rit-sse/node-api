@@ -30,6 +30,20 @@ export default sequelize.define('quotes', {
     tag(tagName) {
       return { where: { tagName } };
     },
+    search(query) {
+      return {
+        where: {
+          $or: {
+            body: {
+              $like: `%${query}%`,
+            },
+            description: {
+              $like: `%${query}%`,
+            },
+          },
+        },
+      };
+    },
     paginate,
   },
 });
