@@ -25,10 +25,10 @@ export function up(queryInterface, Sequelize) {
       type: Sequelize.INTEGER,
       references: { model: 'users', key: 'id' },
     },
-    termId: {
-      type: Sequelize.INTEGER,
+    termName: {
+      type: Sequelize.STRING,
       allowNull: false,
-      references: { model: 'terms', key: 'id' },
+      references: { model: 'terms', key: 'name' },
     },
     userId: {
       type: Sequelize.INTEGER,

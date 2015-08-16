@@ -32,8 +32,8 @@ export default sequelize.define('memberships', {
     approved(approved) {
       return { where: { approved } };
     },
-    term(termId) {
-      return { where: { termId } };
+    term(termName) {
+      return { where: { termName } };
     },
     paginate,
   },

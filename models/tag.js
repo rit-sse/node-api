@@ -3,7 +3,7 @@
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
 
-export default sequelize.define('specialties', {
+export default sequelize.define('tags', {
   name: {
     type: DataTypes.STRING,
     primaryKey: true,

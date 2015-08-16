@@ -16,10 +16,10 @@ export function up(queryInterface, Sequelize) {
       allowNull: false,
       references: { model: 'users', key: 'id' },
     },
-    termId: {
-      type: Sequelize.INTEGER,
+    termName: {
+      type: Sequelize.STRING,
       allowNull: false,
-      references: { model: 'terms', key: 'id' },
+      references: { model: 'terms', key: 'name' },
     },
     endDate: Sequelize.DATE,
     createdAt: Sequelize.DATE,
@@ -28,7 +28,7 @@ export function up(queryInterface, Sequelize) {
     .then(() => {
       queryInterface.addIndex(
         'mentors',
-        ['userId', 'termId'],
+        ['userId', 'termName'],
         {
           indexName: 'mentorsUserTermIndex',
           indicesType: 'UNIQUE',

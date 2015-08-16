@@ -11,7 +11,7 @@ export default sequelize.define('terms', {
       is: /\d{4}/,
     },
     allowNull: false,
-    unique: true,
+    primaryKey: true,
   },
   startDate: {
     type: DataTypes.DATE,
@@ -34,9 +34,6 @@ export default sequelize.define('terms', {
           },
         },
       };
-    },
-    name(name) {
-      return { where: { name } };
     },
     paginate,
   },

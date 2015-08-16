@@ -27,6 +27,15 @@ export default sequelize.define('tips', {
     user(userId) {
       return { where: { userId } };
     },
+    search(query) {
+      return {
+        where: {
+          body: {
+            $like: `%${query}%`,
+          },
+        },
+      };
+    },
     paginate,
   },
 });

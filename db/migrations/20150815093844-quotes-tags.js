@@ -1,17 +1,17 @@
 'use strict';
 
 export function up(queryInterface, Sequelize) {
-  return queryInterface.createTable('mentors_specialties', {
-    specialtyId: {
+  return queryInterface.createTable('quotes_tags', {
+    tagName: {
       type: Sequelize.STRING,
       allowNull: false,
-      references: { model: 'specialties', key: 'name' },
+      references: { model: 'tags', key: 'name' },
       primaryKey: true,
     },
-    mentorId: {
+    quoteId: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      references: { model: 'mentors', key: 'id' },
+      references: { model: 'quotes', key: 'id' },
       primaryKey: true,
     },
     createdAt: Sequelize.DATE,
@@ -20,5 +20,5 @@ export function up(queryInterface, Sequelize) {
 }
 
 export function down(queryInterface) {
-  return queryInterface.dropTable('mentors_specialties');
+  return queryInterface.dropTable('quotes_tags');
 }

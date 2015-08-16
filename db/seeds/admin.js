@@ -13,10 +13,10 @@ export default function seed() {
         return Officer
           .create({
             display: 'President',
-            email: 'presiden@sse.se.rit.edu',
+            email: 'president@sse.se.rit.edu',
             primary: true,
             userId: user.id,
-            termId: 1,
+            termName: '2151',
           });
       });
   }

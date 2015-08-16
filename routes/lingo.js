@@ -12,7 +12,7 @@ const router = Router(); // eslint-disable-line new-cap
 router
   .route('/')
     .get(verifyUser, paginate, needsApprovedIndex('lingo'), (req, res, next) => {
-      const scopes = scopify(req.query, 'phrase', 'definition');
+      const scopes = scopify(req.query, 'phrase', 'definition', 'search');
       Lingo
         .scope(scopes)
         .findAndCountAll()

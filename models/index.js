@@ -4,8 +4,10 @@ import Committee from './committee';
 import Membership from './membership';
 import Mentor from './mentor';
 import Officer from './officer';
+import Quote from './quote';
 import Shift from './shift';
 import Specialty from './specialty';
+import Tag from './tag';
 import Term from './term';
 import Tip from './tip';
 import User from './user';
@@ -27,9 +29,13 @@ export default function() {
   Officer.belongsTo(User);
   Officer.belongsTo(Committee);
 
+  Quote.belongsToMany(Tag, { through: 'quotes_tags' });
+
   Shift.belongsTo(Mentor);
 
   Specialty.belongsToMany(Mentor, { through: 'mentors_specialties' });
+
+  Tag.belongsToMany(Quote, { through: 'quotes_tags' });
 
   Term.hasMany(Membership);
   Term.hasMany(Mentor);

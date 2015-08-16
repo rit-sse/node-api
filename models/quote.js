@@ -4,42 +4,40 @@ import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
 import paginate from '../helpers/paginate';
 
-export default sequelize.define('lingo', {
-  phrase: {
+export default sequelize.define('quotes', {
+  body: {
     type: DataTypes.STRING,
     unique: true,
     allowNull: false,
   },
-  definition: {
+  description: {
     type: DataTypes.STRING,
-    allowNull: false,
   },
   approved: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
 }, {
-  freezeTableName: true,
   defaultScopes: {
     where: {
       approved: true,
     },
   },
   scopes: {
-    phrase(phrase) {
-      return { where: { phrase } };
+    body(body) {
+      return { where: { body } };
     },
-    definition(definition) {
-      return { where: { definition } };
+    tag(tagName) {
+      return { where: { tagName } };
     },
     search(query) {
       return {
         where: {
           $or: {
-            phrase: {
+            body: {
               $like: `%${query}%`,
             },
-            definition: {
+            description: {
               $like: `%${query}%`,
             },
           },

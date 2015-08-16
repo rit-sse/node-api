@@ -35,12 +35,12 @@ router
         .create(req.body, { fields: ['bio', 'userId', 'termId'] })
         .then(mentor => {
           const arr = [mentor];
-          for (const s of req.body.specialties) {
-            arr.push(Specialty.findOrCreate({ where: { name: s } }));
+          for (const spec of req.body.specialties) {
+            arr.push(Specialty.findOrCreate({ where: { name: spec } }));
           }
           return arr;
         })
-        .spread((mentor, ...specialties) => [mentor, mentor.setSpecialties(specialties.map(s => s[0].id))])
+        .spread((mentor, ...specialties) => [mentor, mentor.setSpecialties(specialties.map(spec => spec[0]))])
         .spread(mentor => mentor.reload({ include: [Specialty] }))
         .then(mentor => res.status(201).send(mentor))
         .catch(err => {
@@ -79,12 +79,12 @@ router
         })
         .then(mentor => {
           const arr = [mentor];
-          for (const s of req.body.specialties) {
-            arr.push(Specialty.findOrCreate({ where: { name: s } }));
+          for (const spec of req.body.specialties) {
+            arr.push(Specialty.findOrCreate({ where: { name: spec } }));
           }
           return arr;
         })
-        .spread((mentor, ...specialties) => [mentor, mentor.setSpecialties(specialties.map(s => s[0].id))])
+        .spread((mentor, ...specialties) => [mentor, mentor.setSpecialties(specialties.map(spec => spec[0]))])
         .spread(mentor => mentor.reload({ include: [Specialty] }))
         .then(mentor => res.send(mentor))
         .catch(err => next(err));

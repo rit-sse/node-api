@@ -1,7 +1,7 @@
 'use strict';
 
 export function up(queryInterface, Sequelize) {
-  return queryInterface.createTable('specialties', {
+  return queryInterface.createTable('tags', {
     name: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -13,5 +13,5 @@ export function up(queryInterface, Sequelize) {
 }
 
 export function down(queryInterface) {
-  return queryInterface.dropTable('specialties');
+  return queryInterface.dropTable('tags');
 }
