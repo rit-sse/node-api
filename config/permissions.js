@@ -8,7 +8,7 @@ const levels = {
 
 export default {
   levels,
-  agenda: {
+  agendas: {
     create: {
       level: levels.low,
       groups: { primary, officers },

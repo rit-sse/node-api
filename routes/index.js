@@ -1,6 +1,7 @@
 'use strict';
 
 import { Router } from 'express';
+import agenda from './agenda';
 import auth from './auth';
 import committees from './committees';
 import lingo from './lingo';
@@ -17,6 +18,7 @@ import users from './users';
 
 const router = Router(); // eslint-disable-line new-cap
 
+router.use('/agenda', agenda);
 router.use('/auth', auth);
 router.use('/committees', committees);
 router.use('/lingo', lingo);

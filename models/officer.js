@@ -6,7 +6,7 @@ import paginate from '../helpers/paginate';
 import Term from './term';
 
 export default sequelize.define('officers', {
-  display: {
+  title: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
@@ -14,7 +14,7 @@ export default sequelize.define('officers', {
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
+    primaryKey: true,
   },
   primary: {
     type: DataTypes.BOOLEAN,
@@ -23,9 +23,6 @@ export default sequelize.define('officers', {
   endDate: DataTypes.DATE,
 }, {
   scopes: {
-    display(display) {
-      return { where: { display } };
-    },
     email(email) {
       return { where: { email } };
     },

@@ -12,8 +12,8 @@ export default function seed() {
       .then(user => {
         return Officer
           .create({
-            display: 'President',
-            email: 'president@sse.se.rit.edu',
+            title: 'President',
+            email: 'president',
             primary: true,
             userId: user.id,
             termName: '2151',
