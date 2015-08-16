@@ -1,7 +1,7 @@
 'use strict';
 
 export function up(queryInterface, Sequelize) {
-  return queryInterface.createTable('agendaItem', {
+  return queryInterface.createTable('agendaItems', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -22,7 +22,7 @@ export function up(queryInterface, Sequelize) {
       references: { model: 'users', key: 'id' },
     },
     officerEmail: {
-      type: Sequelize.String,
+      type: Sequelize.STRING,
       allowNull: false,
       references: { model: 'officers', key: 'email' },
     },
@@ -32,5 +32,5 @@ export function up(queryInterface, Sequelize) {
 }
 
 export function down(queryInterface) {
-  return queryInterface.dropTable('agendaItem');
+  return queryInterface.dropTable('agendaItems');
 }

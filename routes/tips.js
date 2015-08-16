@@ -59,7 +59,7 @@ router
         .then(tip => {
           if (tip) {
             return tip.updateAttributes(req.body, {
-              fields: ['body', 'userId', 'approved'],
+              fields: ['body', 'approved'],
             });
           }
           return Promise.reject({ message: 'Tip not found', status: 404 });

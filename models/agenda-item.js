@@ -19,20 +19,14 @@ export default sequelize.define('agendaItem', {
     body(body) {
       return { where: { body } };
     },
+    week(week) {
+      return { where: { week } };
+    },
     officer(officerEmail) {
       return { where: { officerEmail } };
     },
     user(userId) {
       return { where: { userId } };
-    },
-    search(query) {
-      return {
-        where: {
-          body: {
-            $like: `%${query}%`,
-          },
-        },
-      };
     },
     paginate,
   },
