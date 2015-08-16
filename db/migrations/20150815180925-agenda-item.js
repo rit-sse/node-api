@@ -21,10 +21,10 @@ export function up(queryInterface, Sequelize) {
       allowNull: false,
       references: { model: 'users', key: 'id' },
     },
-    officerId: {
-      type: Sequelize.INTEGER,
+    officerEmail: {
+      type: Sequelize.String,
       allowNull: false,
-      references: { model: 'officers', key: 'id' },
+      references: { model: 'officers', key: 'email' },
     },
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE,

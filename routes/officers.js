@@ -19,7 +19,7 @@ router
       } else {
         Reflect.deleteProperty(req.query, 'primary');
       }
-      const scopes = scopify(req.query, 'display', 'email', 'user', 'term', 'primary', 'committee', 'active');
+      const scopes = scopify(req.query, 'title', 'user', 'term', 'primary', 'committee', 'active');
       Officer
         .scope(scopes)
         .findAndCountAll()
@@ -48,7 +48,7 @@ router
         })
         .then(term => {
           req.body.termName = term.name;
-          Officer.create(req.body, { fields: ['display', 'email', 'primary', 'userId', 'termName', 'committeeId'] })
+          Officer.create(req.body, { fields: ['display', 'title', 'primary', 'userId', 'termName', 'committeeId'] })
             .then(officer => res.status(201).send(officer))
             .catch(err => {
               err.status = 422;

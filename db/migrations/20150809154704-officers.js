@@ -2,15 +2,10 @@
 
 export function up(queryInterface, Sequelize) {
   return queryInterface.createTable('officers', {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    display: {
+    title: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: true,
+      primaryKey: true,
     },
     email: {
       type: Sequelize.STRING,

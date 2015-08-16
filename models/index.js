@@ -1,5 +1,6 @@
 'use strict';
 
+import AgendaItem from './agenda-item';
 import Committee from './committee';
 import Membership from './membership';
 import Mentor from './mentor';
@@ -13,6 +14,9 @@ import Tip from './tip';
 import User from './user';
 
 export default function() {
+  AgendaItem.belongsTo(Officer);
+  AgendaItem.belongsTo(User);
+
   Committee.hasOne(Officer);
   Committee.hasMany(Membership);
 
@@ -28,6 +32,7 @@ export default function() {
   Officer.belongsTo(Term);
   Officer.belongsTo(User);
   Officer.belongsTo(Committee);
+  Officer.hasMany(AgendaItem);
 
   Quote.belongsToMany(Tag, { through: 'quotes_tags' });
 
@@ -43,6 +48,7 @@ export default function() {
 
   Tip.belongsTo(User);
 
+  User.hasMany(AgendaItem);
   User.hasMany(Membership);
   User.hasMany(Mentor);
   User.hasMany(Officer);
