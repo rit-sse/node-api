@@ -11,10 +11,10 @@ export function up(queryInterface, Sequelize) {
       type: Sequelize.TEXT,
       allowNull: false,
     },
-    userId: {
-      type: Sequelize.INTEGER,
+    userDce: {
+      type: Sequelize.STRING,
       allowNull: false,
-      references: { model: 'users', key: 'id' },
+      references: { model: 'users', key: 'dce' },
     },
     termName: {
       type: Sequelize.STRING,
@@ -28,7 +28,7 @@ export function up(queryInterface, Sequelize) {
     .then(() => {
       queryInterface.addIndex(
         'mentors',
-        ['userId', 'termName'],
+        ['userDce', 'termName'],
         {
           indexName: 'mentorsUserTermIndex',
           indicesType: 'UNIQUE',

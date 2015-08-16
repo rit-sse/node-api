@@ -24,8 +24,8 @@ export default sequelize.define('tips', {
     body(body) {
       return { where: { body } };
     },
-    user(userId) {
-      return { where: { userId } };
+    user(userDce) {
+      return { where: { userDce } };
     },
     search(query) {
       return {

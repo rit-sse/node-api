@@ -14,7 +14,7 @@ export default sequelize.define('users', {
     validate: {
       is: /[a-z]{2,3}\d{4}/,
     },
-    unique: true,
+    primaryKey: true,
     allowNull: false,
   },
 }, {

@@ -36,8 +36,8 @@ export default sequelize.define('mentors', {
         }],
       };
     },
-    user(userId) {
-      return { where: { userId } };
+    user(userDce) {
+      return { where: { userDce } };
     },
     term(termName) {
       return { where: { termName } };

@@ -2,15 +2,18 @@
 
 export function up(queryInterface, Sequelize) {
   return queryInterface.createTable('officers', {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     title: {
       type: Sequelize.STRING,
       allowNull: false,
-      primaryKey: true,
     },
     email: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: true,
     },
     primary: {
       type: Sequelize.BOOLEAN,
@@ -18,17 +21,17 @@ export function up(queryInterface, Sequelize) {
     },
     committeeId: {
       type: Sequelize.INTEGER,
-      references: { model: 'users', key: 'id' },
+      references: { model: 'committees', key: 'id' },
     },
     termName: {
       type: Sequelize.STRING,
       allowNull: false,
       references: { model: 'terms', key: 'name' },
     },
-    userId: {
-      type: Sequelize.INTEGER,
+    userDce: {
+      type: Sequelize.STRING,
       allowNull: false,
-      references: { model: 'users', key: 'id' },
+      references: { model: 'users', key: 'dce' },
     },
     endDate: Sequelize.DATE,
     createdAt: Sequelize.DATE,

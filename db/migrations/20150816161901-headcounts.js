@@ -1,19 +1,14 @@
 'use strict';
 
 export function up(queryInterface, Sequelize) {
-  return queryInterface.createTable('agendaItems', {
+  return queryInterface.createTable('headcounts', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    body: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    week: {
-      type: Sequelize.DATE,
+    count: {
+      type: Sequelize.INTEGER,
       allowNull: false,
     },
     userDce: {
@@ -21,16 +16,11 @@ export function up(queryInterface, Sequelize) {
       allowNull: false,
       references: { model: 'users', key: 'dce' },
     },
-    officerId: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      references: { model: 'officers', key: 'id' },
-    },
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE,
   });
 }
 
 export function down(queryInterface) {
-  return queryInterface.dropTable('agendaItems');
+  return queryInterface.dropTable('headcounts');
 }

@@ -7,10 +7,10 @@ export function up(queryInterface, Sequelize) {
       primaryKey: true,
       autoIncrement: true,
     },
-    userId: {
-      type: Sequelize.INTEGER,
+    userDce: {
+      type: Sequelize.STRING,
       allowNull: false,
-      references: { model: 'users', key: 'id' },
+      references: { model: 'users', key: 'dce' },
     },
     committeeId: {
       type: Sequelize.INTEGER,

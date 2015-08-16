@@ -19,7 +19,7 @@ router
       } else {
         Reflect.deleteProperty(req.query, 'primary');
       }
-      const scopes = scopify(req.query, 'title', 'user', 'term', 'primary', 'committee', 'active');
+      const scopes = scopify(req.query, 'title', 'email', 'user', 'term', 'primary', 'committee', 'active');
       Officer
         .scope(scopes)
         .findAndCountAll()
@@ -48,7 +48,7 @@ router
         })
         .then(term => {
           req.body.termName = term.name;
-          Officer.create(req.body, { fields: ['display', 'title', 'primary', 'userId', 'termName', 'committeeId'] })
+          Officer.create(req.body, { fields: ['display', 'title', 'primary', 'userDce', 'termName', 'committeeId'] })
             .then(officer => res.status(201).send(officer))
             .catch(err => {
               err.status = 422;
@@ -76,7 +76,7 @@ router
         .then(officer => {
           if (officer) {
             return officer.updateAttributes(req.body, {
-              fields: ['display', 'email', 'userId', 'termName', 'committeeId', 'primary'],
+              fields: ['display', 'email', 'userDce', 'termName', 'committeeId', 'primary'],
             });
           }
           return Promise.reject({ message: 'Officer not found', status: 404 });

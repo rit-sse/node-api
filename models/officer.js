@@ -9,12 +9,10 @@ export default sequelize.define('officers', {
   title: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
   },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-    primaryKey: true,
   },
   primary: {
     type: DataTypes.BOOLEAN,
@@ -32,8 +30,8 @@ export default sequelize.define('officers', {
     committee(committee) {
       return { where: { primary: !committee } };
     },
-    user(userId) {
-      return { where: { userId } };
+    user(userDce) {
+      return { where: { userDce } };
     },
     term(termName) {
       return { where: { termName } };

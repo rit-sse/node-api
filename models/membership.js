@@ -26,8 +26,8 @@ export default sequelize.define('memberships', {
     group(groupId) {
       return { where: { groupId } };
     },
-    user(userId) {
-      return { where: { userId } };
+    user(userDce) {
+      return { where: { userDce } };
     },
     approved(approved) {
       return { where: { approved } };
