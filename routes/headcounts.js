@@ -11,7 +11,7 @@ const router = Router(); // eslint-disable-line new-cap
 router
   .route('/')
     .get(paginate, (req, res, next) => {
-      const scopes = scopify(req.query, 'count', 'greaterThan', 'lessThan', 'startDate', 'endDate', 'date', 'user');
+      const scopes = scopify(req.query, 'count', 'greaterThan', 'lessThan', 'between', 'date', 'user');
       Headcount.scope(scopes)
         .findAndCountAll()
         .then(result => res.send({

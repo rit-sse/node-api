@@ -6,9 +6,9 @@ import paginate from '../helpers/paginate';
 import moment from 'moment';
 import 'moment-range';
 
-export default sequelize.define('headcounts', {
+export default sequelize.define('events', {
   name: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
     validate: {
       len: [1, 25],
@@ -34,7 +34,6 @@ export default sequelize.define('headcounts', {
     },
   },
 }, {
-  classMethods: { paginate },
   scopes: {
     name(name) {
       return { where: { name } };
@@ -71,35 +70,7 @@ export default sequelize.define('headcounts', {
       return {
         where: {
           startDate: {
-            $between: [dates.start, dates.end],
-          },
-        },
-      };
-    },
-    endDate(date) {
-      const start = new Date(date);
-      start.setHours(0, 0, 0, 0);
-
-      const end = new Date(date);
-      end.setHours(23, 59, 59, 999);
-      return {
-        where: {
-          endDate: {
-            $between: [start, end],
-          },
-        },
-      };
-    },
-    startDate(date) {
-      const start = new Date(date);
-      start.setHours(0, 0, 0, 0);
-
-      const end = new Date(date);
-      end.setHours(23, 59, 59, 999);
-      return {
-        where: {
-          startDate: {
-            $between: [start, end],
+            $between: [dates.start.toDate(), dates.end.toDate()],
           },
         },
       };

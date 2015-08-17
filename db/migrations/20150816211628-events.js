@@ -28,7 +28,7 @@ export function up(queryInterface, Sequelize) {
     committeeId: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      references: { model: 'committee', key: 'id' },
+      references: { model: 'committees', key: 'id' },
     },
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE,
