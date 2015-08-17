@@ -16,7 +16,9 @@ router
       if (req.accepts('json')) {
         Event
           .scope(scopes)
-          .findAndCountAll()
+          .findAndCountAll({
+            order: ['startDate DESC'],
+          })
           .then(result => res.send({
             total: result.count,
             perPage: req.query.perPage,
