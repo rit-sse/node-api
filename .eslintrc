@@ -405,6 +405,7 @@
       - 2
       -
         before: true
+        after: false
     #disallow modifying variables of class declarations
     no-class-assign: 1
     #disallow modifying variables that are declared using const
