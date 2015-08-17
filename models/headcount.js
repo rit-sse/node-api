@@ -4,7 +4,7 @@ import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
 import paginate from '../helpers/paginate';
 
-export default sequelize.define('committees', {
+export default sequelize.define('headcounts', {
   count: {
     type: DataTypes.INTEGER,
     allowNull: false,

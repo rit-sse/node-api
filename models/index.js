@@ -21,7 +21,7 @@ export default function() {
   Committee.hasOne(Officer);
   Committee.hasMany(Membership);
 
-  HeadCount.belongsTo(User);
+  Headcount.belongsTo(User);
 
   Membership.belongsTo(Committee);
   Membership.belongsTo(Term);
