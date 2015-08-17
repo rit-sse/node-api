@@ -2,6 +2,7 @@
 
 import AgendaItem from './agenda-item';
 import Committee from './committee';
+import Headcount from './headcount';
 import Membership from './membership';
 import Mentor from './mentor';
 import Officer from './officer';
@@ -19,6 +20,8 @@ export default function() {
 
   Committee.hasOne(Officer);
   Committee.hasMany(Membership);
+
+  HeadCount.belongsTo(User);
 
   Membership.belongsTo(Committee);
   Membership.belongsTo(Term);
@@ -49,6 +52,7 @@ export default function() {
   Tip.belongsTo(User);
 
   User.hasMany(AgendaItem);
+  User.hasMany(Headcount);
   User.hasMany(Membership);
   User.hasMany(Mentor);
   User.hasMany(Officer);
