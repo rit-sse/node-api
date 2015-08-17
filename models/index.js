@@ -2,6 +2,7 @@
 
 import AgendaItem from './agenda-item';
 import Committee from './committee';
+import Event from './event';
 import Headcount from './headcount';
 import Membership from './membership';
 import Mentor from './mentor';
@@ -19,7 +20,10 @@ export default function() {
   AgendaItem.belongsTo(User);
 
   Committee.hasOne(Officer);
+  Committee.hasMany(Event);
   Committee.hasMany(Membership);
+
+  Event.belongsTo(Committee);
 
   Headcount.belongsTo(User);
 
