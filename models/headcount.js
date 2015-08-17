@@ -3,6 +3,8 @@
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
 import paginate from '../helpers/paginate';
+import moment from 'moment';
+import 'moment-range';
 
 export default sequelize.define('headcounts', {
   count: {
@@ -10,7 +12,6 @@ export default sequelize.define('headcounts', {
     allowNull: false,
   },
 }, {
-  classMethods: { paginate },
   scopes: {
     count(count) {
       return { where: { count } };
@@ -21,11 +22,15 @@ export default sequelize.define('headcounts', {
     lessThan(count) {
       return { where: { count: { $lt: count } } };
     },
-    startDate(startDate) {
-      return { where: { createdAt: { $gte: startDate } } };
-    },
-    endDate(endDate) {
-      return { where: { createdAt: { $lte: endDate } } };
+    between(range) {
+      const dates = moment.range(range);
+      return {
+        where: {
+          createdAt: {
+            $between: [dates.start.toDate(), dates.end.toDate()],
+          },
+        },
+      };
     },
     date(date) {
       const start = new Date(date);
@@ -36,8 +41,7 @@ export default sequelize.define('headcounts', {
       return {
         where: {
           createdAt: {
-            $gte: start,
-            $lte: end,
+            $between: [start, end],
           },
         },
       };

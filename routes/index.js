@@ -4,6 +4,7 @@ import { Router } from 'express';
 import agenda from './agenda';
 import auth from './auth';
 import committees from './committees';
+import events from './events';
 import lingo from './lingo';
 import links from './links';
 import mentoring from './mentoring';
@@ -21,6 +22,7 @@ const router = Router(); // eslint-disable-line new-cap
 router.use('/agenda', agenda);
 router.use('/auth', auth);
 router.use('/committees', committees);
+router.use('/events', events);
 router.use('/lingo', lingo);
 router.use('/links', links);
 router.use('/memberships', memberships );

@@ -16,7 +16,6 @@ export default sequelize.define('committees', {
     allowNull: false,
   },
 }, {
-  classMethods: { paginate },
   scopes: {
     name(name) {
       return { where: { name } };
