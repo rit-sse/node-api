@@ -51,12 +51,5 @@ export default sequelize.define('mentors', {
       };
     },
     paginate,
-  },
-  validate: {
-    startTimeBeforeEndTime() {
-      if (this.startTime > this.endTime) {
-        throw new Error('Start date must be before the end date');
-      }
-    },
-  },
+  }
 });

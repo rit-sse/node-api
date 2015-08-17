@@ -23,11 +23,7 @@ router
             total: count,
             perPage: req.query.perPage,
             currentPage: req.query.page,
-            data: mentors.map(mentor => {
-              const m = mentor.get({ plain: true });
-              Reflect.deleteProperty(m, 'term');
-              return m;
-            }),
+            data: mentors,
           });
         })
         .catch(err => next(err));
