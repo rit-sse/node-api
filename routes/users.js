@@ -10,7 +10,7 @@ const router = Router(); // eslint-disable-line new-cap
 router
   .route('/')
     .get(paginate, (req, res, next) => {
-      const scopes = scopify(req.query, 'firstName', 'lastName', 'dce');
+      const scopes = scopify(req.query, 'firstName', 'lastName');
       User
         .scope(scopes)
         .findAndCountAll()
@@ -24,10 +24,10 @@ router
     });
 
 router
-  .route('/:id')
+  .route('/:dce')
     .get((req, res, next) => {
       User
-        .findById(req.params.id)
+        .findById(req.params.dce)
         .then(user => {
           if (user) {
             return res.send(user);

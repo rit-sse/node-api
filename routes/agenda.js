@@ -23,8 +23,8 @@ router
         .catch(err => next(err));
     })
     .post(needs('agendas', 'create'), (req, res, next) => {
-      req.body.userId = req.auth.user.id;
-      AgendaItem.create(req.body, { fields: ['body', 'week', 'officerEmail', 'userId'] })
+      req.body.userDce = req.auth.user.dce;
+      AgendaItem.create(req.body, { fields: ['body', 'week', 'officerId', 'userDce'] })
         .then(agendaItem => res.status(201).send(agendaItem))
         .catch(err => {
           err.status = 422;
@@ -51,7 +51,7 @@ router
         .then(agendaItem => {
           if (agendaItem) {
             return agendaItem.updateAttributes(req.body, {
-              fields: ['body', 'week', 'officerEmail'],
+              fields: ['body', 'week', 'officerId'],
             });
           }
           return Promise.reject({ message: 'Agenda not found', status: 404 });

@@ -22,11 +22,11 @@ export default sequelize.define('agendaItem', {
     week(week) {
       return { where: { week } };
     },
-    officer(officerEmail) {
-      return { where: { officerEmail } };
+    officer(officerId) {
+      return { where: { officerId } };
     },
-    user(userId) {
-      return { where: { userId } };
+    user(userDce) {
+      return { where: { userDce } };
     },
     paginate,
   },

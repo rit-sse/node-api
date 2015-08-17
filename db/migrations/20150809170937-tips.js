@@ -12,10 +12,10 @@ export function up(queryInterface, Sequelize) {
       allowNull: false,
       unique: true,
     },
-    userId: {
-      type: Sequelize.INTEGER,
+    userDce: {
+      type: Sequelize.STRING,
       allowNull: false,
-      references: { model: 'users', key: 'id' },
+      references: { model: 'users', key: 'dce' },
     },
     approved: {
       type: Sequelize.BOOLEAN,

@@ -39,7 +39,7 @@ router
         .then(term => {
           req.body.termName = term.name;
           return Membership.create(req.body, {
-            fields: ['reason', 'committeeId', 'userId', 'termName'],
+            fields: ['reason', 'committeeId', 'userDce', 'termName'],
           });
         })
         .then(membership => res.status(201).send(membership))
@@ -74,7 +74,7 @@ router
         .then(membership => {
           if (membership) {
             return membership.updateAttributes(req.body, {
-              fields: ['reason', 'approved', 'committeeId', 'userId', 'termName'],
+              fields: ['reason', 'approved', 'committeeId', 'userDce', 'termName'],
             });
           }
           return Promise.reject({ message: 'Membership not found', status: 404 });

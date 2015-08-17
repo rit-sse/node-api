@@ -15,7 +15,7 @@ export default function seed() {
             title: 'President',
             email: 'president',
             primary: true,
-            userId: user.id,
+            userDce: user.dce,
             termName: '2151',
           });
       });
