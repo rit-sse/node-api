@@ -2,6 +2,8 @@
 
 The SSE new and improved unified API
 
+[Apiary Docs](http://docs.sse.apiary.io)
+
 ## Development
 
 ### Authentication
