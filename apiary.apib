@@ -1,181 +1,114 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+HOST: http://api.sse.rit.edu/v1
 
 # SSE
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+This is the API for the Society of Software Engineers
 
-# Polls API Root [/]
+## Group SSE API Root
 
 This resource does not have any attributes. Instead it offers the initial
 API affordances in the form of the links in the JSON body.
 
-It is recommend to follow the “url” link values,
-[Link](https://tools.ietf.org/html/rfc5988) or Location headers where
-applicable to retrieve resources. Instead of constructing your own URLs,
-to keep your client decoupled from implementation details.
+### Retrieve the Entry Point [GET /]
 
-## Retrieve the Entry Point [GET]
++ Response 200 (application/json)
+    {
+        "agendaUrl": "/agenda",
+        "authUrl": "/auth",
+        "committeesUrl": "/committees",
+        "eventsUrl": "/events",
+        "headcountsUrl": "/mentoring/headcounts",
+        "lingoUrl": "/lingo",
+        "linksUrl": "/lings",
+        "membershipsUrl": "/memberships",
+        "mentorsUrl", "/mentoring/mentors",
+        "officersUrl": "/officers",
+        "quotesUrl": "/qdb/quotes",
+        "shiftsUrl": "/mentoring/shifts",
+        "specialtiesUrl": "/mentoring/specialties",
+        "tagsUrl": "/qdb/tags",
+        "termsUrl": "/terms",
+        "tipsUrl": "/tips",
+        "usersUrl": "/users"
+    }
+
+## Group Agenda
+
+Resource for officers meeting agenda items
+
+
+### Agenda Collection [/agenda/{?officer}{?user}{?week}{?page}{?perPage}]
+
+
+#### Get Agenda Items [GET]
+
++ Parameters
+    + officer: 1 (optional, number) - Filter by officer ID.
+    + user: knm5153 (optional, string) - Filter by user dce.
+    + week: `2015-08-26` (optional, date) - Filter by week. Based on the day of the meeting
+    + page: (optional, number) - Set the current page
+        + Default: `1`
+    + perPage: (optional, number) - Sets the number of results to return per page
+        + Default: `15`
+
++ Attributes (Pagination)
+    + data (required, array[Agenda Item]) - list of Agenda items
 
 + Response 200 (application/json)
 
-        {
-            "questions_url": "/questions"
-        }
 
-## Group Question
-
-Resources related to questions in the API.
-
-## Question [/questions/{question_id}]
-
-A Question object has the following attributes:
-
-+ question
-+ published_at - An ISO8601 date when the question was published.
-+ url
-+ choices - An array of Choice objects.
-
-+ Parameters
-    + question_id: 1 (required, number) - ID of the Question in form of an integer
-
-### View a Questions Detail [GET]
-
-+ Response 200 (application/json)
-
-        {
-            "question": "Favourite programming language?",
-            "published_at": "2014-11-11T08:40:51.620Z",
-            "url": "/questions/1",
-            "choices": [
-                {
-                    "choice": "Swift",
-                    "url": "/questions/1/choices/1",
-                    "votes": 2048
-                }, {
-                    "choice": "Python",
-                    "url": "/questions/1/choices/2",
-                    "votes": 1024
-                }, {
-                    "choice": "Objective-C",
-                    "url": "/questions/1/choices/3",
-                    "votes": 512
-                }, {
-                    "choice": "Ruby",
-                    "url": "/questions/1/choices/4",
-                    "votes": 256
-                }
-            ]
-        }
-
-## Choice [/questions/{question_id}/choices/{choice_id}]
-
-+ Parameters
-    + question_id: 1 (required, number) - ID of the Question in form of an integer
-    + choice_id: 1 (required, number) - ID of the Choice in form of an integer
-
-### Vote on a Choice [POST]
-
-This action allows you to vote on a question's choice.
-
-+ Response 201
-
-    + Headers
-
-            Location: /questions/1
-
-## Questions Collection [/questions{?page}]
-
-+ Parameters
-    + page: 1 (optional, number) - The page of questions to return
-
-### List All Questions [GET]
-
-+ Response 200 (application/json)
-
-    + Headers
-
-            Link: </questions?page=2>; rel="next"
-
-    + Body
-
-            [
-                {
-                    "question": "Favourite programming language?",
-                    "published_at": "2014-11-11T08:40:51.620Z",
-                    "url": "/questions/1",
-                    "choices": [
-                        {
-                            "choice": "Swift",
-                            "url": "/questions/1/choices/1",
-                            "votes": 2048
-                        }, {
-                            "choice": "Python",
-                            "url": "/questions/1/choices/2",
-                            "votes": 1024
-                        }, {
-                            "choice": "Objective-C",
-                            "url": "/questions/1/choices/3",
-                            "votes": 512
-                        }, {
-                            "choice": "Ruby",
-                            "url": "/questions/1/choices/4",
-                            "votes": 256
-                        }
-                    ]
-                }
-            ]
-
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
-
-+ question (string) - The question
-+ choices (array[string]) - A collection of choices.
+#### Create an Agenda Item [POST]
 
 + Request (application/json)
-
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
+    + Attributes (Agenda Item No User)
 
 + Response 201 (application/json)
+    + Attributes (Agenda Item)
 
-    + Headers
+### Agenda Item [/agenda/{id}]
 
-            Location: /questions/2
++ Parameters
+    + id: 1 (required, number) - The ID of an agenda Item
 
-    + Body
+#### Get an Agenda Item [GET]
 
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2014-11-11T08:40:51.620Z",
-                "url": "/questions/2",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "url": "/questions/2/choices/1",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "url": "/questions/2/choices/2",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "url": "/questions/2/choices/3",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "url": "/questions/2/choices/4",
-                        "votes": 0
-                    }
-                ]
-            }
++ Attributes (Agenda Item)
+
++ Response 200 (application/json)
+
+#### Update an Agenda Item [PUT]
+
++ Request (application/json)
+    + Attributes (Agenda Item No User)
+
++ Response 200 (application/json)
+    + Attributes (Agenda Item)
+
+#### Delete an Agenda Item [DELETE]
+
++ Response 204 (application/json)
+
+## Data Structures
+
+### Pagination (object)
+
++ currentPage: 1 (required, number) - Current page
++ total: 1 (required, number) - Number Results overall
++ perPage: 15 (required, number) - Number requested per page
+
+### Agenda Item (object)
+
++ body: Do the thing (required, string) - Text of the agenda Item
++ week: `2015-08-26` (required, string) - Day of the officers meeting
++ officerId: 1 (required, number) - Officer Id
++ userDce: knm5153 (required, string) - User dce
+
+### Agenda Item No User(object)
+
++ body: Do the thing (required, string) - Text of the agenda Item
++ week: `2015-08-26` (required, string) - Day of the officers meeting
++ officerId: 1 (required, number) - Officer Id
+
+
+
