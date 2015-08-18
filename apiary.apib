@@ -33,13 +33,40 @@ API affordances in the form of the links in the JSON body.
         "usersUrl": "/users"
     }
 
+## Group Auth
+
+## Refresh authentication token [PUT /auth/refresh]
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+
++ Response 200 (application/json)
+    + Attributes (Token)
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
+## Authenticate with provider [PUT /auth/{provider}]
++ Parameters
+    + provider: slack (required, enum[string]) - The provider you would like to sign in with
+        + Members
+            + `google` - Sign in with google
+            + `slack` - Sign in with slack
+
++ Request (application/json)
+    + Attributes (Auth)
+
++ Response 200 (application/json)
+    + Attributes (Token)
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
 ## Group Agenda
 
 Resource for officers meeting agenda items
 
-
 ### Agenda Collection [/agenda/{?officer}{?user}{?week}{?page}{?perPage}]
-
 
 #### Get Agenda Items [GET]
 
@@ -61,6 +88,8 @@ Resource for officers meeting agenda items
 #### Create an Agenda Item [POST]
 
 + Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
     + Attributes (Agenda Item No User)
 
 + Response 201 (application/json)
@@ -80,35 +109,82 @@ Resource for officers meeting agenda items
 #### Update an Agenda Item [PUT]
 
 + Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
     + Attributes (Agenda Item No User)
 
 + Response 200 (application/json)
     + Attributes (Agenda Item)
 
 #### Delete an Agenda Item [DELETE]
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
 
 + Response 204 (application/json)
 
-## Data Structures
 
-### Pagination (object)
+## Group Committtees
+
+## Group Events
+
+## Group Headcounts
+
+## Group Lingo
+
+## Group Link
+
+## Group Memberships
+
+## Group Mentors
+
+## Group Mentor Shifts
+
+## Group Mentor Specialties
+
+## Group Officers
+
+## Group QDB Quotes
+
+## Group QDB Tags
+
+## Group Terms
+
+## Group Tips
+
+## Group Users
+
+# Data Structures
+
+## Auth (object)
+
++ secret: (required, string) - Secret associated with the auth method
++ id: knm5153 (required, string) - dce of user you are trying to log in with
+
+## Token (object)
++ token: (required, string) - A json web token
+
+## Pagination (object)
 
 + currentPage: 1 (required, number) - Current page
 + total: 1 (required, number) - Number Results overall
 + perPage: 15 (required, number) - Number requested per page
 
-### Agenda Item (object)
+## Error (object)
++ message: (required, string) - the error message
+
+
+## Agenda Item (object)
 
 + body: Do the thing (required, string) - Text of the agenda Item
 + week: `2015-08-26` (required, string) - Day of the officers meeting
 + officerId: 1 (required, number) - Officer Id
 + userDce: knm5153 (required, string) - User dce
 
-### Agenda Item No User(object)
+## Agenda Item No User (object)
 
 + body: Do the thing (required, string) - Text of the agenda Item
 + week: `2015-08-26` (required, string) - Day of the officers meeting
 + officerId: 1 (required, number) - Officer Id
-
 
 
