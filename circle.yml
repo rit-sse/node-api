@@ -12,4 +12,4 @@ deployment:
     branch: master
     owner: rit-sse
     commands:
-      - ssh deploy@$SSE_HOST 'cd /docker && docker-compose up --no-deps -d api'
+      - ssh deploy@$SSE_HOST 'cd /docker && docker-compose restart api'

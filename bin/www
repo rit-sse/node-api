@@ -4,6 +4,6 @@
 import app from '../app';
 import nconf from '../config';
 
-var server = app.listen(nconf.get('PORT') || 3000, () => {
+const server = app.listen(nconf.get('PORT') || 3000, () => {
   console.log('Express server listening on port ' + server.address().port);
 });
