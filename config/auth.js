@@ -11,7 +11,7 @@ export default {
   },
 
   slack: {
-    secret: fs.readFileSync('./keys/slack-secret').toString(), // eslint-disable-line no-sync
+    secret: process.env.SLACK_SECRET || 'my_super_secret',
   },
 
   google: {

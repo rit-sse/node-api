@@ -1,5 +1,7 @@
 # node-api
 
+[![Circle CI](https://circleci.com/gh/rit-sse/node-api.svg?style=svg)](https://circleci.com/gh/rit-sse/node-api)
+
 The SSE new and improved unified API
 
 ## Development
