@@ -1,6 +1,6 @@
 # node-api
 
-[![Circle CI](https://circleci.com/gh/rit-sse/node-api.svg?style=svg)](https://circleci.com/gh/rit-sse/node-api)
+[![Circle CI](https://circleci.com/gh/rit-sse/node-api.svg?style=svg&circle-token=50819f36da32c91bfd2df83ccae75175c0ff9a6e)](https://circleci.com/gh/rit-sse/node-api)
 
 The SSE new and improved unified API
 
