@@ -11,7 +11,7 @@ const router = Router(); // eslint-disable-line new-cap
 router
   .route('/')
     .get(paginate, (req, res, next) => {
-      const scopes = scopify(req.query, 'shortLink', 'longLink');
+      const scopes = scopify(req.query);
       Link.scope(scopes)
         .findAndCountAll()
         .then(result => res.send({
@@ -32,10 +32,10 @@ router
     });
 
 router
-  .route('/:id')
+  .route('/:shortLink')
     .get((req, res, next) => {
       Link
-        .findById(req.params.id)
+        .findById(req.params.shortLink)
         .then(link => {
           if (link) {
             return res.send(link);
@@ -46,7 +46,7 @@ router
     })
     .put(needs('links', 'update'), (req, res, next) => {
       Link
-        .findById(req.params.id)
+        .findById(req.params.shortLink)
         .then(link => {
           if (link) {
             return link.updateAttributes(req.body, {
@@ -60,7 +60,7 @@ router
     })
     .delete(needs('links', 'destroy'), (req, res, next) => {
       Link
-        .findById(req.params.id)
+        .findById(req.params.shortLink)
         .then(link => {
           if (link) {
             return link.destroy();

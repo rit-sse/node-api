@@ -2,15 +2,10 @@
 
 export function up(queryInterface, Sequelize) {
   return queryInterface.createTable('links', {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
     shortLink: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: true,
+      primaryKey: true,
     },
     longLink: {
       type: Sequelize.STRING,

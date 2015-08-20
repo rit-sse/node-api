@@ -21,6 +21,9 @@ export default sequelize.define('officers', {
   endDate: DataTypes.DATE,
 }, {
   scopes: {
+    title(title) {
+      return { where: { title } };
+    },
     email(email) {
       return { where: { email } };
     },

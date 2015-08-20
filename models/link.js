@@ -8,20 +8,17 @@ export default sequelize.define('links', {
   shortLink: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
+    primaryKey: true,
   },
   longLink: {
     type: DataTypes.STRING,
     allowNull: false,
+    validate: {
+      isURL: true,
+    },
   },
 }, {
   scopes: {
-    shortLink(shortLink) {
-      return { where: { shortLink } };
-    },
-    longLink(longLink) {
-      return { where: { longLink } };
-    },
     paginate,
   },
 });
