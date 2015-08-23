@@ -6,7 +6,7 @@ export default function seed() {
   return Term
     .create({
       name: '2151',
-      startDate: new Date(),
-      endDate: new Date(2015, 12, 18),
+      startDate: new Date(2015, 7, 22),
+      endDate: new Date(2015, 11, 18),
     });
 }
