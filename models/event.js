@@ -75,6 +75,9 @@ export default sequelize.define('events', {
         },
       };
     },
+    sort(sort) {
+      return { order: [['startDate', sort]] };
+    },
     paginate,
   },
   validate: {

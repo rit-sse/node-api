@@ -12,13 +12,11 @@ const router = Router(); // eslint-disable-line new-cap
 router
   .route('/')
     .get(paginate, (req, res, next) => {
-      const scopes = scopify(req.query, 'name', 'committee', 'location', 'between', 'before', 'after', 'featured');
+      const scopes = scopify(req.query, 'name', 'committee', 'location', 'between', 'before', 'after', 'featured', 'sort');
       if (req.accepts('json')) {
         Event
           .scope(scopes)
-          .findAndCountAll({
-            order: ['startDate DESC'],
-          })
+          .findAndCountAll()
           .then(result => res.send({
             total: result.count,
             perPage: req.query.perPage,
