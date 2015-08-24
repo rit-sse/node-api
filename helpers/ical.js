@@ -1,6 +1,6 @@
 'use strict';
 
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 const timezone = `BEGIN:VTIMEZONE
 TZID:America/New_York
@@ -22,7 +22,7 @@ END:STANDARD
 END:VTIMEZONE`;
 
 function dateString(date) {
-  return moment(date).format('YYYYMMDD[T]HHmmss');
+  return moment(date).tz('America/New_York').format('YYYYMMDD[T]HHmmss');
 }
 
 function event(ev) {
