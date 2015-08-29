@@ -171,7 +171,7 @@ API affordances in the form of the links in the JSON body.
 + Response 403 (application/json)
     + Attributes (Error)
 
-### Committee [/agenda/{id}]
+### Committee [/committees/{id}]
 
 + Parameters
     + id: 1 (required, number) - The ID of a committee
@@ -231,7 +231,7 @@ API affordances in the form of the links in the JSON body.
         + Default: `15`
 
 + Attributes (Pagination)
-    + data (required, array[Event]) - list of committees
+    + data (required, array[Event]) - list of events
 
 + Response 200 (application/json)
 
@@ -251,10 +251,10 @@ API affordances in the form of the links in the JSON body.
 + Response 403 (application/json)
     + Attributes (Error)
 
-### Event [/agenda/{id}]
+### Event [/events/{id}]
 
 + Parameters
-    + id: 1 (required, number) - The ID of a committee
+    + id: 1 (required, number) - The ID of a event
 
 #### Get an Event [GET]
 
@@ -288,6 +288,79 @@ API affordances in the form of the links in the JSON body.
 + Response 403 (application/json)
 
 ## Group Headcounts
+
+### Headcounts Collection [/headcounts/{?count}{?greaterThan}{?lessThan}{?between}{?date}{?user}{?page}{?perPage}]
+
+#### Get Headcounts [GET]
+
++ Parameters
+    + count: 30 (optional, number) - Filter by count
+    + greaterThan: 20 (optional, number) - Filter where count is greater than the given value
+    + lessThan: 20 (optional, string) - Filter where count is less than the given value
+    + between: `2015-09-20..2015-09-30` (optional, date) - Find headcounts between a given date range
+    + date: `2015-09-20` (optional, date) - Only return on a specified date
+    + user: 'knm5153' (optional, string) - Filter by userDce
+    + page: (optional, number) - Set the current page
+        + Default: `1`
+    + perPage: (optional, number) - Sets the number of results to return per page
+        + Default: `15`
+
++ Attributes (Pagination)
+    + data (required, array[Headcount]) - list of headcounts
+
++ Response 200 (application/json)
+
+#### Create a Headcount [POST]
+
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+    + Attributes (Headcount No User)
+
++ Response 201 (application/json)
+    + Attributes (Headcount)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
+### Headcount [/headcounts/{id}]
+
++ Parameters
+    + id: 1 (required, number) - The ID of a headcount
+
+#### Get an Headcount [GET]
+
++ Attributes (Headcount)
+
++ Response 200 (application/json)
+
+#### Update an Headcount [PUT]
+
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+    + Attributes (Headcount No User)
+
++ Response 200 (application/json)
+    + Attributes (Headcount)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
+#### Delete an Headcount [DELETE]
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+
++ Response 204 (application/json)
+
++ Response 403 (application/json)
 
 ## Group Lingo
 
@@ -357,3 +430,12 @@ API affordances in the form of the links in the JSON body.
 + location: SSE Lab (required, string) - The location of the event
 + image: http://i.ytimg.com/vi/ReF6iQ7M5_A/maxresdefault.jpg (optional, string) - A URL to an image associated with the event
 + committeeId: 1 (required, number) - The committee this event is associated with
+
+## Headcount (object)
+
++ count: 30 (required, number) - Number of people in the lab
++ userDce: knm5153 (required, string) - User dce
+
+## Headcount No User (object)
+
++ count: 30 (required, number) - Number of people in the lab
