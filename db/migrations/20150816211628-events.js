@@ -8,7 +8,7 @@ export function up(queryInterface, Sequelize) {
       autoIncrement: true,
     },
     name: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: false,
     },
     startDate: {
