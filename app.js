@@ -8,6 +8,7 @@ import jwt from 'express-jwt';
 import nconf from './config';
 import router from './routes';
 import models from './models';
+import mime from 'mime';
 
 const app = express();
 
@@ -30,6 +31,18 @@ if (env === 'development') {
 }
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use((req, res, next) => {
+  const regexp = /\.(json|ics)$/;
+
+  const match = req.path.match(regexp);
+
+  if (!match) {
+    return next();
+  }
+  req.headers.accept = mime.lookup(match[1]);
+  req.url = req.url.replace(regexp, '');
+  next();
+});
 
 models();
 app.use(apiPath, router);
