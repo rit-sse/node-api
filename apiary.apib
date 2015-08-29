@@ -64,8 +64,6 @@ API affordances in the form of the links in the JSON body.
 
 ## Group Agenda
 
-Resource for officers meeting agenda items
-
 ### Agenda Collection [/agenda/{?officer}{?user}{?week}{?page}{?perPage}]
 
 #### Get Agenda Items [GET]
@@ -135,10 +133,9 @@ Resource for officers meeting agenda items
 
 + Response 204 (application/json)
 
++ Response 403 (application/json)
 
 ## Group Committees
-
-Resource for the committees
 
 ### Committees Collection [/committees/{?name}{?active}{?page}{?perPage}]
 
@@ -208,7 +205,87 @@ Resource for the committees
 
 + Response 204 (application/json)
 
++ Response 403 (application/json)
+
 ## Group Events
+
+### Events Collection [/events/{?name}{?committee}{?location}{?before}{?after}{?featured}{?sort}{?page}{?perPage}]
+
+#### Get Events [GET]
+
++ Parameters
+    + name: General Meeting (optional, string) - Filter by event name
+    + committee: 1 (optional, number) - Filter by committee id
+    + location: SSE Lab (optional, string) - Filter by location
+    + before: `2015-09-20` (optional, date) - Only return events before the specified date
+    + after: `2015-09-20` (optional, date) - Only return events after the specified date
+    + featured: (optional, boolean) - Only return events with an image
+        + Default: `false`
+    + sort: 'ASC' (optional, enum[string]) - Sorts events by start time according to the value specified
+        + Members
+            + `ASC` - Ascending sort
+            + `DESC` - Descending sort
+    + page: (optional, number) - Set the current page
+        + Default: `1`
+    + perPage: (optional, number) - Sets the number of results to return per page
+        + Default: `15`
+
++ Attributes (Pagination)
+    + data (required, array[Event]) - list of committees
+
++ Response 200 (application/json)
+
+#### Create a Event [POST]
+
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+    + Attributes (Event)
+
++ Response 201 (application/json)
+    + Attributes (Event)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
+### Event [/agenda/{id}]
+
++ Parameters
+    + id: 1 (required, number) - The ID of a committee
+
+#### Get an Event [GET]
+
++ Attributes (Event)
+
++ Response 200 (application/json)
+
+#### Update an Event [PUT]
+
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+    + Attributes (Event)
+
++ Response 200 (application/json)
+    + Attributes (Event)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
+#### Delete an Event [DELETE]
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+
++ Response 204 (application/json)
+
++ Response 403 (application/json)
 
 ## Group Headcounts
 
@@ -269,6 +346,14 @@ Resource for the committees
 + officerId: 1 (required, number) - Officer Id
 
 ## Committee
-+ body: Events (required, string) - Name of the committee
++ name: Events (required, string) - Name of the committee
 + description: The events committee organizes events. (required, string) - Description of the committee
 
+## Event
++ name: General Meeting (required, string) - Name of the event
++ startDate: `2015-08-29T14:47:56.236Z` (required, string) - The start date and time of the event
++ endDate: `2015-08-29T15:47:56.236Z` (required, string) - The end date and time of the event
++ description: This is the SSE General Meeting (optional, string)  - A description of the event
++ location: SSE Lab (required, string) - The location of the event
++ image: http://i.ytimg.com/vi/ReF6iQ7M5_A/maxresdefault.jpg (optional, string) - A URL to an image associated with the event
++ committeeId: 1 (required, number) - The committee this event is associated with
