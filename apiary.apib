@@ -364,6 +364,84 @@ API affordances in the form of the links in the JSON body.
 
 ## Group Lingo
 
+### Lingo Collection [/agenda/{?phrase}{?search}{?approved}{?page}{?perPage}]
+
+#### Get Lingo [GET]
+
++ Parameters
+    + phrase: 261 (optional, number) - Filter by phrase.
+    + search: class (optional, date) - Search for phrases and definitions that contain the give string
+    + approved: (optional, boolean) - Returns either the unnapproved or the approved lingos
+        + Default: `true`
+    + page: (optional, number) - Set the current page
+        + Default: `1`
+    + perPage: (optional, number) - Sets the number of results to return per page
+        + Default: `15`
+
++ Attributes (Pagination)
+    + data (required, array[Lingo Approved]) - List of lingo
+
++ Response 200 (application/json)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
+
+#### Create an Lingo [POST]
+
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+    + Attributes (Lingo No Approval)
+
++ Response 201 (application/json)
+    + Attributes (Lingo)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
+### Lingo [/agenda/{id}]
+
++ Parameters
+    + id: 1 (required, number) - The ID of an lingo
+
+#### Get an Lingo [GET]
+
++ Attributes (Lingo Approved)
+
++ Response 200 (application/json)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
+#### Update an Lingo [PUT]
+
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+    + Attributes (Lingo Approved)
+
++ Response 200 (application/json)
+    + Attributes (Lingo Approved)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
+#### Delete an Lingo [DELETE]
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+
++ Response 204 (application/json)
+
++ Response 403 (application/json)
+
 ## Group Link
 
 ## Group Memberships
@@ -439,3 +517,18 @@ API affordances in the form of the links in the JSON body.
 ## Headcount No User (object)
 
 + count: 30 (required, number) - Number of people in the lab
+
+## Lingo (object)
+
++ phrase: 261 (required, string) - The phrase
++ definition: a class (required, string) - the definition
++ approved: false (required, boolean) - whether or not it is approved
+
+## Lingo Approved (object)
++ phrase: 261 (required, string) - The phrase
++ definition: a class (required, string) - the definition
++ approved: true (required, boolean) - whether or not it is approved
+
+## Lingo No Approval (object)
++ phrase: 261 (required, string) - The phrase
++ definition: a class (required, string) - the definition
