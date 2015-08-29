@@ -30,8 +30,8 @@ export default sequelize.define('officers', {
     primary(primary) {
       return { where: { primary } };
     },
-    committee(committee) {
-      return { where: { primary: !committee } };
+    committee(committeeId) {
+      return { where: { committeeId } };
     },
     user(userDce) {
       return { where: { userDce } };

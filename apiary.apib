@@ -1,5 +1,5 @@
 FORMAT: 1A
-HOST: http://api.sse.rit.edu/v1
+HOST: https://sse.se.rit.edu/api/v1/
 
 # SSE
 
@@ -95,6 +95,12 @@ Resource for officers meeting agenda items
 + Response 201 (application/json)
     + Attributes (Agenda Item)
 
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
 ### Agenda Item [/agenda/{id}]
 
 + Parameters
@@ -116,6 +122,12 @@ Resource for officers meeting agenda items
 + Response 200 (application/json)
     + Attributes (Agenda Item)
 
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
 #### Delete an Agenda Item [DELETE]
 + Request (application/json)
     + Headers
@@ -124,7 +136,77 @@ Resource for officers meeting agenda items
 + Response 204 (application/json)
 
 
-## Group Committtees
+## Group Committees
+
+Resource for the committees
+
+### Committees Collection [/committees/{?name}{?active}{?page}{?perPage}]
+
+#### Get Committees [GET]
+
++ Parameters
+    + name: Events (optional, string) - Filter by committee name
+    + active: (optional, boolean) - Return only committes that are associated with current officers.
+        + Default: `false`
+    + page: (optional, number) - Set the current page
+        + Default: `1`
+    + perPage: (optional, number) - Sets the number of results to return per page
+        + Default: `15`
+
++ Attributes (Pagination)
+    + data (required, array[Committee]) - list of committees
+
++ Response 200 (application/json)
+
+#### Create a Committee [POST]
+
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+    + Attributes (Committee)
+
++ Response 201 (application/json)
+    + Attributes (Committee)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
+### Committee [/agenda/{id}]
+
++ Parameters
+    + id: 1 (required, number) - The ID of a committee
+
+#### Get an Committee [GET]
+
++ Attributes (Committee)
+
++ Response 200 (application/json)
+
+#### Update an Committee [PUT]
+
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+    + Attributes (Committee)
+
++ Response 200 (application/json)
+    + Attributes (Committee)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
+#### Delete an Committee [DELETE]
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+
++ Response 204 (application/json)
 
 ## Group Events
 
@@ -173,7 +255,6 @@ Resource for officers meeting agenda items
 ## Error (object)
 + message: (required, string) - the error message
 
-
 ## Agenda Item (object)
 
 + body: Do the thing (required, string) - Text of the agenda Item
@@ -187,4 +268,7 @@ Resource for officers meeting agenda items
 + week: `2015-08-26` (required, string) - Day of the officers meeting
 + officerId: 1 (required, number) - Officer Id
 
+## Committee
++ body: Events (required, string) - Name of the committee
++ description: The events committee organizes events. (required, string) - Description of the committee
 
