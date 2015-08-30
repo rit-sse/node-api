@@ -331,13 +331,13 @@ API affordances in the form of the links in the JSON body.
 + Parameters
     + id: 1 (required, number) - The ID of a headcount
 
-#### Get an Headcount [GET]
+#### Get a Headcount [GET]
 
 + Attributes (Headcount)
 
 + Response 200 (application/json)
 
-#### Update an Headcount [PUT]
+#### Update a Headcount [PUT]
 
 + Request (application/json)
     + Headers
@@ -353,7 +353,7 @@ API affordances in the form of the links in the JSON body.
 + Response 403 (application/json)
     + Attributes (Error)
 
-#### Delete an Headcount [DELETE]
+#### Delete a Headcount [DELETE]
 + Request (application/json)
     + Headers
         Authorization: Bearer [Your token]
@@ -364,7 +364,7 @@ API affordances in the form of the links in the JSON body.
 
 ## Group Lingo
 
-### Lingo Collection [/agenda/{?phrase}{?search}{?approved}{?page}{?perPage}]
+### Lingo Collection [/lingo/{?phrase}{?search}{?approved}{?page}{?perPage}]
 
 #### Get Lingo [GET]
 
@@ -387,7 +387,7 @@ API affordances in the form of the links in the JSON body.
     + Attributes (Error)
 
 
-#### Create an Lingo [POST]
+#### Create a Lingo [POST]
 
 + Request (application/json)
     + Headers
@@ -403,12 +403,12 @@ API affordances in the form of the links in the JSON body.
 + Response 403 (application/json)
     + Attributes (Error)
 
-### Lingo [/agenda/{id}]
+### Lingo [/lingo/{id}]
 
 + Parameters
-    + id: 1 (required, number) - The ID of an lingo
+    + id: 1 (required, number) - The ID of a lingo
 
-#### Get an Lingo [GET]
+#### Get a Lingo [GET]
 
 + Attributes (Lingo Approved)
 
@@ -417,7 +417,7 @@ API affordances in the form of the links in the JSON body.
 + Response 403 (application/json)
     + Attributes (Error)
 
-#### Update an Lingo [PUT]
+#### Update a Lingo [PUT]
 
 + Request (application/json)
     + Headers
@@ -433,7 +433,7 @@ API affordances in the form of the links in the JSON body.
 + Response 403 (application/json)
     + Attributes (Error)
 
-#### Delete an Lingo [DELETE]
+#### Delete a Lingo [DELETE]
 + Request (application/json)
     + Headers
         Authorization: Bearer [Your token]
@@ -442,7 +442,74 @@ API affordances in the form of the links in the JSON body.
 
 + Response 403 (application/json)
 
-## Group Link
+## Group Links
+
+### Links Collection [/links/{?page}{?perPage}]
+
+#### Get Links [GET]
+
++ Parameters
+    + page: (optional, number) - Set the current page
+        + Default: `1`
+    + perPage: (optional, number) - Sets the number of results to return per page
+        + Default: `15`
+
++ Attributes (Pagination)
+    + data (required, array[Link]) - List of lingo
+
++ Response 200 (application/json)
+
+#### Create a Link [POST]
+
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+    + Attributes (Link)
+
++ Response 201 (application/json)
+    + Attributes (Link)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
+### Link [/links/{shortLink}]
+
++ Parameters
+    + shortLink: google (required, number) - The short link of a link
+
+#### Get a Link [GET]
+
++ Attributes (Link)
+
++ Response 200 (application/json)
+
+#### Update a Link [PUT]
+
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+    + Attributes (Link)
+
++ Response 200 (application/json)
+    + Attributes (Link)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
+#### Delete a Link [DELETE]
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+
++ Response 204 (application/json)
+
++ Response 403 (application/json)
 
 ## Group Memberships
 
@@ -532,3 +599,7 @@ API affordances in the form of the links in the JSON body.
 ## Lingo No Approval (object)
 + phrase: 261 (required, string) - The phrase
 + definition: a class (required, string) - the definition
+
+## Link (object)
++ shortLink: google (required, string) - The short link
++ longLink: https://google.com (required, string) - The url you wish to shorten
