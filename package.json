@@ -48,6 +48,7 @@
   "devDependencies": {
     "babel-eslint": "^4.0.5",
     "eslint": "^1.1.0",
-    "sqlite3": "^3.0.10"
+    "sqlite3": "^3.0.10",
+    "sse-eslint": "rit-sse/eslint"
   }
 }

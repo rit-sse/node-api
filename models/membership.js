@@ -23,8 +23,8 @@ export default sequelize.define('memberships', {
     reason(reason) {
       return { where: { reason } };
     },
-    group(groupId) {
-      return { where: { groupId } };
+    committee(committeeId) {
+      return { where: { committeeId } };
     },
     user(userDce) {
       return { where: { userDce } };
