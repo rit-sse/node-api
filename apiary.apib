@@ -526,7 +526,7 @@ API affordances in the form of the links in the JSON body.
         + Default: `15`
 
 + Attributes (Pagination)
-    + data (required, array[Membership Approved]) - List of lingo
+    + data (required, array[Membership Approved]) - List of memberships
 
 + Response 200 (application/json)
 
@@ -553,7 +553,7 @@ API affordances in the form of the links in the JSON body.
 ### Membership [/memberships/{id}]
 
 + Parameters
-    + id: 1 (required, number) - The ID of a lingo
+    + id: 1 (required, number) - The ID of a membership
 
 #### Get a Membership [GET]
 
@@ -606,7 +606,7 @@ API affordances in the form of the links in the JSON body.
         + Default: `15`
 
 + Attributes (Pagination)
-    + data (required, array[Mentor]) - list of events
+    + data (required, array[Mentor]) - list of mentors
 
 + Response 200 (application/json)
 
@@ -629,7 +629,7 @@ API affordances in the form of the links in the JSON body.
 ### Mentor [/mentoring/mentors/{id}]
 
 + Parameters
-    + id: 1 (required, number) - The ID of a event
+    + id: 1 (required, number) - The ID of a mentor
 
 #### Get an Mentor [GET]
 
@@ -663,6 +663,77 @@ API affordances in the form of the links in the JSON body.
 + Response 403 (application/json)
 
 ## Group Mentor Shifts
+
+### Mentors Shifts Collection [/mentoring/shifts/{?time}{?day}{?mentor}{?active}{?page}{?perPage}]
+
+#### Get Mentor Shifts[GET]
+
++ Parameters
+    + time: `12:54:00` (optional, time) - Find mentors at a given time
+    + day: Thursday (optional, day) - Filter by day
+    + mentor: 1 (optional, number) - Filter by mentorId
+    + active: `2015-09-20` (optional, date) - Return all mentor shifts that are active who were active on this date
+    + page: (optional, number) - Set the current page
+        + Default: `1`
+    + perPage: (optional, number) - Sets the number of results to return per page
+        + Default: `15`
+
++ Attributes (Pagination)
+    + data (required, array[Mentor Shift]) - list of mentors
+
++ Response 200 (application/json)
+
+#### Create a Mentor Shift [POST]
+
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+    + Attributes (Mentor Shift)
+
++ Response 201 (application/json)
+    + Attributes (Mentor Shift)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
+### Mentor Shift [/mentoring/shifts/{id}]
+
++ Parameters
+    + id: 1 (required, number) - The ID of a mentor
+
+#### Get an Mentor Shift [GET]
+
++ Attributes (Mentor Shift)
+
++ Response 200 (application/json)
+
+#### Update an Mentor Shift [PUT]
+
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+    + Attributes (Mentor Shift)
+
++ Response 200 (application/json)
+    + Attributes (Mentor Shift)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
+#### Delete an Mentor Shift [DELETE]
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+
++ Response 204 (application/json)
+
++ Response 403 (application/json)
 
 ## Group Mentor Specialties
 
@@ -778,6 +849,12 @@ API affordances in the form of the links in the JSON body.
 + startDate: `2015-08-22` (required, string) - The start date
 + endDate:  `2015-12-18` (required, string) - The end date
 + specialties: (required, array[Specialty]) - the mentors specialties
+
+## Mentor Shift (object)
++ startTime: `12:00:00` (required, string) - the start time of the shift
++ endTime: `14:00:00` (required, string) - the start time of the shift
++ day: Thursday (required, string) - the day of the week for the mentor shift
++ mentorId: 1 (required, number) - the mentor id who has this shift
 
 ## Specialty (object)
 + name: node (required, string) - the specialty
