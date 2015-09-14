@@ -28,7 +28,6 @@ API affordances in the form of the links in the JSON body.
         "shiftsUrl": "/mentoring/shifts",
         "specialtiesUrl": "/mentoring/specialties",
         "tagsUrl": "/qdb/tags",
-        "termsUrl": "/terms",
         "tipsUrl": "/tips",
         "usersUrl": "/users"
     }
@@ -143,8 +142,7 @@ API affordances in the form of the links in the JSON body.
 
 + Parameters
     + name: Events (optional, string) - Filter by committee name
-    + active: (optional, boolean) - Return only committes that are associated with current officers.
-        + Default: `false`
+    + active: `2015-09-20` (optional, date) - Return only committees that are active on a given date
     + page: (optional, number) - Set the current page
         + Default: `1`
     + perPage: (optional, number) - Sets the number of results to return per page
@@ -455,7 +453,7 @@ API affordances in the form of the links in the JSON body.
         + Default: `15`
 
 + Attributes (Pagination)
-    + data (required, array[Link]) - List of lingo
+    + data (required, array[Link]) - List of links
 
 + Response 200 (application/json)
 
@@ -513,7 +511,156 @@ API affordances in the form of the links in the JSON body.
 
 ## Group Memberships
 
+### Memberships Collection [/memberships/{?phrase}{?search}{?approved}{?page}{?perPage}]
+
+#### Get Memberships [GET]
+
++ Parameters
+    + phrase: 261 (optional, number) - Filter by phrase.
+    + search: class (optional, date) - Search for phrases and definitions that contain the give string
+    + approved: (optional, boolean) - Returns either the unnapproved or the approved lingos
+        + Default: `true`
+    + page: (optional, number) - Set the current page
+        + Default: `1`
+    + perPage: (optional, number) - Sets the number of results to return per page
+        + Default: `15`
+
++ Attributes (Pagination)
+    + data (required, array[Membership Approved]) - List of lingo
+
++ Response 200 (application/json)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
+
+#### Create a Membership [POST]
+
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+    + Attributes (Membership No Approval)
+
++ Response 201 (application/json)
+    + Attributes (Membership)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
+### Membership [/memberships/{id}]
+
++ Parameters
+    + id: 1 (required, number) - The ID of a lingo
+
+#### Get a Membership [GET]
+
++ Attributes (Membership Approved)
+
++ Response 200 (application/json)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
+#### Update a Membership [PUT]
+
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+    + Attributes (Membership Approved)
+
++ Response 200 (application/json)
+    + Attributes (Membership Approved)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
+#### Delete a Membership [DELETE]
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+
++ Response 204 (application/json)
+
++ Response 403 (application/json)
+
 ## Group Mentors
+
+### Mentors Collection [/mentoring/mentors/{?specialty}{?user}{?active}{?page}{?perPage}]
+
+#### Get Mentors [GET]
+
++ Parameters
+    + specialty: node (optional, string) - Filter by specialty
+    + user: 1 (optional, number) - Filter by user dce
+    + location: SSE Lab (optional, string) - Filter by location
+    + active: `2015-09-20` (optional, date) - Return all mentors who were active on this date
+    + page: (optional, number) - Set the current page
+        + Default: `1`
+    + perPage: (optional, number) - Sets the number of results to return per page
+        + Default: `15`
+
++ Attributes (Pagination)
+    + data (required, array[Mentor]) - list of events
+
++ Response 200 (application/json)
+
+#### Create a Mentor [POST]
+
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+    + Attributes (Mentor)
+
++ Response 201 (application/json)
+    + Attributes (Mentor)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
+### Mentor [/mentoring/mentors/{id}]
+
++ Parameters
+    + id: 1 (required, number) - The ID of a event
+
+#### Get an Mentor [GET]
+
++ Attributes (Mentor)
+
++ Response 200 (application/json)
+
+#### Update an Mentor [PUT]
+
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+    + Attributes (Mentor)
+
++ Response 200 (application/json)
+    + Attributes (Mentor)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
+#### Delete an Mentor [DELETE]
++ Request (application/json)
+    + Headers
+        Authorization: Bearer [Your token]
+
++ Response 204 (application/json)
+
++ Response 403 (application/json)
 
 ## Group Mentor Shifts
 
@@ -524,8 +671,6 @@ API affordances in the form of the links in the JSON body.
 ## Group QDB Quotes
 
 ## Group QDB Tags
-
-## Group Terms
 
 ## Group Tips
 
@@ -603,3 +748,36 @@ API affordances in the form of the links in the JSON body.
 ## Link (object)
 + shortLink: google (required, string) - The short link
 + longLink: https://google.com (required, string) - The url you wish to shorten
+
+## Membership (object)
++ reason: Helping with the heist (required, string) - The reason for membership
++ userDCE: knm5153 (required, string) - The user getting membership
++ committeeId: 1 (required, number) - The committee id
++ startDate: `2015-08-22` (required, string) - The start date
++ endDate:  `2015-12-18` (required, string) - The end date
++ approved: false (required, boolean) - whether or not it is approved
+
+## Membership Approved (object)
++ reason: Helping with the heist (required, string) - The reason for membership
++ userDCE: knm5153 (required, string) - The user getting membership
++ committeeId: 1 (required, number) - The committee id
++ startDate: `2015-08-22` (required, string) - The start date
++ endDate:  `2015-12-18` (required, string) - The end date
++ approved: true (required, boolean) - whether or not it is approved
+
+## Membership No Approval (object)
++ reason: Helping with the heist (required, string) - The reason for membership
++ userDCE: knm5153 (required, string) - The user getting membership
++ committeeId: 1 (required, number) - The committee id
++ startDate: `2015-08-22` (required, string) - The start date
++ endDate:  `2015-12-18` (required, string) - The end date
+
+## Mentor (object)
++ bio: I'm so cool (required, string) - the mentor bio
++ userDCE: knm5153 (required, string) - the user this mentor represents
++ startDate: `2015-08-22` (required, string) - The start date
++ endDate:  `2015-12-18` (required, string) - The end date
++ specialties: (required, array[Specialty]) - the mentors specialties
+
+## Specialty (object)
++ name: node (required, string) - the specialty
