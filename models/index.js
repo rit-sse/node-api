@@ -28,7 +28,6 @@ export default function() {
   Headcount.belongsTo(User);
 
   Membership.belongsTo(Committee);
-  Membership.belongsTo(Term);
   Membership.belongsTo(User);
 
   Mentor.belongsTo(Term);
@@ -49,7 +48,6 @@ export default function() {
 
   Tag.belongsToMany(Quote, { through: 'quotes_tags' });
 
-  Term.hasMany(Membership);
   Term.hasMany(Mentor);
   Term.hasMany(Officer);
 

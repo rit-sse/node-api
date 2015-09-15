@@ -11,7 +11,6 @@ import mentoring from './mentoring';
 import memberships from './memberships';
 import officers from './officers';
 import qdb from './qdb';
-import terms from './terms';
 import tips from './tips';
 import users from './users';
 
@@ -27,7 +26,6 @@ router.use('/memberships', memberships );
 router.use('/mentoring', mentoring);
 router.use('/officers', officers);
 router.use('/qdb', qdb);
-router.use('/terms', terms );
 router.use('/tips', tips);
 router.use('/users', users );
 

@@ -2,7 +2,6 @@
 
 import { Router } from 'express';
 import Membership from '../models/membership';
-import Term from '../models/term';
 import scopify from '../helpers/scopify';
 import { needs, needsApprovedIndex, needsApprovedOne } from '../middleware/permissions';
 import verifyUser from '../middleware/verify-user';
@@ -13,7 +12,7 @@ const router = Router(); // eslint-disable-line new-cap
 router
   .route('/')
     .get(verifyUser, paginate, needsApprovedIndex('memberships'), (req, res, next) => {
-      const scopes = scopify(req.query, 'reason', 'committee', 'user', 'term', 'approved');
+      const scopes = scopify(req.query, 'reason', 'committee', 'user', 'active', 'between', 'approved');
       Membership
         .scope(scopes)
         .findAndCountAll()
@@ -26,21 +25,9 @@ router
         .catch(err => next(err));
     })
     .post(needs('create memberships'), (req, res, next) => {
-      Term
-        .findOrInitialize({ where: { name: req.body.term.name } })
-        .spread((term, created) => {
-          if (created) {
-            term.startDate = req.body.term.startDate;
-            term.endDate = req.body.term.endDate;
-            term.save();
-          }
-          return term;
-        })
-        .then(term => {
-          req.body.termName = term.name;
-          return Membership.create(req.body, {
-            fields: ['reason', 'committeeId', 'userDce', 'termName'],
-          });
+      Membership
+        .create(req.body, {
+          fields: ['reason', 'committeeId', 'userDce', 'startDate', 'endDate'],
         })
         .then(membership => res.status(201).send(membership))
         .catch(err => {
@@ -74,7 +61,7 @@ router
         .then(membership => {
           if (membership) {
             return membership.updateAttributes(req.body, {
-              fields: ['reason', 'approved', 'committeeId', 'userDce', 'termName'],
+              fields: ['reason', 'approved', 'committeeId', 'userDce', 'startDate', 'endDate'],
             });
           }
           return Promise.reject({ message: 'Membership not found', status: 404 });
