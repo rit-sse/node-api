@@ -17,10 +17,13 @@ export function up(queryInterface, Sequelize) {
       allowNull: false,
       references: { model: 'committees', key: 'id' },
     },
-    termName: {
-      type: Sequelize.STRING,
+    startDate: {
+      type: Sequelize.DATE,
       allowNull: false,
-      references: { model: 'terms', key: 'name' },
+    },
+    endDate: {
+      type: Sequelize.DATE,
+      allowNull: false,
     },
     reason: {
       type: Sequelize.STRING,

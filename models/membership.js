@@ -3,6 +3,8 @@
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
 import paginate from '../helpers/paginate';
+import moment from 'moment';
+import 'moment-range';
 
 export default sequelize.define('memberships', {
   reason: {
@@ -11,6 +13,14 @@ export default sequelize.define('memberships', {
   },
   approved: {
     type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+  startDate: {
+    type: DataTypes.DATE,
+    defaultValue: false,
+  },
+  endDate: {
+    type: DataTypes.DATE,
     defaultValue: false,
   },
 }, {
@@ -32,8 +42,27 @@ export default sequelize.define('memberships', {
     approved(approved) {
       return { where: { approved } };
     },
-    term(termName) {
-      return { where: { termName } };
+    between(range) {
+      const dates = moment.range(range);
+      return {
+        where: {
+          startDate: {
+            $between: [dates.start.toDate(), dates.end.toDate()],
+          },
+        },
+      };
+    },
+    active(date) {
+      return {
+        where: {
+          startDate: {
+            $lte: date,
+          },
+          endDate: {
+            $gte: date,
+          },
+        },
+      };
     },
     paginate,
   },

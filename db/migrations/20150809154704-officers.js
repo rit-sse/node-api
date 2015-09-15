@@ -23,17 +23,19 @@ export function up(queryInterface, Sequelize) {
       type: Sequelize.INTEGER,
       references: { model: 'committees', key: 'id' },
     },
-    termName: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      references: { model: 'terms', key: 'name' },
-    },
     userDce: {
       type: Sequelize.STRING,
       allowNull: false,
       references: { model: 'users', key: 'dce' },
     },
-    endDate: Sequelize.DATE,
+    startDate: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
+    endDate: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE,
   });

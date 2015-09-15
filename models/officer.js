@@ -3,7 +3,6 @@
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
 import paginate from '../helpers/paginate';
-import Term from './term';
 
 export default sequelize.define('officers', {
   title: {
@@ -18,7 +17,14 @@ export default sequelize.define('officers', {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
-  endDate: DataTypes.DATE,
+  startDate: {
+    type: DataTypes.DATE,
+    defaultValue: false,
+  },
+  endDate: {
+    type: DataTypes.DATE,
+    defaultValue: false,
+  },
 }, {
   scopes: {
     title(title) {
@@ -36,22 +42,16 @@ export default sequelize.define('officers', {
     user(userDce) {
       return { where: { userDce } };
     },
-    term(termName) {
-      return { where: { termName } };
-    },
-    active() {
+    active(date) {
       return {
         where: {
+          startDate: {
+            $lte: date,
+          },
           endDate: {
-            $or: {
-              $eq: null,
-              $gt: new Date(),
-            },
+            $gte: date,
           },
         },
-        include: [{
-          model: Term.scope({ method: ['date', new Date()] }),
-        }],
       };
     },
     paginate,

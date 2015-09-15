@@ -2,7 +2,6 @@
 
 import { Router } from 'express';
 import Officer from '../models/officer';
-import Term from '../models/term';
 import scopify from '../helpers/scopify';
 import { needs } from '../middleware/permissions';
 import paginate from '../middleware/paginate';
@@ -19,7 +18,7 @@ router
       } else {
         Reflect.deleteProperty(req.query, 'primary');
       }
-      const scopes = scopify(req.query, 'title', 'email', 'user', 'term', 'primary', 'committee', 'active');
+      const scopes = scopify(req.query, 'title', 'email', 'user', 'primary', 'committee', 'active');
       Officer
         .scope(scopes)
         .findAndCountAll()
@@ -27,33 +26,19 @@ router
           total: result.count,
           perPage: req.query.perPage,
           currentPage: req.query.page,
-          data: result.rows.map(officer => {
-            const o = officer.get({ plain: true });
-            Reflect.deleteProperty(o, 'term');
-            return o;
-          }),
+          data: result.rows,
         }))
         .catch(err => next(err));
     })
     .post(needs('officers', 'create'), (req, res, next) => {
-      Term
-        .findOrInitialize({ where: { name: req.body.term.name } })
-        .spread((term, created) => {
-          if (created) {
-            term.startDate = req.body.term.startDate;
-            term.endDate = req.body.term.endDate;
-            term.save();
-          }
-          return term;
+      Officer
+        .create(req.body, {
+          fields: ['title', 'email', 'primary', 'userDce', 'startDate', 'endDate', 'committeeId'],
         })
-        .then(term => {
-          req.body.termName = term.name;
-          Officer.create(req.body, { fields: ['display', 'title', 'primary', 'userDce', 'termName', 'committeeId'] })
-            .then(officer => res.status(201).send(officer))
-            .catch(err => {
-              err.status = 422;
-              next(err);
-            });
+        .then(officer => res.status(201).send(officer))
+        .catch(err => {
+          err.status = 422;
+          next(err);
         });
     });
 
@@ -76,7 +61,7 @@ router
         .then(officer => {
           if (officer) {
             return officer.updateAttributes(req.body, {
-              fields: ['display', 'email', 'userDce', 'termName', 'committeeId', 'primary'],
+              fields: ['title', 'email', 'userDce', 'termName', 'committeeId', 'primary', 'startDate', 'endDate'],
             });
           }
           return Promise.reject({ message: 'Officer not found', status: 404 });

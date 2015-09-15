@@ -3,11 +3,17 @@
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
 import paginate from '../helpers/paginate';
-import Term from './term';
 import Specialty from './specialty';
 
 export default sequelize.define('mentors', {
-  endDate: DataTypes.DATE,
+  startDate: {
+    type: DataTypes.DATE,
+    defaultValue: false,
+  },
+  endDate: {
+    type: DataTypes.DATE,
+    defaultValue: false,
+  },
   bio: {
     type: DataTypes.TEXT,
     allowNull: false,
@@ -21,26 +27,20 @@ export default sequelize.define('mentors', {
         }],
       };
     },
-    active() {
+    active(date) {
       return {
         where: {
+          startDate: {
+            $lte: date,
+          },
           endDate: {
-            $or: {
-              $eq: null,
-              $gt: new Date(),
-            },
+            $gte: date,
           },
         },
-        include: [{
-          model: Term.scope({ method: ['date', new Date()] }),
-        }],
       };
     },
     user(userDce) {
       return { where: { userDce } };
-    },
-    term(termName) {
-      return { where: { termName } };
     },
     specialty(name) {
       return {

@@ -16,25 +16,17 @@ export function up(queryInterface, Sequelize) {
       allowNull: false,
       references: { model: 'users', key: 'dce' },
     },
-    termName: {
-      type: Sequelize.STRING,
+    startDate: {
+      type: Sequelize.DATE,
       allowNull: false,
-      references: { model: 'terms', key: 'name' },
     },
-    endDate: Sequelize.DATE,
+    endDate: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE,
-  })
-    .then(() => {
-      queryInterface.addIndex(
-        'mentors',
-        ['userDce', 'termName'],
-        {
-          indexName: 'mentorsUserTermIndex',
-          indicesType: 'UNIQUE',
-        }
-      );
-    });
+  });
 }
 
 export function down(queryInterface) {
