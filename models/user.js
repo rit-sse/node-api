@@ -21,8 +21,8 @@ export default sequelize.define('users', {
   instanceMethods: {
     currentGroups() {
       return Promise.all([
-        this.getOfficers({ scope: 'active' }),
-        this.getMentors({ scope: 'active' }),
+        this.getOfficers({ scope: { method: ['active', new Date()] } }),
+        this.getMentors({ scope: { method: ['active', new Date()] } }),
       ])
         .spread((officers, mentors) => {
           const groups = [];

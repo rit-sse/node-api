@@ -26,17 +26,7 @@ export function up(queryInterface, Sequelize) {
     },
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE,
-  })
-    .then(() => {
-      queryInterface.addIndex(
-        'mentors',
-        ['userDce', 'termName'],
-        {
-          indexName: 'mentorsUserTermIndex',
-          indicesType: 'UNIQUE',
-        }
-      );
-    });
+  });
 }
 
 export function down(queryInterface) {
