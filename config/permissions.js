@@ -162,7 +162,7 @@ export default {
       groups: { primary, officers },
     },
     unapproved: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary, officers },
     },
   },

@@ -12,7 +12,8 @@ export default [
       email: 'president',
       primary: true,
       userDce: 'jmr2258',
-      termName: '2151',
+      startDate: new Date(2015, 7, 22),
+      endDate: new Date(2015, 11, 18),
     },
   },
   {
@@ -26,7 +27,8 @@ export default [
       email: 'vp',
       primary: true,
       userDce: 'bmb6316',
-      termName: '2151',
+      startDate: new Date(2015, 7, 22),
+      endDate: new Date(2015, 11, 18),
     },
   },
   {
@@ -40,7 +42,8 @@ export default [
       email: 'treasurer',
       primary: true,
       userDce: 'bdk3079',
-      termName: '2151',
+      startDate: new Date(2015, 7, 22),
+      endDate: new Date(2015, 11, 18),
     },
   },
   {
@@ -54,7 +57,8 @@ export default [
       email: 'secretary',
       primary: true,
       userDce: 'jrj2703',
-      termName: '2151',
+      startDate: new Date(2015, 7, 22),
+      endDate: new Date(2015, 11, 18),
     },
   },
   {
@@ -68,7 +72,8 @@ export default [
       email: 'pr',
       primary: false,
       userDce: 'dpc2061',
-      termName: '2151',
+      startDate: new Date(2015, 7, 22),
+      endDate: new Date(2015, 11, 18),
     },
     committee: {
       name: 'Public Relations',
@@ -86,7 +91,8 @@ export default [
       email: 'technology',
       primary: false,
       userDce: 'knm5153',
-      termName: '2151',
+      startDate: new Date(2015, 7, 22),
+      endDate: new Date(2015, 11, 18),
     },
     committee: {
       name: 'Technology',
@@ -104,7 +110,8 @@ export default [
       email: 'projects',
       primary: false,
       userDce: 'jdg6544',
-      termName: '2151',
+      startDate: new Date(2015, 7, 22),
+      endDate: new Date(2015, 11, 18),
     },
     committee: {
       name: 'Projects',
@@ -122,7 +129,8 @@ export default [
       email: 'mentoring',
       primary: false,
       userDce: 'mxm6060',
-      termName: '2151',
+      startDate: new Date(2015, 7, 22),
+      endDate: new Date(2015, 11, 18),
     },
     committee: {
       name: 'Mentoring',
@@ -140,7 +148,8 @@ export default [
       email: 'talks',
       primary: false,
       userDce: 'cjf1613',
-      termName: '2151',
+      startDate: new Date(2015, 7, 22),
+      endDate: new Date(2015, 11, 18),
     },
     committee: {
       name: 'Talks',
@@ -158,7 +167,8 @@ export default [
       email: 'fundraising',
       primary: false,
       userDce: 'jmp3833',
-      termName: '2151',
+      startDate: new Date(2015, 7, 22),
+      endDate: new Date(2015, 11, 18),
     },
     committee: {
       name: 'Fundraising',
@@ -176,7 +186,8 @@ export default [
       email: 'labops',
       primary: false,
       userDce: 'mjs7769',
-      termName: '2151',
+      startDate: new Date(2015, 7, 22),
+      endDate: new Date(2015, 11, 18),
     },
     committee: {
       name: 'Lab Operations',
@@ -194,7 +205,8 @@ export default [
       email: 'events',
       primary: false,
       userDce: 'wam9729',
-      termName: '2151',
+      startDate: new Date(2015, 7, 22),
+      endDate: new Date(2015, 11, 18),
     },
     committee: {
       name: 'Events',
@@ -212,7 +224,8 @@ export default [
       email: 'winterball',
       primary: false,
       userDce: 'kxn3867',
-      termName: '2151',
+      startDate: new Date(2015, 7, 22),
+      endDate: new Date(2015, 11, 18),
     },
     committee: {
       name: 'Winterball',
