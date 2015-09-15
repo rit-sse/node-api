@@ -18,11 +18,11 @@ export function up(queryInterface, Sequelize) {
       references: { model: 'committees', key: 'id' },
     },
     startDate: {
-      type: Sequelize.startDate,
+      type: Sequelize.DATE,
       allowNull: false,
     },
     endDate: {
-      type: Sequelize.startDate,
+      type: Sequelize.DATE,
       allowNull: false,
     },
     reason: {

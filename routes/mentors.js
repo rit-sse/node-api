@@ -30,7 +30,7 @@ router
     })
     .post(needs('mentors', 'create'), (req, res, next) => {
       Mentor
-        .create(req.body, { fields: ['bio', 'userDce', 'termName'] })
+        .create(req.body, { fields: ['bio', 'userDce', 'startDate', 'endDate'] })
         .then(mentor => {
           req.body.specialties = req.body.specialties || [];
           const arr = [mentor];
@@ -71,7 +71,7 @@ router
         .then(mentor => {
           if (mentor) {
             return mentor.updateAttributes(req.body, {
-              fields: ['bio', 'userDce', 'termName'],
+              fields: ['bio', 'userDce', 'startDate', 'endDate'],
             });
           }
           return Promise.reject({ message: 'Mentor not found', status: 404 });

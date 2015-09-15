@@ -30,7 +30,6 @@ export default function() {
   Membership.belongsTo(Committee);
   Membership.belongsTo(User);
 
-  Mentor.belongsTo(Term);
   Mentor.belongsTo(User);
   Mentor.hasMany(Shift);
   Mentor.belongsToMany(Specialty, { through: 'mentors_specialties' });
@@ -48,7 +47,6 @@ export default function() {
 
   Tag.belongsToMany(Quote, { through: 'quotes_tags' });
 
-  Term.hasMany(Mentor);
   Term.hasMany(Officer);
 
   Tip.belongsTo(User);
