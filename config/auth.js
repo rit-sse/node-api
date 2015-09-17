@@ -1,7 +1,6 @@
 'use strict';
 
 import fs from 'fs';
-import google from '../keys/google.json';
 
 export default {
   jwt: {
@@ -15,7 +14,7 @@ export default {
   },
 
   google: {
-    id: google.web.client_id,
-    secret: google.web.client_secret,
+    id: process.env.GOOGLE_CLIENT_ID,
+    secret: process.env.GOOGLE_CLIENT_SECRET,
   },
 };
