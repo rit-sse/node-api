@@ -4,6 +4,7 @@ machine:
 
 test:
   pre:
+    - npm run keygen
     - npm run lint
 
 deployment:
