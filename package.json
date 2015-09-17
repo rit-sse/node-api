@@ -14,7 +14,7 @@
     "keygen": "babel-node ./keygen.js",
     "bootstrap": "babel-node ./bootstrap/init.js",
     "lint": "eslint .",
-    "test": "NODE_ENV=test mocha --compilers js:babel/register"
+    "test": "NODE_ENV=test mocha --compilers js:babel/register --timeout 5000"
   },
   "repository": {
     "type": "git",
@@ -44,6 +44,7 @@
     "pg": "^4.4.1",
     "pg-hstore": "^2.3.2",
     "sequelize": "^3.5.1",
+    "sqlite3": "^3.0.10",
     "umzug": "^1.6.0"
   },
   "devDependencies": {
@@ -51,7 +52,6 @@
     "chai": "^3.2.0",
     "eslint": "^1.1.0",
     "mocha": "^2.3.2",
-    "sqlite3": "^3.0.10",
     "sse-eslint": "rit-sse/eslint",
     "supertest": "^1.1.0"
   }
