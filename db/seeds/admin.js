@@ -16,7 +16,8 @@ export default function seed() {
             email: 'president',
             primary: true,
             userDce: user.dce,
-            termName: '2151',
+            startDate: new Date(),
+            endDate: new Date(2020, 0, 12),
           });
       });
   }

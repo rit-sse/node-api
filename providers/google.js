@@ -11,7 +11,6 @@ export default class GoogleProvider {
   constructor(token, dce) {
     this.dce = dce;
     this.authLevel = nconf.get('permissions:levels:high');
-    console.log(this.authLevel);
     this.token = token;
     this.client = new OAuth2(nconf.get('auth:google:id'), nconf.get('auth:google:secret'));
   }

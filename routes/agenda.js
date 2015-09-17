@@ -57,7 +57,10 @@ router
           return Promise.reject({ message: 'Agenda not found', status: 404 });
         })
         .then(agendaItem => res.send(agendaItem))
-        .catch(err => next(err));
+        .catch(err => {
+          err.status = err.status || 422;
+          next(err);
+        });
     })
     .delete(needs('agendas', 'destroy'), (req, res, next) => {
       AgendaItem

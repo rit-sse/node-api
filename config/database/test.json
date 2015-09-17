@@ -1,0 +1,5 @@
+{
+  "dialect": "sqlite",
+  "storage": "db/test.db",
+  "logging": false
+}

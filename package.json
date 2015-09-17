@@ -13,7 +13,8 @@
     "start": "babel-node bin/www",
     "keygen": "babel-node ./keygen.js",
     "bootstrap": "babel-node ./bootstrap/init.js",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "NODE_ENV=test mocha --compilers js:babel/register"
   },
   "repository": {
     "type": "git",
@@ -47,8 +48,11 @@
   },
   "devDependencies": {
     "babel-eslint": "^4.0.5",
+    "chai": "^3.2.0",
     "eslint": "^1.1.0",
+    "mocha": "^2.3.2",
     "sqlite3": "^3.0.10",
-    "sse-eslint": "rit-sse/eslint"
+    "sse-eslint": "rit-sse/eslint",
+    "supertest": "^1.1.0"
   }
 }
