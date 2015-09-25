@@ -20,10 +20,10 @@ export default sequelize.define('committees', {
     name(name) {
       return { where: { name } };
     },
-    active() {
+    active(date) {
       return {
         include: [{
-          model: Officer.scope('active'),
+          model: Officer.scope({ method: ['active', date] }),
         }],
       };
     },

@@ -29,10 +29,10 @@ export default sequelize.define('shifts', {
     mentor(mentorId) {
       return { where: { mentorId } };
     },
-    active() {
+    active(date) {
       return {
         include: [{
-          model: Mentor.scope('active'),
+          model: Mentor.scope({ method: ['active', date] }),
         }],
       };
     },
