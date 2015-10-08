@@ -24,7 +24,7 @@ router
         }))
         .catch(err => next(err));
     })
-    .post(needs('create memberships'), (req, res, next) => {
+    .post(needs('memberships', 'create'), (req, res, next) => {
       Membership
         .create(req.body, {
           fields: ['reason', 'committeeId', 'userDce', 'startDate', 'endDate'],
@@ -55,7 +55,7 @@ router
         })
         .catch(err => next(err));
     })
-    .put(needs('update memberships'), (req, res, next) => {
+    .put(needs('memberships', 'update'), (req, res, next) => {
       Membership
         .findById(req.params.id)
         .then(membership => {
@@ -69,7 +69,7 @@ router
         .then(membership => res.send(membership))
         .catch(err => next(err));
     })
-    .delete(needs('destroy memberships'), (req, res, next) => {
+    .delete(needs('memberships', 'destroy'), (req, res, next) => {
       Membership
         .findById(req.params.id)
         .then(membership => {
