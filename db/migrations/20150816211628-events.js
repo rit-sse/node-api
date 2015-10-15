@@ -25,10 +25,10 @@ export function up(queryInterface, Sequelize) {
       allowNull: false,
     },
     image: Sequelize.STRING,
-    committeeId: {
+    committeeName: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      references: { model: 'committees', key: 'id' },
+      references: { model: 'committees', key: 'name' },
     },
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE,

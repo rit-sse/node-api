@@ -9,7 +9,7 @@ export default sequelize.define('committees', {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
+    primaryKey: true,
   },
   description: {
     type: DataTypes.TEXT,

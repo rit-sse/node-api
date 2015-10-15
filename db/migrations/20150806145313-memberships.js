@@ -12,10 +12,10 @@ export function up(queryInterface, Sequelize) {
       allowNull: false,
       references: { model: 'users', key: 'dce' },
     },
-    committeeId: {
+    committeeName: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      references: { model: 'committees', key: 'id' },
+      references: { model: 'committees', key: 'name' },
     },
     startDate: {
       type: Sequelize.DATE,

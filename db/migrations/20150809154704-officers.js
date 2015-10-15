@@ -19,9 +19,9 @@ export function up(queryInterface, Sequelize) {
       type: Sequelize.BOOLEAN,
       defaultValue: false,
     },
-    committeeId: {
+    committeeName: {
       type: Sequelize.INTEGER,
-      references: { model: 'committees', key: 'id' },
+      references: { model: 'committees', key: 'name' },
     },
     userDce: {
       type: Sequelize.STRING,
