@@ -36,7 +36,7 @@ router
       }
     })
     .post(needs('events', 'create'), (req, res, next) => {
-      Event.create(req.body, { fields: ['name', 'startDate', 'endDate', 'description', 'location', 'image', 'committeeId'] })
+      Event.create(req.body, { fields: ['name', 'startDate', 'endDate', 'description', 'location', 'image', 'committeeName'] })
         .then(event => res.status(201).send(event))
         .catch(err => {
           err.status = 422;
@@ -63,7 +63,7 @@ router
         .then(event => {
           if (event) {
             return event.updateAttributes(req.body, {
-              fields: ['name', 'startDate', 'endDate', 'description', 'location', 'image', 'committeeId'],
+              fields: ['name', 'startDate', 'endDate', 'description', 'location', 'image', 'committeeName'],
             });
           }
           return Promise.reject({ message: 'Event not found', status: 404 });

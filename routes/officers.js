@@ -33,7 +33,7 @@ router
     .post(needs('officers', 'create'), (req, res, next) => {
       Officer
         .create(req.body, {
-          fields: ['title', 'email', 'primary', 'userDce', 'startDate', 'endDate', 'committeeId'],
+          fields: ['title', 'email', 'primary', 'userDce', 'startDate', 'endDate', 'committeeName'],
         })
         .then(officer => res.status(201).send(officer))
         .catch(err => {
@@ -61,7 +61,7 @@ router
         .then(officer => {
           if (officer) {
             return officer.updateAttributes(req.body, {
-              fields: ['title', 'email', 'userDce', 'termName', 'committeeId', 'primary', 'startDate', 'endDate'],
+              fields: ['title', 'email', 'userDce', 'termName', 'committeeName', 'primary', 'startDate', 'endDate'],
             });
           }
           return Promise.reject({ message: 'Officer not found', status: 404 });

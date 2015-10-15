@@ -14,6 +14,9 @@ export default sequelize.define('events', {
       len: [1, 25],
     },
   },
+  committeeName: {
+    type: DataTypes.STRING,
+  },
   startDate: {
     type: DataTypes.DATE,
     allowNull: false,
@@ -38,8 +41,8 @@ export default sequelize.define('events', {
     name(name) {
       return { where: { name } };
     },
-    committee(committeeId) {
-      return { where: { committeeId } };
+    committee(committeeName) {
+      return { where: { committeeName } };
     },
     location(location) {
       return { where: { location } };

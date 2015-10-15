@@ -11,6 +11,9 @@ export default sequelize.define('memberships', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  committeeName: {
+    type: DataTypes.STRING,
+  },
   approved: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
@@ -33,8 +36,8 @@ export default sequelize.define('memberships', {
     reason(reason) {
       return { where: { reason } };
     },
-    committee(committeeId) {
-      return { where: { committeeId } };
+    committee(committeeName) {
+      return { where: { committeeName } };
     },
     user(userDce) {
       return { where: { userDce } };

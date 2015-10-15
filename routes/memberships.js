@@ -27,7 +27,7 @@ router
     .post(needs('memberships', 'create'), (req, res, next) => {
       Membership
         .create(req.body, {
-          fields: ['reason', 'committeeId', 'userDce', 'startDate', 'endDate'],
+          fields: ['reason', 'committeeName', 'userDce', 'startDate', 'endDate'],
         })
         .then(membership => res.status(201).send(membership))
         .catch(err => {
@@ -61,7 +61,7 @@ router
         .then(membership => {
           if (membership) {
             return membership.updateAttributes(req.body, {
-              fields: ['reason', 'approved', 'committeeId', 'userDce', 'startDate', 'endDate'],
+              fields: ['reason', 'approved', 'committeeName', 'userDce', 'startDate', 'endDate'],
             });
           }
           return Promise.reject({ message: 'Membership not found', status: 404 });

@@ -21,4 +21,6 @@ export default function seed() {
           });
       });
   }
+
+  return Promise.resolve();
 }
