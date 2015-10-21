@@ -16,7 +16,6 @@ export default sequelize.define('memberships', {
   },
   approved: {
     type: DataTypes.BOOLEAN,
-    defaultValue: false,
   },
   startDate: {
     type: DataTypes.DATE,

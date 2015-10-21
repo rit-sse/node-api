@@ -2,6 +2,7 @@
 
 import { Router } from 'express';
 import Membership from '../models/membership';
+import User from '../models/user';
 import scopify from '../helpers/scopify';
 import { needs, needsApprovedIndex, needsApprovedOne } from '../middleware/permissions';
 import verifyUser from '../middleware/verify-user';
@@ -25,9 +26,21 @@ router
         .catch(err => next(err));
     })
     .post(needs('memberships', 'create'), (req, res, next) => {
-      Membership
-        .create(req.body, {
-          fields: ['reason', 'committeeName', 'userDce', 'startDate', 'endDate'],
+      User
+        .findOrCreate({ where: { dce: req.body.user.dce } })
+        .spread(user => {
+          if (!user.firstName && !user.lastName) {
+            user.firstName = req.body.user.firstName;
+            user.lastName = req.body.user.lastName;
+          }
+          return user.save();
+        })
+        .then( user => {
+          req.body.userDce = user.dce;
+          return Membership
+            .create(req.body, {
+              fields: ['reason', 'committeeName', 'userDce', 'startDate', 'endDate'],
+            });
         })
         .then(membership => res.status(201).send(membership))
         .catch(err => {

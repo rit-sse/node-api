@@ -19,7 +19,14 @@ export function needs(endpoint, action) {
 // is part of the query
 export function needsApprovedIndex(endpoint) {
   return (req, res, next) => {
-    req.query.approved = !(req.query.approved === 'false');
+    if (req.query.approved === 'null') {
+      req.query.approved = null;
+    } else if (req.query.approved === 'false') {
+      req.query.approved = false;
+    } else {
+      req.query.approved = true;
+    }
+
     if (req.query.approved) {
       return next();
     } else if (!req.auth) {

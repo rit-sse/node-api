@@ -5,7 +5,7 @@ export default function scopify(query, ...params) {
     method: ['paginate', query.perPage, query.page],
   }];
   for (const param of params) {
-    if (query[param]) {
+    if (typeof query[param] !== 'undefined') {
       scopes.push({
         method: [param, query[param]],
       });

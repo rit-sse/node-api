@@ -16,7 +16,6 @@ export default sequelize.define('quotes', {
   },
   approved: {
     type: DataTypes.BOOLEAN,
-    defaultValue: false,
   },
 }, {
   defaultScopes: {
