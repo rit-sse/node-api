@@ -16,7 +16,9 @@ router
       const scopes = scopify(req.query, 'reason', 'committee', 'user', 'active', 'between', 'approved');
       Membership
         .scope(scopes)
-        .findAndCountAll()
+        .findAndCountAll({
+          include: User,
+        })
         .then(result => res.send({
           total: result.count,
           perPage: req.query.perPage,
