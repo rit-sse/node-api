@@ -26,7 +26,7 @@ export function up(queryInterface, Sequelize) {
     },
     image: Sequelize.STRING,
     committeeName: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: false,
       references: { model: 'committees', key: 'name' },
     },

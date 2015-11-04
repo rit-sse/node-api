@@ -20,7 +20,7 @@ export function up(queryInterface, Sequelize) {
       defaultValue: false,
     },
     committeeName: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       references: { model: 'committees', key: 'name' },
     },
     userDce: {

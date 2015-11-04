@@ -13,7 +13,7 @@ export function up(queryInterface, Sequelize) {
       references: { model: 'users', key: 'dce' },
     },
     committeeName: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: false,
       references: { model: 'committees', key: 'name' },
     },

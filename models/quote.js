@@ -7,12 +7,12 @@ import Tag from './tag';
 
 export default sequelize.define('quotes', {
   body: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     unique: true,
     allowNull: false,
   },
   description: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
   },
   approved: {
     type: DataTypes.BOOLEAN,
