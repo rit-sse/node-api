@@ -95,7 +95,7 @@ export default {
   memberships: {
     create: {
       level: levels.high,
-      groups: { primary },
+      groups: { primary, officers },
     },
     update: {
       level: levels.high,
