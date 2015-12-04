@@ -55,7 +55,7 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
-  if (env === 'development' && err.stack) {
+  if (err.stack) {
     console.error(err.stack);
   }
   const status = err.status;
