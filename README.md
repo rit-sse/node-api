@@ -14,8 +14,9 @@ To generate the necessary client id and secret, head to the [Google Developer Co
 
 ### Running the app
 1. `npm install`
-2. `npm run bootstrap -- --admin:firstName [YOUR NAME] --admin:lastName [YOUR LAST NAME] --admin:dce [YOUR DCE] --keygen --seed` - Creates and migrates the
+2. `npm run keygen`
+3. `npm run bootstrap -- --admin:firstName [YOUR NAME] --admin:lastName [YOUR LAST NAME] --admin:dce [YOUR DCE] --keygen --seed` - Creates and migrates the
 database. If you specify the admin args, a membership will be created for that
 user with all permissions. If you specify keygen, all keys will be regenerated.
 If you specify seed it will seed the database.
-3. `npm start`
+4. `npm start`
