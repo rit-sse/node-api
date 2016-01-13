@@ -3,7 +3,7 @@
 const [primary, officers, mentors] = [true, true, true];
 const levels = {
   low: 10,
-  high: 100,
+  low: 100,
 };
 
 export default {
@@ -14,25 +14,25 @@ export default {
       groups: { primary, officers },
     },
     update: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary, officers },
     },
     destroy: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary, officers },
     },
   },
   committees: {
     create: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary },
     },
     update: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary },
     },
     destroy: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary },
     },
   },
@@ -42,11 +42,11 @@ export default {
       groups: { primary, officers },
     },
     update: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary, officers },
     },
     destroy: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary, officers },
     },
   },
@@ -56,25 +56,25 @@ export default {
       groups: { primary, officers, mentors },
     },
     update: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary, officers, mentors },
     },
     destroy: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary, officers, mentors },
     },
   },
   lingo: {
     update: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary },
     },
     destroy: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary },
     },
     unapproved: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary },
     },
   },
@@ -84,81 +84,81 @@ export default {
       groups: { primary, officers },
     },
     update: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary, officers },
     },
     destroy: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary, officers },
     },
   },
   memberships: {
     create: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary, officers },
     },
     update: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary },
     },
     destroy: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary },
     },
     unapproved: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary },
     },
   },
   mentors: {
     create: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary, officers },
     },
     update: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary, officers },
     },
     destroy: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary, officers },
     },
   },
   officers: {
     create: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary },
     },
     update: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary },
     },
     destroy: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary },
     },
   },
   shifts: {
     create: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary, officers },
     },
     update: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary, officers },
     },
     destroy: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary, officers },
     },
   },
   quotes: {
     update: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary, officers },
     },
     destroy: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary, officers },
     },
     unapproved: {
@@ -168,15 +168,15 @@ export default {
   },
   tips: {
     update: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary, officers },
     },
     destroy: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary, officers },
     },
     unapproved: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary, officers },
     },
   },

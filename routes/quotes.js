@@ -15,7 +15,7 @@ router
   .route('/')
     .get(verifyUser, paginate, needsApprovedIndex('quotes'), (req, res, next) => {
       const scopes = scopify(req.query, 'body', 'tag', 'search');
-      scopes.push("approved");
+      scopes.push('approved');
       Quote
         .scope(scopes)
         .findAndCountAll()
