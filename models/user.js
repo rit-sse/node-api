@@ -28,7 +28,7 @@ export default sequelize.define('users', {
           const groups = [];
           if (officers.length > 0) {
             groups.push('officers');
-            if (officers[0].primary) {
+            if (officers[0].primaryOfficer) {
               groups.push('primary');
             }
           }

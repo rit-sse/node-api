@@ -16,7 +16,7 @@ export default sequelize.define('officers', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  primary: {
+  primaryOfficer: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
@@ -26,7 +26,7 @@ export default sequelize.define('officers', {
   },
   endDate: {
     type: DataTypes.DATE,
-    defaultValue: false,
+    defaultValue: null,
   },
 }, {
   scopes: {
@@ -36,8 +36,8 @@ export default sequelize.define('officers', {
     email(email) {
       return { where: { email } };
     },
-    primary(primary) {
-      return { where: { primary } };
+    primary(primaryOfficer) {
+      return { where: { primaryOfficer } };
     },
     committee(committeeName) {
       return { where: { committeeName } };
@@ -52,7 +52,10 @@ export default sequelize.define('officers', {
             $lte: date,
           },
           endDate: {
-            $gte: date,
+            $or: {
+              $gte: date,
+              $eq: null,
+            },
           },
         },
       };

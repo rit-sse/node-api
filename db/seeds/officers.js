@@ -10,10 +10,9 @@ export default [
     officer: {
       title: 'President',
       email: 'president',
-      primary: true,
+      primaryOfficer: true,
       userDce: 'jmr2258',
       startDate: new Date(2015, 7, 22),
-      endDate: new Date(2015, 11, 18),
     },
   },
   {
@@ -25,10 +24,9 @@ export default [
     officer: {
       title: 'Vice President',
       email: 'vp',
-      primary: true,
+      primaryOfficer: true,
       userDce: 'bmb6316',
       startDate: new Date(2015, 7, 22),
-      endDate: new Date(2015, 11, 18),
     },
   },
   {
@@ -40,10 +38,9 @@ export default [
     officer: {
       title: 'Treasurer',
       email: 'treasurer',
-      primary: true,
+      primaryOfficer: true,
       userDce: 'bdk3079',
       startDate: new Date(2015, 7, 22),
-      endDate: new Date(2015, 11, 18),
     },
   },
   {
@@ -55,10 +52,9 @@ export default [
     officer: {
       title: 'Secretary',
       email: 'secretary',
-      primary: true,
+      primaryOfficer: true,
       userDce: 'jrj2703',
       startDate: new Date(2015, 7, 22),
-      endDate: new Date(2015, 11, 18),
     },
   },
   {
@@ -70,10 +66,9 @@ export default [
     officer: {
       title: 'Public Relations Head',
       email: 'pr',
-      primary: false,
+      primaryOfficer: false,
       userDce: 'dpc2061',
       startDate: new Date(2015, 7, 22),
-      endDate: new Date(2015, 11, 18),
     },
     committee: {
       name: 'Public Relations',
@@ -89,10 +84,9 @@ export default [
     officer: {
       title: 'Technology Head',
       email: 'technology',
-      primary: false,
+      primaryOfficer: true,
       userDce: 'knm5153',
       startDate: new Date(2015, 7, 22),
-      endDate: new Date(2015, 11, 18),
     },
     committee: {
       name: 'Technology',
@@ -108,10 +102,9 @@ export default [
     officer: {
       title: 'Projects Head',
       email: 'projects',
-      primary: false,
+      primaryOfficer: false,
       userDce: 'jdg6544',
       startDate: new Date(2015, 7, 22),
-      endDate: new Date(2015, 11, 18),
     },
     committee: {
       name: 'Projects',
@@ -127,10 +120,9 @@ export default [
     officer: {
       title: 'Mentoring Head',
       email: 'mentoring',
-      primary: false,
+      primaryOfficer: false,
       userDce: 'mxm6060',
       startDate: new Date(2015, 7, 22),
-      endDate: new Date(2015, 11, 18),
     },
     committee: {
       name: 'Mentoring',
@@ -146,10 +138,9 @@ export default [
     officer: {
       title: 'Talks Head',
       email: 'talks',
-      primary: false,
+      primaryOfficer: false,
       userDce: 'cjf1613',
       startDate: new Date(2015, 7, 22),
-      endDate: new Date(2015, 11, 18),
     },
     committee: {
       name: 'Talks',
@@ -165,10 +156,9 @@ export default [
     officer: {
       title: 'Fundraising Head',
       email: 'fundraising',
-      primary: false,
+      primaryOfficer: false,
       userDce: 'jmp3833',
       startDate: new Date(2015, 7, 22),
-      endDate: new Date(2015, 11, 18),
     },
     committee: {
       name: 'Fundraising',
@@ -184,10 +174,9 @@ export default [
     officer: {
       title: 'Lab Operations Head',
       email: 'labops',
-      primary: false,
+      primaryOfficer: false,
       userDce: 'mjs7769',
       startDate: new Date(2015, 7, 22),
-      endDate: new Date(2015, 11, 18),
     },
     committee: {
       name: 'Lab Operations',
@@ -203,10 +192,9 @@ export default [
     officer: {
       title: 'Events Head',
       email: 'events',
-      primary: false,
+      primaryOfficer: false,
       userDce: 'wam9729',
       startDate: new Date(2015, 7, 22),
-      endDate: new Date(2015, 11, 18),
     },
     committee: {
       name: 'Events',
@@ -222,10 +210,9 @@ export default [
     officer: {
       title: 'Winterball Head',
       email: 'winterball',
-      primary: false,
+      primaryOfficer: false,
       userDce: 'kxn3867',
       startDate: new Date(2015, 7, 22),
-      endDate: new Date(2015, 11, 18),
     },
     committee: {
       name: 'Winterball',

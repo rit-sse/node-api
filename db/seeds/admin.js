@@ -14,7 +14,7 @@ export default function seed() {
           .create({
             title: 'President',
             email: 'president',
-            primary: true,
+            primaryOfficer: true,
             userDce: user.dce,
             startDate: new Date(),
             endDate: new Date(2020, 0, 12),
