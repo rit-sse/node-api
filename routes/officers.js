@@ -2,6 +2,7 @@
 
 import { Router } from 'express';
 import Officer from '../models/officer';
+import User from '../models/user';
 import scopify from '../helpers/scopify';
 import { needs } from '../middleware/permissions';
 import paginate from '../middleware/paginate';
@@ -21,7 +22,9 @@ router
       const scopes = scopify(req.query, 'title', 'email', 'user', 'primary', 'committee', 'active');
       Officer
         .scope(scopes)
-        .findAndCountAll()
+        .findAndCountAll({
+          include: User,
+        })
         .then(result => res.send({
           total: result.count,
           perPage: req.query.perPage,
@@ -31,9 +34,21 @@ router
         .catch(err => next(err));
     })
     .post(needs('officers', 'create'), (req, res, next) => {
-      Officer
-        .create(req.body, {
-          fields: ['title', 'email', 'primaryOfficer', 'userDce', 'startDate', 'endDate', 'committeeName'],
+      User
+        .findOrCreate({ where: { dce: req.body.user.dce } })
+        .spread(user => {
+          if (!user.firstName && !user.lastName) {
+            user.firstName = req.body.user.firstName;
+            user.lastName = req.body.user.lastName;
+          }
+          return user.save();
+        })
+        .then( user => {
+          req.body.userDce = user.dce;
+          return Officer
+            .create(req.body, {
+              fields: ['title', 'email', 'primaryOfficer', 'userDce', 'startDate', 'endDate', 'committeeName'],
+            });
         })
         .then(officer => res.status(201).send(officer))
         .catch(err => {
