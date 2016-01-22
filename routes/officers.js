@@ -3,9 +3,11 @@
 import { Router } from 'express';
 import Officer from '../models/officer';
 import User from '../models/user';
+import Committee from '../models/committee';
 import scopify from '../helpers/scopify';
 import { needs } from '../middleware/permissions';
 import paginate from '../middleware/paginate';
+import Promise from 'bluebird';
 
 const router = Router(); // eslint-disable-line new-cap
 
@@ -34,22 +36,35 @@ router
         .catch(err => next(err));
     })
     .post(needs('officers', 'create'), (req, res, next) => {
-      User
-        .findOrCreate({ where: { dce: req.body.user.dce } })
-        .spread(user => {
-          if (!user.firstName && !user.lastName) {
-            user.firstName = req.body.user.firstName;
-            user.lastName = req.body.user.lastName;
-          }
-          return user.save();
-        })
-        .then( user => {
+      Promise.all([
+        User
+          .findOrInitialize({ where: { dce: req.body.user.dce } })
+          .spread(user => {
+            if (!user.firstName && !user.lastName) {
+              user.firstName = req.body.user.firstName;
+              user.lastName = req.body.user.lastName;
+            }
+            return user.save();
+          }),
+        Committee
+          .findOrInitialize({ where: { name: req.body.committee.name } })
+          .spread((committee, initialized) => {
+            if (initialized) {
+              committee.description = committee.name;
+            }
+
+            return committee.save();
+          }),
+      ])
+        .spread( (user, committee) => {
+          req.body.committeeName = committee.name;
           req.body.userDce = user.dce;
           return Officer
             .create(req.body, {
               fields: ['title', 'email', 'primaryOfficer', 'userDce', 'startDate', 'endDate', 'committeeName'],
             });
         })
+        .then(officer => officer.reload({ include: User }))
         .then(officer => res.status(201).send(officer))
         .catch(err => {
           err.status = 422;
