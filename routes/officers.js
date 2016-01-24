@@ -47,14 +47,8 @@ router
             return user.save();
           }),
         Committee
-          .findOrInitialize({ where: { name: req.body.committee.name } })
-          .spread((committee, initialized) => {
-            if (initialized) {
-              committee.description = committee.name;
-            }
-
-            return committee.save();
-          }),
+          .findOrCreate({ where: { name: req.body.committeeName } })
+          .spread(committee => committee),
       ])
         .spread( (user, committee) => {
           req.body.committeeName = committee.name;
@@ -97,6 +91,7 @@ router
           return Promise.reject({ message: 'Officer not found', status: 404 });
 
         })
+        .then(officer => officer.reload({ include: User }))
         .then(officer => res.send(officer))
         .catch(err => next(err));
     })
