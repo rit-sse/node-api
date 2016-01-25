@@ -13,7 +13,7 @@ export default sequelize.define('events', {
     validate: {
       len:{
         args: [1, 25],
-        msg: "Title must be 1 to 25 chars"
+        msg: 'Title must be 1 to 25 chars'
       }
     },
   },
@@ -37,7 +37,7 @@ export default sequelize.define('events', {
     type: DataTypes.STRING,
     validate: {
       isURL: {
-        msg: "Image must must be a valid URL"
+        msg: 'Image must must be a valid URL'
       }
     },
   },
