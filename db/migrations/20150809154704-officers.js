@@ -15,7 +15,7 @@ export function up(queryInterface, Sequelize) {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    primary: {
+    primaryOfficer: {
       type: Sequelize.BOOLEAN,
       defaultValue: false,
     },

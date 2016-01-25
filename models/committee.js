@@ -13,7 +13,7 @@ export default sequelize.define('committees', {
   },
   description: {
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: true,
   },
 }, {
   scopes: {

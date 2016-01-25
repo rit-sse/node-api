@@ -2,9 +2,12 @@
 
 import { Router } from 'express';
 import Officer from '../models/officer';
+import User from '../models/user';
+import Committee from '../models/committee';
 import scopify from '../helpers/scopify';
 import { needs } from '../middleware/permissions';
 import paginate from '../middleware/paginate';
+import Promise from 'bluebird';
 
 const router = Router(); // eslint-disable-line new-cap
 
@@ -21,7 +24,9 @@ router
       const scopes = scopify(req.query, 'title', 'email', 'user', 'primary', 'committee', 'active');
       Officer
         .scope(scopes)
-        .findAndCountAll()
+        .findAndCountAll({
+          include: User,
+        })
         .then(result => res.send({
           total: result.count,
           perPage: req.query.perPage,
@@ -31,10 +36,29 @@ router
         .catch(err => next(err));
     })
     .post(needs('officers', 'create'), (req, res, next) => {
-      Officer
-        .create(req.body, {
-          fields: ['title', 'email', 'primary', 'userDce', 'startDate', 'endDate', 'committeeName'],
+      Promise.all([
+        User
+          .findOrInitialize({ where: { dce: req.body.user.dce } })
+          .spread(user => {
+            if (!user.firstName && !user.lastName) {
+              user.firstName = req.body.user.firstName;
+              user.lastName = req.body.user.lastName;
+            }
+            return user.save();
+          }),
+        Committee
+          .findOrCreate({ where: { name: req.body.committeeName } })
+          .spread(committee => committee),
+      ])
+        .spread( (user, committee) => {
+          req.body.committeeName = committee.name;
+          req.body.userDce = user.dce;
+          return Officer
+            .create(req.body, {
+              fields: ['title', 'email', 'primaryOfficer', 'userDce', 'startDate', 'endDate', 'committeeName'],
+            });
         })
+        .then(officer => officer.reload({ include: User }))
         .then(officer => res.status(201).send(officer))
         .catch(err => {
           err.status = 422;
@@ -61,12 +85,13 @@ router
         .then(officer => {
           if (officer) {
             return officer.updateAttributes(req.body, {
-              fields: ['title', 'email', 'userDce', 'termName', 'committeeName', 'primary', 'startDate', 'endDate'],
+              fields: ['title', 'email', 'userDce', 'termName', 'committeeName', 'primaryOfficer', 'startDate', 'endDate'],
             });
           }
           return Promise.reject({ message: 'Officer not found', status: 404 });
 
         })
+        .then(officer => officer.reload({ include: User }))
         .then(officer => res.send(officer))
         .catch(err => next(err));
     })
