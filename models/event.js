@@ -11,7 +11,10 @@ export default sequelize.define('events', {
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
-      len: [1, 25],
+      len:{
+        args: [1, 25],
+        msg: 'Title must be 1 to 25 chars'
+      }
     },
   },
   committeeName: {
@@ -33,7 +36,9 @@ export default sequelize.define('events', {
   image: {
     type: DataTypes.STRING,
     validate: {
-      isURL: true,
+      isURL: {
+        msg: 'Image must must be a valid URL'
+      }
     },
   },
 }, {

@@ -12,7 +12,10 @@ export default sequelize.define('users', {
   dce: {
     type: DataTypes.STRING,
     validate: {
-      is: /[a-z]{2,3}\d{4}/,
+      is: {
+        args: /[a-z]{2,3}\d{4}/,
+        msg: 'Must be a valid dce'
+      }
     },
     primaryKey: true,
     allowNull: false,
