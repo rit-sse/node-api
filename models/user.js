@@ -14,7 +14,7 @@ export default sequelize.define('users', {
     validate: {
       is: {
         args: /[a-z]{2,3}\d{4}/,
-        msg: "Must be a valid dce"
+        msg: 'Must be a valid dce'
       }
     },
     primaryKey: true,

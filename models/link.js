@@ -15,7 +15,7 @@ export default sequelize.define('links', {
     allowNull: false,
     validate: {
       isURL: {
-        msg: "LogoLink must must be a valid URL"
+        msg: 'LogoLink must must be a valid URL'
       }
     },
   },
