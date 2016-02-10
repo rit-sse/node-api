@@ -20,6 +20,6 @@ Promise.each(quotes, quoteObj => {
       return arr;
     })
     .spread((quote, ...tags) => [quote, quote.setTags(tags.map(tag => tag[0]))])
-    .catch((err) => console.log(err));
+    .catch(err => console.log(err));
 })
   .then(() => console.log('done'));
