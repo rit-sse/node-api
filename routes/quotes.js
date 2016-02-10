@@ -19,7 +19,10 @@ router
       Quote
         .scope(scopes)
         .findAndCountAll()
-        .then(result => [result.count, Promise.map(result.rows, quote => quote.reload({ include: [{ model: Tag, attributes: ['name'] }] }))])
+        .then(result => {
+          const count = typeof result.count !== 'number' ? result.count.length : result.count;
+          return [count, Promise.map(result.rows, quote => quote.reload({ include: [{ model: Tag, attributes: ['name'] }] }))];
+        })
         .spread((count, quotes) => {
           res.send({
             total: count,

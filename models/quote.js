@@ -36,8 +36,19 @@ export default sequelize.define('quotes', {
       return {
         include: [{
           model: Tag,
-          where: { name },
+          where: {
+            name,
+          },
+          duplicating: false,
         }],
+        group: [
+          'id',
+          'tags.name',
+          'tags.quotes_tags.createdAt',
+          'tags.quotes_tags.updatedAt',
+          'tags.quotes_tags.tagName',
+          'tags.quotes_tags.quoteId',
+        ],
       };
     },
     search(query) {
