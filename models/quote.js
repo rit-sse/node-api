@@ -24,10 +24,8 @@ export default sequelize.define('quotes', {
     },
   },
   scopes: {
-    approved: {
-      where: {
-        approved: true,
-      },
+    approved(approved) {
+      return { where: { approved } };
     },
     body(body) {
       return { where: { body } };
