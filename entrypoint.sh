@@ -1,4 +1,4 @@
 #!/bin/bash
 
-npm run bootstrap
+npm run bootstrap --keygen
 npm start
