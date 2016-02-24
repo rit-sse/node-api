@@ -154,7 +154,7 @@ export default {
   },
   quotes: {
     update: {
-      level: levels.low,
+      level: levels.high,
       groups: { primary, officers },
     },
     destroy: {
