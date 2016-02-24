@@ -27,5 +27,5 @@ then
   fi;
 fi;
 
-npm run bootstrap --admin:firstName Michael --admin:lastName Timbrook --admin:dce mpt2360
+npm run bootstrap
 npm start
