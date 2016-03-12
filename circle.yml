@@ -6,7 +6,7 @@ dependencies:
   override:
     - npm install --unsafe-perm
   post:
-    - npm install sqlite3 eslint@2.2.0 #the cached version doesn't work
+    - npm install --unsafe-perm sqlite3 eslint@2.2.0  #the cached version doesn't work
 
 test:
   pre:
