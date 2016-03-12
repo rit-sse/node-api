@@ -1,5 +1,3 @@
-'use strict';
-
 import AgendaItem from './agenda-item';
 import Committee from './committee';
 import Event from './event';

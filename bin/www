@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-'use strict';
-
 import app from '../app';
 import nconf from '../config';
 

@@ -1,5 +1,3 @@
-'use strict';
-
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
 import paginate from '../helpers/paginate';
@@ -11,10 +9,10 @@ export default sequelize.define('events', {
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
-      len:{
+      len: {
         args: [1, 25],
-        msg: 'Title must be 1 to 25 chars'
-      }
+        msg: 'Title must be 1 to 25 chars',
+      },
     },
   },
   committeeName: {
@@ -37,8 +35,8 @@ export default sequelize.define('events', {
     type: DataTypes.STRING,
     validate: {
       isURL: {
-        msg: 'Image must must be a valid URL'
-      }
+        msg: 'Image must must be a valid URL',
+      },
     },
   },
 }, {

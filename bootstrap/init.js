@@ -1,5 +1,3 @@
-'use strict';
-
 import fs from 'fs';
 import Umzug from 'umzug';
 import keygen from '../keygen';

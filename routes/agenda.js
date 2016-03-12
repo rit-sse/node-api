@@ -1,5 +1,3 @@
-'use strict';
-
 import { Router } from 'express';
 import AgendaItem from '../models/agenda-item';
 import scopify from '../helpers/scopify';

@@ -1,5 +1,3 @@
-'use strict';
-
 import nconf from 'nconf';
 import database from './database';
 import permissions from './permissions';

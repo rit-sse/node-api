@@ -1,5 +1,3 @@
-'use strict';
-
 import admin from './admin';
 import models from '../../models';
 import officer from './seed';

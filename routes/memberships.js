@@ -1,5 +1,3 @@
-'use strict';
-
 import { Router } from 'express';
 import Membership from '../models/membership';
 import User from '../models/user';
@@ -60,7 +58,7 @@ router
           if (membership) {
             if (!membership.approved && !req.auth.allowed) {
               return Promise.reject({
-                message: `User does not have permission: unapproved memberships`,
+                message: 'User does not have permission: unapproved memberships',
                 status: 403,
               });
             }

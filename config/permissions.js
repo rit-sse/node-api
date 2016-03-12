@@ -1,5 +1,3 @@
-'use strict';
-
 const [primary, officers, mentors] = [true, true, true];
 const levels = {
   low: 10,

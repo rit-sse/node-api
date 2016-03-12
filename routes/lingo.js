@@ -1,5 +1,3 @@
-'use strict';
-
 import { Router } from 'express';
 import Lingo from '../models/lingo';
 import scopify from '../helpers/scopify';
@@ -42,7 +40,7 @@ router
           if (lingo) {
             if (!lingo.approved && !req.auth.allowed) {
               return next({
-                message: `User does not have permission: unapproved lingo`,
+                message: 'User does not have permission: unapproved lingo',
                 status: 403,
               });
             }

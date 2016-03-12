@@ -1,5 +1,3 @@
-'use strict';
-
 import { Router } from 'express';
 import Officer from '../models/officer';
 import User from '../models/user';

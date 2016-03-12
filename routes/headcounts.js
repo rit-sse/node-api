@@ -1,5 +1,3 @@
-'use strict';
-
 import { Router } from 'express';
 import Headcount from '../models/headcount';
 import scopify from '../helpers/scopify';

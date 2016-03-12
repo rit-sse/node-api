@@ -1,5 +1,3 @@
-'use strict';
-
 import User from '../../models/user';
 import Officer from '../../models/officer';
 import officers from './officers';

@@ -1,5 +1,3 @@
-'use strict';
-
 import { Router } from 'express';
 import Tag from '../models/tag';
 import paginate from '../middleware/paginate';

@@ -1,5 +1,3 @@
-'use strict';
-
 import User from '../models/user';
 
 export function needs(endpoint, action) {
