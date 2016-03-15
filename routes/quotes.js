@@ -1,5 +1,3 @@
-'use strict';
-
 import { Router } from 'express';
 import Quote from '../models/quote';
 import Tag from '../models/tag';
@@ -62,7 +60,7 @@ router
           if (quote) {
             if (!quote.approved && !req.auth.allowed) {
               return next({
-                message: `User does not have permission: unapproved quotes`,
+                message: 'User does not have permission: unapproved quotes',
                 status: 403,
               });
             }

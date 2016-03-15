@@ -1,5 +1,3 @@
-'use strict';
-
 import keypair from 'keypair';
 import fs from 'fs';
 

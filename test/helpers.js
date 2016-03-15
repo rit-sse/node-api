@@ -1,4 +1,3 @@
-'use strict';
 import nconf from '../config';
 import bootstrap from '../bootstrap/init';
 import jwt from 'jsonwebtoken';

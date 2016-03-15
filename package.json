@@ -48,11 +48,11 @@
     "umzug": "^1.6.0"
   },
   "devDependencies": {
-    "babel-eslint": "^4.0.5",
+    "babel-eslint": "^5.0.0",
     "chai": "^3.2.0",
-    "eslint": "^1.1.0",
+    "eslint": "~2.2.0",
     "mocha": "^2.3.2",
-    "sse-eslint": "rit-sse/eslint",
+    "eslint-config-sse": "rit-sse/eslint",
     "supertest": "^1.1.0"
   }
 }

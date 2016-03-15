@@ -1,5 +1,3 @@
-'use strict';
-
 import fs from 'fs';
 
 const development =  fs.existsSync('config/database/configs/development.json') // eslint-disable-line no-sync

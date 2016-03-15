@@ -1,5 +1,3 @@
-'use strict';
-
 import { Router } from 'express';
 import quotes from './quotes';
 import tags from './tags';

@@ -1,5 +1,3 @@
-'use strict';
-
 import { Router } from 'express';
 import jwt from 'jsonwebtoken';
 import nconf from '../config';

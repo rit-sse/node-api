@@ -1,5 +1,3 @@
-'use strict';
-
 import { Router } from 'express';
 import Link from '../models/link';
 import scopify from '../helpers/scopify';
@@ -23,7 +21,10 @@ router
         .catch(err => next(err));
     })
     .post(needs('links', 'create'), (req, res, next) => {
-      Link.create({shortLink: req.body.shortLink.toLocaleLowerCase(), longLink: req.body.longLink}, { fields: ['shortLink', 'longLink'] })
+      Link.create({
+        shortLink: req.body.shortLink.toLocaleLowerCase(),
+        longLink: req.body.longLink,
+      }, { fields: ['shortLink', 'longLink'] })
         .then(link => res.status(201).send(link))
         .catch(err => {
           err.status = 422;

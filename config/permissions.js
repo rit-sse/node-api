@@ -1,5 +1,3 @@
-'use strict';
-
 const [primary, officers, mentors] = [true, true, true];
 const levels = {
   low: 10,
@@ -154,7 +152,7 @@ export default {
   },
   quotes: {
     update: {
-      level: levels.low,
+      level: levels.high,
       groups: { primary, officers },
     },
     destroy: {

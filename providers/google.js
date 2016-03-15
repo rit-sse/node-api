@@ -1,5 +1,3 @@
-'use strict';
-
 import nconf from '../config';
 import User from '../models/user';
 import google from 'googleapis';

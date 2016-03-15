@@ -1,5 +1,3 @@
-'use strict';
-
 import { Router } from 'express';
 import headcounts from './headcounts';
 import mentors from './mentors';

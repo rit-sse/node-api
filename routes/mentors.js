@@ -1,5 +1,3 @@
-'use strict';
-
 import { Router } from 'express';
 import Mentor from '../models/mentor';
 import Specialty from '../models/specialty';

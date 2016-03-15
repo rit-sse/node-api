@@ -1,5 +1,3 @@
-'use strict';
-
 import quotes from './quotes.json';
 import Promise from 'bluebird';
 import models from './models';
