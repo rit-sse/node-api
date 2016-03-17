@@ -15,7 +15,9 @@ router
       const scopes = scopify(req.query, 'body', 'tag', 'search', 'approved');
       Quote
         .scope(scopes)
-        .findAndCountAll()
+        .findAndCountAll({
+          order: [['id', 'DESC']],
+        })
         .then(result => {
           const count = typeof result.count !== 'number' ? result.count.length : result.count;
           return [count, Promise.map(result.rows, quote => quote.reload({ include: [{ model: Tag, attributes: ['name'] }] }))];
