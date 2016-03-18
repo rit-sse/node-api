@@ -7,6 +7,9 @@ export default sequelize.define('links', {
     type: DataTypes.STRING,
     allowNull: false,
     primaryKey: true,
+    validate: {
+      notEmpty: true,
+    },
   },
   longLink: {
     type: DataTypes.STRING,
