@@ -18,6 +18,13 @@ function sign(payload) {
 }
 
 router
+  .route('/googleClientID')
+    .get((req, res, next) => {
+      let token = nconf.get('auth').google.id;
+      res.send(token);
+    });
+
+router
   .route('/:provider')
     .post((req, res, next) => {
       if (req.params.provider === 'refresh') {

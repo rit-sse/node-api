@@ -1,5 +1,7 @@
 import fs from 'fs';
 
+const google = require('../keys/google.json').web;
+
 export default {
   jwt: {
     secret: fs.readFileSync('./keys/private.key').toString(), // eslint-disable-line no-sync
@@ -12,7 +14,7 @@ export default {
   },
 
   google: {
-    id: process.env.GOOGLE_CLIENT_ID,
-    secret: process.env.GOOGLE_CLIENT_SECRET,
+    id: google.client_id ||  process.env.GOOGLE_CLIENT_ID,
+    secret: google.client_secret || process.env.GOOGLE_CLIENT_SECRET,
   },
 };

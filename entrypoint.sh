@@ -27,5 +27,7 @@ then
   fi;
 fi;
 
+echo "NODE_ENV set to $NODE_ENV";
+
 npm run bootstrap
 npm start
