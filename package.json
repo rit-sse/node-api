@@ -14,7 +14,7 @@
     "keygen": "babel-node ./keygen.js",
     "bootstrap": "babel-node ./bootstrap/init.js",
     "lint": "eslint .",
-    "test": "NODE_ENV=test mocha --compilers js:babel/register --timeout 5000"
+    "test": "NODE_ENV=test mocha --compilers js:babel-core/register --timeout 5000"
   },
   "repository": {
     "type": "git",
