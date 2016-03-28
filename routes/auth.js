@@ -18,6 +18,17 @@ function sign(payload) {
 }
 
 router
+  .route('/')
+    .get((req, res, next) => {
+      console.log(req);
+      console.log(req.auth);
+      console.log(req.auth.user);
+      res.send({
+        message: "oh shit"
+      });
+    });
+
+router
   .route('/:provider')
     .post((req, res, next) => {
       if (req.params.provider === 'refresh') {
