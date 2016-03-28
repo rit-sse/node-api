@@ -21,7 +21,7 @@ router
   .route('/googleClientID')
     .get((req, res, next) => {
       let token = nconf.get('auth').google.id;
-      res.send(token);
+      res.send({ token });
     });
 
 router
