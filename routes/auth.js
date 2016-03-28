@@ -2,6 +2,7 @@ import { Router } from 'express';
 import jwt from 'jsonwebtoken';
 import nconf from '../config';
 import providers from '../providers';
+import verifyUser from '../middleware/verify-user';
 
 const router = Router(); // eslint-disable-line new-cap
 
@@ -19,13 +20,18 @@ function sign(payload) {
 
 router
   .route('/')
-    .get((req, res, next) => {
-      console.log(req);
-      console.log(req.auth);
-      console.log(req.auth.user);
-      res.send({
-        message: "oh shit"
-      });
+    .get(verifyUser, (req, res, next) => {
+      if(req.auth) { 
+        res.send({
+          firstName: req.auth.user.firstName,
+          lastName: req.auth.user.lastName,
+          dce: req.auth.user.dce
+        });
+      } else {
+        res.send({
+          user: false
+        });
+      }
     });
 
 router
