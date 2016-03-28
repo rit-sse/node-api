@@ -7,6 +7,9 @@ export default sequelize.define('tags', {
     type: DataTypes.STRING,
     primaryKey: true,
     allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
   },
 }, {
   scopes: {

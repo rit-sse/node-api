@@ -2,6 +2,7 @@ import { Router } from 'express';
 import jwt from 'jsonwebtoken';
 import nconf from '../config';
 import providers from '../providers';
+import verifyUser from '../middleware/verify-user';
 
 const router = Router(); // eslint-disable-line new-cap
 
@@ -16,6 +17,19 @@ function sign(payload) {
     ),
   };
 }
+
+router
+  .route('/')
+    .get(verifyUser, (req, res, next) => {
+      if (req.auth) {
+        return res.send({
+          firstName: req.auth.user.firstName,
+          lastName: req.auth.user.lastName,
+          dce: req.auth.user.dce,
+        });
+      }
+      return next({ message: 'not logged in', status: 401 });
+    });
 
 router
   .route('/googleClientID')

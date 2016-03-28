@@ -94,7 +94,12 @@ router
           }
           return arr;
         })
-        .spread((quote, ...tags) => [quote, quote.setTags(tags.map(tag => tag[0]))])
+        .spread((quote, ...tags) => {
+          if (tags.length !== 0) {
+            return [quote, quote.setTags(tags.map(tag => tag[0]))];
+          }
+          return [quote];
+        })
         .spread(quote => quote.reload({ include: [Tag] }))
         .then(quote => res.send(quote))
         .catch(err => next(err));

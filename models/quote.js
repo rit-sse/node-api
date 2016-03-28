@@ -8,6 +8,9 @@ export default sequelize.define('quotes', {
     type: DataTypes.TEXT,
     unique: true,
     allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
   },
   description: {
     type: DataTypes.TEXT,
