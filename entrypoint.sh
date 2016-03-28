@@ -29,5 +29,14 @@ fi;
 
 echo "NODE_ENV set to $NODE_ENV";
 
-npm run bootstrap
-npm start
+if [[ "$NODE_ENV" = "development" ]];
+then
+	echo "Starting development mode";
+	echo -e "In another pane run:\n\tdocker exec -it $HOSTNAME bash";
+	while true; do sleep 100000000; done;
+	exit 0;
+else
+	npm run bootstrap
+	npm start
+fi;
+

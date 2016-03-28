@@ -11,6 +11,7 @@
   "main": "app.js",
   "scripts": {
     "start": "babel-node bin/www",
+    "watch": "nodemon --exec \"babel-node\" bin/www",
     "keygen": "babel-node ./keygen.js",
     "bootstrap": "babel-node ./bootstrap/init.js",
     "lint": "eslint .",
@@ -28,6 +29,7 @@
   "homepage": "https://github.com/rit-sse/node-api",
   "dependencies": {
     "babel": "5.8.20",
+    "babel-eslint": "^6.0.0",
     "bluebird": "^2.9.34",
     "body-parser": "^1.13.3",
     "cors": "^2.7.1",
@@ -50,9 +52,10 @@
   "devDependencies": {
     "babel-eslint": "^5.0.0",
     "chai": "^3.2.0",
-    "eslint": "~2.2.0",
-    "mocha": "^2.3.2",
+    "eslint": ">2.2.0",
     "eslint-config-sse": "rit-sse/eslint",
+    "mocha": "^2.3.2",
+    "nodemon": "^1.9.1",
     "supertest": "^1.1.0"
   }
 }
