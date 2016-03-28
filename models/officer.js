@@ -1,5 +1,3 @@
-'use strict';
-
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
 import paginate from '../helpers/paginate';
@@ -8,6 +6,9 @@ export default sequelize.define('officers', {
   title: {
     type: DataTypes.STRING,
     allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
   },
   committeeName: {
     type: DataTypes.STRING,
@@ -15,6 +16,9 @@ export default sequelize.define('officers', {
   email: {
     type: DataTypes.STRING,
     allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
   },
   primaryOfficer: {
     type: DataTypes.BOOLEAN,

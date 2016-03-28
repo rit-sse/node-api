@@ -1,5 +1,3 @@
-'use strict';
-
 import nconf from '../config';
 import jwt from 'jsonwebtoken';
 

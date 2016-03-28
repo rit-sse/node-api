@@ -1,5 +1,3 @@
-'use strict';
-
 export function up(queryInterface, Sequelize) {
   return queryInterface.createTable('tags', {
     name: {

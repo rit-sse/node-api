@@ -1,5 +1,3 @@
-'use strict';
-
 export function up(queryInterface, Sequelize) {
   return queryInterface.createTable('users', {
     firstName: Sequelize.STRING,

@@ -1,5 +1,3 @@
-'use strict';
-
 import { Router } from 'express';
 import Tip from '../models/tip';
 import scopify from '../helpers/scopify';
@@ -43,7 +41,7 @@ router
           if (tip) {
             if (!tip.approved && !req.auth.allowed) {
               return next({
-                message: `User does not have permission: unapproved tips`,
+                message: 'User does not have permission: unapproved tips',
                 status: 403,
               });
             }

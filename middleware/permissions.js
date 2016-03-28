@@ -1,5 +1,3 @@
-'use strict';
-
 import User from '../models/user';
 
 export function needs(endpoint, action) {
@@ -35,6 +33,7 @@ export function needsApprovedIndex(endpoint) {
         status: 403,
       });
     }
+
     User
       .findById(req.auth.user.dce)
       .then(user => user.can(endpoint, 'unapproved', req.auth.level))
@@ -50,6 +49,10 @@ export function needsApprovedIndex(endpoint) {
 
 export function needsApprovedOne(endpoint) {
   return (req, res, next) => {
+    if (!req.auth) {
+      req.auth = { allowed: false };
+      return next();
+    }
     User
       .findById(req.auth.user.dce)
       .then(user => user.can(endpoint, 'unapproved', req.auth.level))
@@ -57,6 +60,9 @@ export function needsApprovedOne(endpoint) {
         req.auth.allowed = true;
         next();
       })
-      .catch(() => next());
+      .catch(() => {
+        req.auth = { allowed: false };
+        next();
+      });
   };
 }

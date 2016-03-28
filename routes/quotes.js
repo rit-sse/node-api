@@ -1,5 +1,3 @@
-'use strict';
-
 import { Router } from 'express';
 import Quote from '../models/quote';
 import Tag from '../models/tag';
@@ -14,12 +12,16 @@ const router = Router(); // eslint-disable-line new-cap
 router
   .route('/')
     .get(verifyUser, paginate, needsApprovedIndex('quotes'), (req, res, next) => {
-      const scopes = scopify(req.query, 'body', 'tag', 'search');
-      scopes.push('approved');
+      const scopes = scopify(req.query, 'body', 'tag', 'search', 'approved');
       Quote
         .scope(scopes)
-        .findAndCountAll()
-        .then(result => [result.count, Promise.map(result.rows, quote => quote.reload({ include: [{ model: Tag, attributes: ['name'] }] }))])
+        .findAndCountAll({
+          order: [['id', 'DESC']],
+        })
+        .then(result => {
+          const count = typeof result.count !== 'number' ? result.count.length : result.count;
+          return [count, Promise.map(result.rows, quote => quote.reload({ include: [{ model: Tag, attributes: ['name'] }] }))];
+        })
         .spread((count, quotes) => {
           res.send({
             total: count,
@@ -60,7 +62,7 @@ router
           if (quote) {
             if (!quote.approved && !req.auth.allowed) {
               return next({
-                message: `User does not have permission: unapproved quotes`,
+                message: 'User does not have permission: unapproved quotes',
                 status: 403,
               });
             }
@@ -92,7 +94,12 @@ router
           }
           return arr;
         })
-        .spread((quote, ...tags) => [quote, quote.setTags(tags.map(tag => tag[0]))])
+        .spread((quote, ...tags) => {
+          if (tags.length !== 0) {
+            return [quote, quote.setTags(tags.map(tag => tag[0]))];
+          }
+          return [quote];
+        })
         .spread(quote => quote.reload({ include: [Tag] }))
         .then(quote => res.send(quote))
         .catch(err => next(err));

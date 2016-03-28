@@ -1,5 +1,3 @@
-'use strict';
-
 import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
 import Mentor from './mentor';
