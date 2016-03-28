@@ -21,17 +21,14 @@ function sign(payload) {
 router
   .route('/')
     .get(verifyUser, (req, res, next) => {
-      if(req.auth) { 
-        res.send({
+      if (req.auth) {
+        return res.send({
           firstName: req.auth.user.firstName,
           lastName: req.auth.user.lastName,
-          dce: req.auth.user.dce
-        });
-      } else {
-        res.send({
-          user: false
+          dce: req.auth.user.dce,
         });
       }
+      return next({ message: 'not logged in', status: 401 });
     });
 
 router
