@@ -17,7 +17,7 @@ deployment:
   development:
     branch: devlop
     commands:
-      - docker build -t ritsse/node-api:$CIRCLE_BRANCH 
+      - docker build -t ritsse/node-api:$CIRCLE_BRANCH .
   master:
     branch: master
     owner: rit-sse
