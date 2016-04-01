@@ -6,7 +6,6 @@ test:
   pre:
     - docker run --name redis -d redis
     - docker build -t ritsse/node-api:$CIRCLE_BRANCH .
-    - echo '{"web":{"client_id":"id","client_secret":"shhhh"}}' > keys/google.json
   override:
     - docker run -it -v testkeys:/app/keys ritsse/node-api:$CIRCLE_BRANCH npm run keygen
     - docker run -it -v testkeys:/app/keys ritsse/node-api:$CIRCLE_BRANCH npm run lint
