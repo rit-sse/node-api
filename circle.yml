@@ -3,9 +3,9 @@ machine:
     - docker
 
 test:
+  pre:
+    - docker build -t ritsse/node-api:$CIRCLE_BRANCH .
   override:
-    pre:
-      - docker build -t ritsse/node-api:$CIRCLE_BRANCH .
     commands:
       - docker run -it -v testkeys:/app/keys ritsse/node-api:$CIRCLE_BRANCH npm run keygen
       - docker run -it -v testkeys:/app/keys ritsse/node-api:$CIRCLE_BRANCH npm run lint
