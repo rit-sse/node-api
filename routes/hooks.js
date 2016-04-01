@@ -34,8 +34,9 @@ router
   .route('/:channel')
   .post((req, res) => {
     // Publish the bots message to dockerbuilds
-    const shouldParse = !req.query.noparse;
-    const message = shouldParse ? JSON.parse(req.body) : req.body;
+    const shouldParse = !(req.query.noparse);
+    const message = shouldParse ? JSON.stringify(req.body) : Object.keys(req.body).pop();
+    console.log(message);
     client.publish(req.params.channel, message, (err, response) => {
       res.send({status: 'ok', count: response });
     });
