@@ -17,14 +17,14 @@ router
     });
     // Required response for docker hub to mark the webhook as completed.
     const responseData = {
-      'state': 'success',
-      'description': 'SSE webhook response',
-      'context': 'sse',
-      'target_url': 'https://sse.rit.edu'
+      state: 'success',
+      description: 'SSE webhook response',
+      context: 'sse',
+      target_url: 'https://sse.rit.edu',
     };
     request.post({
       url: req.body.callback_url,
-      json: responseData
+      json: responseData,
     })
     .then(() => console.log('Responsed'))
     .catch(err => console.error(err));

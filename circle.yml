@@ -1,4 +1,6 @@
 machine:
+  services:
+    - docker
   node:
     version: 0.12.0
 
@@ -12,6 +14,9 @@ test:
     - npm run lint
 
 deployment:
+  hub:
+    commands:
+      - docker build -t ritsse/node-api:$CIRCLE_BRANCH 
   master:
     branch: master
     owner: rit-sse
