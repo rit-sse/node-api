@@ -1,8 +1,7 @@
 import fs from 'fs';
 
-const google = fs.existsSync('../keys/google.json') // eslint-disable-line no-sync
-  ? JSON.parse(fs.readFileSync('../keys/google.json')) // eslint-disable-line no-sync
-  : {};
+const google = fs.existsSync('./keys/google.json') ? // eslint-disable-line no-sync
+  JSON.parse(fs.readFileSync('./keys/google.json')) : {}; // eslint-disable-line no-sync
 
 export default {
   jwt: {
