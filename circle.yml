@@ -5,8 +5,11 @@ machine:
 test:
   pre:
     - docker build -t ritsse/node-api:$CIRCLE_BRANCH .
-    - docker run -it ritsse/node-api:$CIRCLE_BRANCH npm run keygen
-    - docker run -it ritsse/node-api:$CIRCLE_BRANCH npm run lint
+  commands:
+    - docker run -it -v testkeys:/app/keys ritsse/node-api:$CIRCLE_BRANCH npm run keygen
+    - docker run -it -v testkeys:/app/keys ritsse/node-api:$CIRCLE_BRANCH npm run lint
+  post:
+    - docker volume rm testkeys
 
 deployment:
   development:
