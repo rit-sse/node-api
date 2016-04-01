@@ -14,7 +14,8 @@ test:
     - npm run lint
 
 deployment:
-  hub:
+  development:
+    branch: devlop
     commands:
       - docker build -t ritsse/node-api:$CIRCLE_BRANCH 
   master:
