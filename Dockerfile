@@ -2,7 +2,7 @@ FROM node:5
 
 WORKDIR /app
 COPY ./package.json /app/package.json
-RUN npm install
+RUN npm install --loglevel info
 
 COPY ./ /app
 
