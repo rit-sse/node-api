@@ -1,8 +1,17 @@
 #!/bin/bash
+
+echo $@;
+if [ "$#" -ne 0 ]
+then
+  exec $@;
+  exit $?;
+fi
+
 # Check and make sure we have keys, if not make them
 if [[ ! -e keys/public.key && ! -e keys/public.key ]];
 then
   echo """
+Hey!
   Keys were not mounted into the container, this is ok for development but when
   running in production we don't want to blow away these keys everytime.
   Consider mounting in <your/path/to/keys>:/app/keys
