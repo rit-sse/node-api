@@ -4,6 +4,7 @@ machine:
 
 test:
   pre:
+    - docker login -u $DOCKER_USER -p $DOCKER_PASS -e tech@sse.rit.edu
     - docker run --name redis -d redis
     - docker build -t ritsse/node-api:$CIRCLE_BRANCH .
   override:
@@ -13,7 +14,12 @@ test:
 
 deployment:
   development:
-    branch: ["devlop", "master"]
+    branch: devlop
     commands:
-      - docker login -u $DOCKER_USER -p $DOCKER_PASS -e tech@sse.rit.edu
       - docker push ritsse/node-api:$CIRCLE_BRANCH
+  master:
+    branch: master
+    owner: rit-sse
+    commands:
+      - docker tag ritsse/node-api ritsse/node-api:$CIRCLE_BRANCH
+      - docker push ritsse/node-api 
