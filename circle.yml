@@ -13,12 +13,7 @@ test:
 
 deployment:
   development:
-    branch: devlop
+    branch: ["devlop", "master"]
     commands:
       - docker login -u $DOCKER_USER -p $DOCKER_PASS -e tech@sse.rit.edu
       - docker push ritsse/node-api:$CIRCLE_BRANCH
-  master:
-    branch: master
-    owner: rit-sse
-    commands:
-      - ssh deploy@$SSE_HOST 'cd /docker && docker-compose restart api nginx'
