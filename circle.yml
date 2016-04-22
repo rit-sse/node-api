@@ -1,19 +1,25 @@
 machine:
-  node:
-    version: 0.12.0
-
-dependencies:
-  post:
-    - npm install sqlite3 #the cached version doesn't work
+  services:
+    - docker
 
 test:
   pre:
-    - npm run keygen
-    - npm run lint
+    - docker login -u $DOCKER_USER -p $DOCKER_PASS -e tech@sse.rit.edu
+    - docker run --name redis -d redis
+    - docker build -t ritsse/node-api:$CIRCLE_BRANCH .
+  override:
+    - docker run -it -v testkeys:/app/keys ritsse/node-api:$CIRCLE_BRANCH npm run keygen
+    - docker run -it -v testkeys:/app/keys ritsse/node-api:$CIRCLE_BRANCH npm run lint
+    - docker run -it -v testkeys:/app/keys --link redis ritsse/node-api:$CIRCLE_BRANCH npm run test 
 
 deployment:
+  development:
+    branch: devlop
+    commands:
+      - docker push ritsse/node-api:$CIRCLE_BRANCH
   master:
     branch: master
     owner: rit-sse
     commands:
-      - ssh deploy@$SSE_HOST 'cd /docker && docker-compose restart api nginx'
+      - docker tag ritsse/node-api ritsse/node-api:$CIRCLE_BRANCH
+      - docker push ritsse/node-api 

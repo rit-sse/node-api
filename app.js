@@ -21,7 +21,10 @@ app.use(jwt({
   algorithms: ['RS256', 'RS384', 'RS512'],
 }).unless({
   method: 'GET',
-  path: [new RegExp(`^${apiPath}/auth/(?!refresh)[a-z]+$`)],
+  path: [
+    new RegExp(`^${apiPath}/auth/(?!refresh)[a-z]+$`),
+    new RegExp(`^${apiPath}/hooks/[a-z]+$`),
+  ],
 }));
 
 if (env === 'development') {

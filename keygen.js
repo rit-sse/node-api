@@ -9,4 +9,8 @@ export default function keygen() {
 
 if (require.main === module) {
   keygen();
+  if (!fs.existsSync('./keys/google.json')) {
+    const testData = { web: { client_id: 'a dumb token', client_secret: 'shhhhh' } };
+    fs.writeFile('./keys/google.json', JSON.stringify(testData), () => console.log('Created dumb google.json'));
+  }
 }
