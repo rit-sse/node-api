@@ -23,3 +23,6 @@ If you specify seed it will seed the database.
 
 ### Notes
 1. `PORT="2222" npm start` - Runs the server on a diffrent port.
+
+### Running with docker
+1. `docker-compose up`
