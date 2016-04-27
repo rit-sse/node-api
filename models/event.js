@@ -31,6 +31,10 @@ export default sequelize.define('events', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  link: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
   image: {
     type: DataTypes.STRING,
     validate: {
