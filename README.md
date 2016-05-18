@@ -11,6 +11,9 @@ The SSE new and improved unified API
 ### Authentication
 To generate the necessary client id and secret, head to the [Google Developer Console](https://console.developers.google.com/project), create a project, select 'APIs & Auth > Credentials', and finally click 'Create a new Client ID' making sure to set the origin and forwarding address.  After you do this, download the json.  Move it to `keys/google.json`.
 
+Auth to the node api using a client app then copy the token and set Authorization: Bearer *Token*
+You can also perform fake auth by setting all security too low then authing with slack using the defualt username in password *hint - its hardcoded in the code*
+
 
 ### Running the app
 1. `npm install`
