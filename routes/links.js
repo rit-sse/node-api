@@ -33,6 +33,20 @@ router
     });
 
 router
+  .route('/go/:shortLink')
+    .get((req, res, next) => {
+      Link
+        .findById(req.params.shortLink.toLocaleLowerCase())
+        .then(link => {
+          if (link) {
+            return res.redirect(link.longLink);
+          }
+          return Promise.reject({ message: 'Link not found', status: 404 });
+        })
+        .catch(err => next(err));
+    });
+
+router
   .route('/:shortLink')
     .get((req, res, next) => {
       Link
