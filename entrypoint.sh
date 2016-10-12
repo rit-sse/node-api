@@ -1,5 +1,13 @@
 #!/bin/bash
 
+function genConfig() {
+   echo -e """ {\"dialect\": \"postgres\",\"database\":\"postgres\", \"user\": \"$PG_ENV_POSTGRES_USER\", \
+    \"password\": \"$PG_ENV_POSTGRES_PASSWORD\",\"host\": \"PG\", \
+    \"pool\": { \"minConnections\": 2, \"maxConnections\": 10 }, \
+    \"logging\": false } \
+    """ > config/database/configs/production.json ;
+};
+
 echo $@;
 if [ "$#" -ne 0 ]
 then
@@ -26,13 +34,14 @@ then
   echo """
   Running in production, just checking a few things
   """
-  if [[ ! -e config/database/configs/production.json ]];
+  if [[ -e config/database/configs/production.json ]];
   then
   echo """
-  WARNING: no production database config found, consider mounting in the config
-  directory from the host where that config lives. UNSETTING NODE_ENV!!!
+    Using mounted configs is depricated
   """
-  unset NODE_ENV;
+  else
+    echo "    Generating prod config from env";
+    genConfig;
   fi;
 fi;
 
@@ -45,6 +54,7 @@ then
 	while true; do sleep 100000000; done;
 	exit 0;
 else
+  echo "Starting...";
 	npm run bootstrap
 	npm start
 fi;
