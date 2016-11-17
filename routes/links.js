@@ -11,7 +11,9 @@ router
     .get(paginate, (req, res, next) => {
       const scopes = scopify(req.query);
       Link.scope(scopes)
-        .findAndCountAll()
+        .findAndCountAll({
+          order: 'createdAt DESC'
+        })
         .then(result => res.send({
           total: result.count,
           perPage: req.query.perPage,
