@@ -11,7 +11,6 @@ import officers from './officers';
 import qdb from './qdb';
 import tips from './tips';
 import users from './users';
-import hooks from './hooks';
 
 const router = Router(); // eslint-disable-line new-cap
 
@@ -27,6 +26,5 @@ router.use('/officers', officers);
 router.use('/qdb', qdb);
 router.use('/tips', tips);
 router.use('/users', users );
-router.use('/hooks', hooks );
 
 export default router;

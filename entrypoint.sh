@@ -1,13 +1,5 @@
 #!/bin/bash
 
-function genConfig() {
-   echo -e """ {\"dialect\": \"postgres\",\"database\":\"postgres\", \"user\": \"$PG_ENV_POSTGRES_USER\", \
-    \"password\": \"$PG_ENV_POSTGRES_PASSWORD\",\"host\": \"PG\", \
-    \"pool\": { \"minConnections\": 2, \"maxConnections\": 10 }, \
-    \"logging\": false } \
-    """ > config/database/configs/production.json ;
-};
-
 echo $@;
 if [ "$#" -ne 0 ]
 then
@@ -29,22 +21,6 @@ Hey!
 fi;
 
 # Production vs dev requirements
-if [[ "$NODE_ENV" = "production" ]];
-then
-  echo """
-  Running in production, just checking a few things
-  """
-  if [[ -e config/database/configs/production.json ]];
-  then
-  echo """
-    Using mounted configs is depricated
-  """
-  else
-    echo "    Generating prod config from env";
-    genConfig;
-  fi;
-fi;
-
 echo "NODE_ENV set to $NODE_ENV";
 
 if [[ "$NODE_ENV" = "development" ]];

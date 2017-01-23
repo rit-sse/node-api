@@ -12,7 +12,7 @@ router
       const scopes = scopify(req.query);
       Link.scope(scopes)
         .findAndCountAll({
-          order: '"createdAt" DESC'
+          order: '"createdAt" DESC',
         })
         .then(result => res.send({
           total: result.count,
