@@ -9,8 +9,4 @@ export default function keygen() {
 
 if (require.main === module) {
   keygen();
-  if (!fs.existsSync('./keys/google.json')) { // eslint-disable-line no-sync
-    const testData = { web: { client_id: 'a dumb token', client_secret: 'shhhhh' } }; // eslint-disable-line camelcase
-    fs.writeFile('./keys/google.json', JSON.stringify(testData), () => console.log('Created dumb google.json'));
-  }
 }
