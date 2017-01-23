@@ -14,7 +14,7 @@ const production =  fs.existsSync('config/database/configs/production.json') ? /
   JSON.parse(fs.readFileSync('config/database/configs/production.json')) : // eslint-disable-line no-sync
 {
   dialect: 'postgres',
-  username: USER,
+  user: USER,
   password: PASSWORD,
   database: DB,
   host: HOST,
