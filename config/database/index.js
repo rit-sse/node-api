@@ -4,8 +4,7 @@ import fs from 'fs';
 const USER = process.env.PG_ENV_POSTGRES_USER || 'postgres';
 const PASSWORD = process.env.PG_ENV_POSTGRES_PASSWORD;
 const DB = process.env.pg_ENV_POSTGRES_DB || USER;
-const PG_CONN_STRING =
-  `postgres://${USER}:${PASSWORD}@pg:5432/${DB}`;
+const HOST = process.env.DB_HOST_OVERRIDE || 'pg';
 
 const development =  fs.existsSync('config/database/configs/development.json') ? // eslint-disable-line no-sync
   JSON.parse(fs.readFileSync('config/database/configs/development.json')) : // eslint-disable-line no-sync
@@ -15,7 +14,11 @@ const production =  fs.existsSync('config/database/configs/production.json') ? /
   JSON.parse(fs.readFileSync('config/database/configs/production.json')) : // eslint-disable-line no-sync
 {
   dialect: 'postgres',
-  host: PG_CONN_STRING,
+  username: USER,
+  password: PASSWORD,
+  database: DB,
+  host: HOST,
+  port: 5432,
 };
 
 const test =  fs.existsSync('config/database/configs/test.json') ? // eslint-disable-line no-sync
