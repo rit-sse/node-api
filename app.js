@@ -23,7 +23,6 @@ app.use(jwt({
   method: 'GET',
   path: [
     new RegExp(`^${apiPath}/auth/(?!refresh)[a-z]+$`),
-    new RegExp(`^${apiPath}/hooks/[a-z]+$`),
   ],
 }));
 
