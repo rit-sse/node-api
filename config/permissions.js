@@ -92,11 +92,11 @@ export default {
   },
   memberships: {
     create: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary, officers },
     },
     update: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary },
     },
     destroy: {
@@ -104,7 +104,7 @@ export default {
       groups: { primary },
     },
     unapproved: {
-      level: levels.high,
+      level: levels.low,
       groups: { primary },
     },
   },
