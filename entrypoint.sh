@@ -26,6 +26,7 @@ file_env() {
 file_env 'GOOGLE_CLIENT_ID'
 file_env 'GOOGLE_CLIENT_SECRET'
 file_env 'SLACK_SECRET'
+file_env 'POSTGRES_PASSWORD'
 
 # Start node api
 npm run bootstrap;
