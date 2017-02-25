@@ -33,6 +33,7 @@ export default sequelize.define('mentors', {
           },
           endDate: {
             $gte: date,
+            $eq: null,
           },
         },
       };
