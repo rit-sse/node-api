@@ -11,7 +11,7 @@ const router = Router(); // eslint-disable-line new-cap
 router
   .route('/')
     .get(paginate, (req, res, next) => {
-      const scopes = scopify(req.query, 'specialty', 'user', 'time', 'active');
+      const scopes = scopify(req.query, 'specialty', 'user', 'time', 'day', 'active');
       Mentor
         .scope(scopes)
         .findAndCountAll()
