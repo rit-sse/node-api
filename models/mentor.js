@@ -25,6 +25,13 @@ export default sequelize.define('mentors', {
         }],
       };
     },
+    day(day) {
+      return {
+        include: [{
+          model: MentorShift.scope({ method: ['day', day] }),
+        }],
+      };
+    },
     active(date) {
       return {
         where: {
@@ -33,6 +40,7 @@ export default sequelize.define('mentors', {
           },
           endDate: {
             $gte: date,
+            $eq: null,
           },
         },
       };
