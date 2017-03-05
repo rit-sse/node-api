@@ -1,4 +1,3 @@
-import AgendaItem from './agenda-item';
 import Committee from './committee';
 import Event from './event';
 import Headcount from './headcount';
@@ -9,12 +8,9 @@ import Quote from './quote';
 import Shift from './shift';
 import Specialty from './specialty';
 import Tag from './tag';
-import Tip from './tip';
 import User from './user';
 
 export default function() {
-  AgendaItem.belongsTo(Officer);
-  AgendaItem.belongsTo(User);
 
   Committee.hasOne(Officer);
   Committee.hasMany(Event);
@@ -33,7 +29,6 @@ export default function() {
 
   Officer.belongsTo(User);
   Officer.belongsTo(Committee);
-  Officer.hasMany(AgendaItem);
 
   Quote.belongsToMany(Tag, { through: 'quotes_tags' });
 
@@ -43,12 +38,8 @@ export default function() {
 
   Tag.belongsToMany(Quote, { through: 'quotes_tags' });
 
-  Tip.belongsTo(User);
-
-  User.hasMany(AgendaItem);
   User.hasMany(Headcount);
   User.hasMany(Membership);
   User.hasMany(Mentor);
   User.hasMany(Officer);
-  User.hasMany(Tip);
 }
