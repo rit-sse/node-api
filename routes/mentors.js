@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import Mentor from '../models/mentor';
+import User from '../models/user';
 import Specialty from '../models/specialty';
 import scopify from '../helpers/scopify';
 import { needs } from '../middleware/permissions';
@@ -14,7 +15,9 @@ router
       const scopes = scopify(req.query, 'specialty', 'user', 'time', 'day', 'active');
       Mentor
         .scope(scopes)
-        .findAndCountAll()
+        .findAndCountAll({
+          include: User,
+        })
         .then(result => [result.count, Promise.map(result.rows, mentor => mentor.reload({ include: [{ model: Specialty, attributes: ['name'] }] }))])
         .spread((count, mentors) => {
           res.send({

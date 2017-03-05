@@ -7,6 +7,7 @@ import Promise from 'bluebird';
 export default sequelize.define('users', {
   firstName: DataTypes.STRING,
   lastName: DataTypes.STRING,
+  image: DataTypes.STRING,
   dce: {
     type: DataTypes.STRING,
     validate: {
