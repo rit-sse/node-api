@@ -14,7 +14,6 @@ export default sequelize.define('mentors', {
   },
   bio: {
     type: DataTypes.TEXT,
-    allowNull: false,
   },
 }, {
   scopes: {
@@ -39,8 +38,10 @@ export default sequelize.define('mentors', {
             $lte: date,
           },
           endDate: {
-            $gte: date,
-            $eq: null,
+            $or: {
+              $gte: date,
+              $eq: null,
+            },
           },
         },
       };
