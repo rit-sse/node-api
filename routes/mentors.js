@@ -17,10 +17,7 @@ router
       .scope(scopes)
       .findAndCountAll()
       .then(result => [result.count, Promise.map(result.rows, mentor => mentor.reload({ include: [
-        {
-          model: Specialty,
-          attributes: ['name'],
-        },
+        Specialty,
         User,
       ] }))])
       .spread((count, mentors) => {
@@ -34,24 +31,8 @@ router
       .catch(err => next(err));
   })
   .post(needs('mentors', 'create'), (req, res, next) => {
-    User
-      .findOrCreate({ where: { dce: req.body.user.dce } })
-      .spread(user => {
-        if (!user.firstName && !user.lastName) {
-          user.firstName = req.body.user.firstName;
-          user.lastName = req.body.user.lastName;
-        }
-
-        if (req.body.user.image) {
-          user.image = req.body.user.image;
-        }
-        return user.save();
-      })
-      .then(user => {
-        req.body.userDce = user.dce;
-        return Mentor
-          .create(req.body, { fields: ['bio', 'userDce', 'startDate', 'endDate'] });
-      })
+    return Mentor
+      .create(req.body, { fields: ['bio', 'userDce', 'startDate', 'endDate'] })
       .then(mentor => {
         req.body.specialties = req.body.specialties || [];
         const arr = [mentor];
@@ -61,7 +42,7 @@ router
         return arr;
       })
       .spread((mentor, ...specialties) => [mentor, mentor.setSpecialties(specialties.map(spec => spec[0]))])
-      .spread(mentor => mentor.reload({ include: [Specialty] }))
+      .spread(mentor => mentor.reload({ include: [Specialty, User] }))
       .then(mentor => res.status(201).send(mentor))
       .catch(err => {
         err.status = 422;
@@ -74,7 +55,7 @@ router
   .get((req, res, next) => {
     Mentor
       .findById(req.params.id, {
-        include: [Specialty],
+        include: [Specialty, User],
       })
       .then(mentor => {
         if (mentor) {
@@ -86,9 +67,7 @@ router
   })
   .put(needs('mentors', 'update'), (req, res, next) => {
     Mentor
-      .findById(req.params.id, {
-        include: [Specialty],
-      })
+      .findById(req.params.id)
       .then(mentor => {
         if (mentor) {
           return mentor.updateAttributes(req.body, {
@@ -105,7 +84,7 @@ router
         return arr;
       })
       .spread((mentor, ...specialties) => [mentor, mentor.setSpecialties(specialties.map(spec => spec[0]))])
-      .spread(mentor => mentor.reload({ include: [Specialty] }))
+      .spread(mentor => mentor.reload({ include: [Specialty, User] }))
       .then(mentor => res.send(mentor))
       .catch(err => next(err));
   })

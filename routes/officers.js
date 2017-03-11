@@ -23,7 +23,7 @@ router
       Officer
         .scope(scopes)
         .findAndCountAll({
-          include: User,
+          include: [User],
         })
         .then(result => res.send({
           total: result.count,
@@ -34,29 +34,16 @@ router
         .catch(err => next(err));
     })
     .post(needs('officers', 'create'), (req, res, next) => {
-      Promise.all([
-        User
-          .findOrInitialize({ where: { dce: req.body.user.dce } })
-          .spread(user => {
-            if (!user.firstName && !user.lastName) {
-              user.firstName = req.body.user.firstName;
-              user.lastName = req.body.user.lastName;
-            }
-            return user.save();
-          }),
-        Committee
-          .findOrCreate({ where: { name: req.body.committeeName } })
-          .spread(committee => committee),
-      ])
-        .spread( (user, committee) => {
+      Committee
+        .findOrCreate({ where: { name: req.body.committeeName } })
+        .spread( committee => {
           req.body.committeeName = committee.name;
-          req.body.userDce = user.dce;
           return Officer
             .create(req.body, {
               fields: ['title', 'email', 'primaryOfficer', 'userDce', 'startDate', 'endDate', 'committeeName'],
             });
         })
-        .then(officer => officer.reload({ include: User }))
+        .then(officer => officer.reload({ include: [User] }))
         .then(officer => res.status(201).send(officer))
         .catch(err => {
           err.status = 422;
@@ -68,7 +55,9 @@ router
   .route('/:id')
     .get((req, res, next) => {
       Officer
-        .findById(req.params.id)
+        .findById(req.params.id, {
+          include: [User],
+        })
         .then(officer => {
           if (officer) {
             return res.send(officer);
@@ -89,7 +78,7 @@ router
           return Promise.reject({ message: 'Officer not found', status: 404 });
 
         })
-        .then(officer => officer.reload({ include: User }))
+        .then(officer => officer.reload({ include: [User] }))
         .then(officer => res.send(officer))
         .catch(err => next(err));
     })
