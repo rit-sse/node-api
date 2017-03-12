@@ -35,8 +35,10 @@ export default function() {
   Shift.belongsTo(Mentor);
 
   Specialty.belongsToMany(Mentor, { through: 'mentors_specialties' });
+  Specialty.addScope('active', date => ({ include: [{ model: Mentor.scope({ method: ['active', date] }), required: true }] }));
 
   Tag.belongsToMany(Quote, { through: 'quotes_tags' });
+  Tag.addScope('active', active => ({ include: [{ model: Quote, required: active }] }));
 
   User.hasMany(Headcount);
   User.hasMany(Membership);

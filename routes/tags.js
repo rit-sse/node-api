@@ -8,7 +8,12 @@ const router = Router(); // eslint-disable-line new-cap
 router
   .route('/')
     .get(paginate, (req, res, next) => {
-      const scopes = scopify(req.query);
+      if (req.query.active === 'true') {
+        req.query.active = true;
+      } else {
+        req.query.active = false;
+      }
+      const scopes = scopify(req.query, 'active');
       Tag
         .scope(scopes)
         .findAndCountAll()
@@ -16,7 +21,11 @@ router
           total: result.count,
           perPage: req.query.perPage,
           currentPage: req.query.page,
-          data: result.rows,
+          data: result.rows.map(tag => {
+            const t = tag.get({ plain: true });
+            Reflect.deleteProperty(t, 'quotes');
+            return t;
+          }),
         }))
         .catch(err => next(err));
     });
