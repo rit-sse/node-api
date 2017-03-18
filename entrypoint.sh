@@ -27,6 +27,8 @@ file_env 'GOOGLE_CLIENT_ID'
 file_env 'GOOGLE_CLIENT_SECRET'
 file_env 'SLACK_SECRET'
 file_env 'POSTGRES_PASSWORD'
+file_env 'MENTOR_GOOGLE_CALENDAR'
+file_env 'GOOGLE_API_KEY'
 
 # Start node api
 npm run bootstrap;

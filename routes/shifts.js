@@ -1,77 +1,39 @@
 import { Router } from 'express';
-import Shift from '../models/shift';
-import scopify from '../helpers/scopify';
-import { needs } from '../middleware/permissions';
-import paginate from '../middleware/paginate';
+import google from 'googleapis';
+import nconf from '../config';
+import moment from 'moment';
 
+const calendar = google.calendar('v3');
 const router = Router(); // eslint-disable-line new-cap
 
 router
   .route('/')
-    .get(paginate, (req, res, next) => {
-      const scopes = scopify(req.query, 'time', 'day', 'mentor', 'active');
-      Shift
-        .scope(scopes)
-        .findAndCountAll()
-        .then(result => res.send({
-          total: result.count,
-          perPage: req.query.perPage,
-          currentPage: req.query.page,
-          data: result.rows.map(shift => {
-            const t = shift.get({ plain: true });
-            Reflect.deleteProperty(t, 'mentor');
-            return t;
-          }),
-        }))
-        .catch(err => next(err));
-    })
-    .post(needs('shifts', 'create'), (req, res, next) => {
-      Shift.create(req.body, { fields: ['startTime', 'endTime', 'day', 'mentorId'] })
-        .then(shift => res.status(201).send(shift))
-        .catch(err => {
-          err.status = 422;
-          next(err);
-        });
-    });
+  .get((req, res, next) => {
+    if (req.accepts('json')) {
+      calendar.events.list({
+        auth: nconf.get('auth:google:key'),
+        calendarId: nconf.get('auth:google:calendars:mentor'),
+        singleEvents: true,
+        timeMin: req.query.startTime || moment().day('Sunday').toISOString(),
+        timeMax: req.query.endTime || moment().day('Saturday').toISOString(),
+        orderBy: 'startTime',
+      }, (err, response) => {
+        if (err) {
+          err.status = err.code;
+          return next(err);
+        }
+        return res.send(response.items.map(({ summary, start, end }) => ({
+          startTime: start.dateTime,
+          endTime: end.dataTime,
+          fullName: summary,
+        })));
+      });
+    } else if (req.accepts('ics')) {
+      res.redirect(`https://calendar.google.com/calendar/ical/${nconf.get('auth:google:calendars:mentor')}/public/basic.ics`);
+    } else {
+      return next({ status: 406, message: `${req.headers.accept} is not acceptable` });
 
-router
-  .route('/:id')
-    .get((req, res, next) => {
-      Shift
-        .findById(req.params.id)
-        .then(shift => {
-          if (shift) {
-            return res.send(shift);
-          }
-          return Promise.reject({ message: 'Shift not found', status: 404 });
-        })
-        .catch(err => next(err));
-    })
-    .put(needs('shifts', 'update'), (req, res, next) => {
-      Shift
-        .findById(req.params.id)
-        .then(shift => {
-          if (shift) {
-            return shift.updateAttributes(req.body, {
-              fields: ['startTime', 'endTime', 'day', 'mentorId'],
-            });
-          }
-          return Promise.reject({ message: 'Shift not found', status: 404 });
-        })
-        .then(shift => res.send(shift))
-        .catch(err => next(err));
-    })
-    .delete(needs('shifts', 'destroy'), (req, res, next) => {
-      Shift
-        .findById(req.params.id)
-        .then(shift => {
-          if (shift) {
-            return shift.destroy();
-          }
-          return Promise.reject({ message: 'Shift not found', status: 404 });
-        })
-        .then(() => res.sendStatus(204))
-        .catch(err => next(err));
-    });
+    }
+  });
 
 export default router;

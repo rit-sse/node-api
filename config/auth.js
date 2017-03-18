@@ -17,5 +17,9 @@ export default {
   google: {
     id: google.client_id ||  process.env.GOOGLE_CLIENT_ID,
     secret: google.client_secret || process.env.GOOGLE_CLIENT_SECRET,
+    key: google.api_key || process.env.GOOGLE_API_KEY,
+    calendars: {
+      mentor: (google.calendars ? google.calendars.mentor : null) || process.env.MENTOR_GOOGLE_CALENDAR,
+    },
   },
 };

@@ -14,6 +14,15 @@ To generate the necessary client id and secret, head to the [Google Developer Co
 Auth to the node api using a client app then copy the token and set Authorization: Bearer *Token*
 You can also perform fake auth by setting all security too low then authing with slack using the defualt username in password *hint - its hardcoded in the code*
 
+### Google Calendar
+Only need to do this if you are working on mentroing related endpoints.
+
+* Create a new Google Calendar for the Mentor Schedule
+* In the side bar, Click on the arrow next to your new calendar and go to calendar settings.
+* On the Calendar Details screen, you will find your calendar ID in the *Calendar Address* section. You can store this value in `keys/google.json` under `web.calendars.mentor`, or use the ENV variable `MENTOR_GOOGLE_CALENDAR`.
+* Go to the Share Calendar Tab and make the calendar public.
+* Head back to [Google Developer Console](https://console.developers.google.com/apis/library). Go to the same project you created before. Go to Libraries and search for Google Calendar API. Enable that API.
+* Next go to Credentials Tab. Click Create Credentials > API Key. You can store this key in `keys/google.json` under `web.api_key` or set the ENV variable `GOOGLE_API_KEY`.
 
 ### Running the app
 1. `npm install`
