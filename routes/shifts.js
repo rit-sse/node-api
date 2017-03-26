@@ -22,11 +22,13 @@ router
           err.status = err.code;
           return next(err);
         }
-        return res.send(response.items.map(({ summary, start, end }) => ({
-          startTime: start.dateTime,
-          endTime: end.dataTime,
-          fullName: summary,
-        })));
+        return res.send({
+          data: response.items.map(({ summary, start, end }) => ({
+            startDate: start.dateTime,
+            endDate: end.dateTime,
+            fullName: summary,
+          })),
+        });
       });
     } else if (req.accepts('ics')) {
       res.redirect(`https://calendar.google.com/calendar/ical/${nconf.get('auth:google:calendars:mentor')}/public/basic.ics`);
