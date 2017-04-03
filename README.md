@@ -10,7 +10,7 @@ The SSE new and improved unified API. Used in conjunction with the [OneRepoToRul
   * [Authentication](#authentication)
     * [Configuring Google OAuth](#configuring-google-oauth)
     * [Obtaining a token](#obtaining-a-token)
-    * [Configuring Google Calendar](#configuring-google-calendar)
+  * [Configuring Google Calendar](#configuring-google-calendar)
 * [Running the app](#running-the-app)
 * [Running with docker](#running-with-docker)
 * [Additional notes](#additional-notes)
