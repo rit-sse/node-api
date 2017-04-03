@@ -9,10 +9,33 @@ The SSE new and improved unified API
 ## Development
 
 ### Authentication
-To generate the necessary client id and secret, head to the [Google Developer Console](https://console.developers.google.com/project), create a project, select 'APIs & Auth > Credentials', and finally click 'Create a new Client ID' making sure to set the origin and forwarding address.  After you do this, download the json.  Move it to `keys/google.json`.
+The API uses Google OAuth for authentication. You'll need to create a Project using Google Developer Console in order to make use of the API's authenticated requests. The following steps walk you through doing so, with the assumption you are using it for development in conjunction with the [OneRepoToRuleThemAll](https://github.com/rit-sse/OneRepoToRuleThemAll) project.
 
-Auth to the node api using a client app then copy the token and set Authorization: Bearer *Token*
-You can also perform fake auth by setting all security too low then authing with slack using the defualt username in password *hint - its hardcoded in the code*
+#### Configuring Google OAuth
+1. Navigate to [Google Developer Console](https://console.developers.google.com/project), making sure you are logged in to the Google account you would like associated with the OAuth Authentication.
+2. Select the option to create a new project, naming it whatever you wish. Click 'Create'. You should be redirected to your Project's API Manager page.
+3. Open the Credentials page by selecting it from the navigation pane on the left hand side of the page.
+4. On the Credentials page, select the option 'Create credentials', and then 'OAuth client ID'.
+5. You should now see a warning that you must set a product name on the consent screen. Select the option to 'Configure consent screen'. You will now be taken to the 'OAuth consent screen' settings pane. On this page, fill in the 'Product name shown to users' field with a name identifiable to your users. `SSE Dev API` is a good choice. When you're ready, click 'Save'.
+6. Next, you'll be guiden through the process of creating your OAuth Client Credentials. First, select 'Web application' as the Application type. Fill in the following information in the form that appears:
+    - **Name:** `SSE Dev API` (or however you'd like to refer to it internally)
+    - **Authorized JavaScript origins:** `http://localhost:5000`
+        - This is the default origin of the SSE website client development server.
+    - **Authorized redirect URIs:** `http://localhost:5000/api/v1/auth`
+        - The URL that the client expects authentication responses to redirect to.
+7. After filling in the above information, press 'Save' and you should now see your newly created credentials in a list view. Download the newly created secret by clicking the 'Download JSON' button in the row of your client (It's the down arrow). A `.json` file should be downloaded to your computer.
+8. Finally, rename the downloaded file to `google.json` and place it in the `keys/` directory of your project.
+
+Your dev environment is now configured for authentication using Google OAuth! Follow the steps for [running the app](#running-the-app) below to get the server up and running.
+
+
+#### Obtaining a token
+If you want to perform requests directly against the API (and not through the client), you'll need a valid token. Here's how to get one:
+* Start up the `OneRepoToRuleThemAll` client and authenticate with your `g.rit.edu` RIT account by clicking the Login button on one of the pages listed in the navigation bar.
+* Open the network/requests pane of your browser's developer console and view the Request headers for the `auth` resource.
+  * All of your requests against the API should include this `Authorization` header and data, i.e.&nbsp;`Bearer YOUR_TOKEN_STRING`.
+
+*You can also perform fake auth by setting all security too low then authing with slack using the defualt username and password *hint - its hardcoded in the code**
 
 
 ### Running the app
@@ -25,7 +48,7 @@ If you specify seed it will seed the database.
 
 
 ### Notes
-1. `PORT="2222" npm start` - Runs the server on a diffrent port.
+1. `PORT="2222" npm start` - Run the server on a different port.
 
 ### Running with docker
 1. `docker-compose up`
