@@ -20,12 +20,12 @@ The SSE new and improved unified API. Used in conjunction with the [OneRepoToRul
 [Apiary Docs](http://docs.sse.apiary.io)
 
 ### Authentication
-The API uses Google OAuth for authentication. You'll need to create a Project using Google Developer Console in order to make use of the API's authenticated requests. The following steps walk you through doing so, with the assumption you are using it for development in conjunction with the [OneRepoToRuleThemAll](https://github.com/rit-sse/OneRepoToRuleThemAll) project.
+The API uses Google OAuth for authentication. You'll need to create a Project using Google Developer Console to make use of the API's authenticated requests. The following steps walk you through doing so, with the assumption you are using it for development in conjunction with the [OneRepoToRuleThemAll](https://github.com/rit-sse/OneRepoToRuleThemAll) project.
 
 #### Configuring Google OAuth
 1. Navigate to [Google Developer Console](https://console.developers.google.com/project), making sure you are logged in to the Google account you would like associated with the OAuth Authentication.
 2. Select the option to create a new project, naming it whatever you wish. Click 'Create'. You should be redirected to your Project's API Manager page.
-3. Open the Credentials page by selecting it from the navigation pane on the left hand side of the page.
+3. Open the Credentials page by selecting it from the navigation pane on the left-hand side of the page.
 4. On the Credentials page, select the option 'Create credentials', and then 'OAuth client ID'.
 5. You should now see a warning that you must set a product name on the consent screen. Select the option to 'Configure consent screen'. You will now be taken to the 'OAuth consent screen' settings pane. On this page, fill in the 'Product name shown to users' field with a name identifiable to your users. `SSE Dev API` is a good choice. When you're ready, click 'Save'.
 6. Next, you'll be guiden through the process of creating your OAuth Client Credentials. First, select 'Web application' as the Application type. Fill in the following information in the form that appears:
@@ -44,9 +44,9 @@ Your dev environment is now configured for authentication using Google OAuth! Fo
 If you want to perform requests directly against the API (and not through the client), you'll need a valid token. Here's how to get one:
 * Start up the `OneRepoToRuleThemAll` client and authenticate with your `g.rit.edu` RIT account by clicking the Login button on one of the pages listed in the navigation bar.
 * Open the network/requests pane of your browser's developer console and view the Request headers for the `auth` resource.
-  * All of your requests against the API should include this `Authorization` header and data, i.e.&nbsp;`Bearer YOUR_TOKEN_STRING`.
+  * All your requests against the API should include this `Authorization` header and data, i.e.&nbsp;`Bearer YOUR_TOKEN_STRING`.
 
-*You can also perform fake auth by setting all security too low then authing with slack using the defualt username and password *hint - its hardcoded in the code**
+*You can also perform fake auth by setting all security too low then authing with Slack using the default username and password (hint - its hardcoded in the code)*
 
 
 ### Running the app
