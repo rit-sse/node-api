@@ -2,11 +2,22 @@
 
 [![Circle CI](https://circleci.com/gh/rit-sse/node-api.svg?style=svg&circle-token=50819f36da32c91bfd2df83ccae75175c0ff9a6e)](https://circleci.com/gh/rit-sse/node-api)
 
-The SSE new and improved unified API
+The SSE new and improved unified API. Used in conjunction with the [OneRepoToRuleThemAll](https://github.com/rit-sse/OneRepoToRuleThemAll) project.
 
-[Apiary Docs](http://docs.sse.apiary.io)
-
+## Contents
+* [Development](#development)
+  * [API Reference](#api-reference)
+  * [Authentication](#authentication)
+    * [Configuring Google OAuth](#configuring-google-oauth)
+    * [Obtaining a token](#obtaining-a-token)
+* [Running the app](#running-the-app)
+* [Running with docker](#running-with-docker)
+* [Additional notes](#additional-notes)
+---
 ## Development
+
+### API Reference
+[Apiary Docs](http://docs.sse.apiary.io)
 
 ### Authentication
 The API uses Google OAuth for authentication. You'll need to create a Project using Google Developer Console in order to make use of the API's authenticated requests. The following steps walk you through doing so, with the assumption you are using it for development in conjunction with the [OneRepoToRuleThemAll](https://github.com/rit-sse/OneRepoToRuleThemAll) project.
@@ -46,9 +57,8 @@ user with all permissions. If you specify keygen, all keys will be regenerated.
 If you specify seed it will seed the database.
 4. `npm start`
 
-
-### Notes
-1. `PORT="2222" npm start` - Run the server on a different port.
-
 ### Running with docker
 1. `docker-compose up`
+
+### Additional Notes
+1. `PORT="2222" npm start` - Run the server on a different port.
