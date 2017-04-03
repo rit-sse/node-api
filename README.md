@@ -10,6 +10,7 @@ The SSE new and improved unified API. Used in conjunction with the [OneRepoToRul
   * [Authentication](#authentication)
     * [Configuring Google OAuth](#configuring-google-oauth)
     * [Obtaining a token](#obtaining-a-token)
+    * [Configuring Google Calendar](#configuring-google-calendar)
 * [Running the app](#running-the-app)
 * [Running with docker](#running-with-docker)
 * [Additional notes](#additional-notes)
@@ -47,6 +48,17 @@ If you want to perform requests directly against the API (and not through the cl
   * All your requests against the API should include this `Authorization` header and data, i.e.&nbsp;`Bearer YOUR_TOKEN_STRING`.
 
 *You can also perform fake auth by setting all security too low then authing with Slack using the default username and password (hint - its hardcoded in the code)*
+
+
+### Configuring Google Calendar
+You only need to do this if you are working on mentoring-related endpoints.
+
+* Create a new Google Calendar for the Mentor Schedule
+* In the side bar, Click on the arrow next to your new calendar and go to calendar settings.
+* On the Calendar Details screen, you will find your calendar ID in the *Calendar Address* section. You can store this value in `keys/google.json` under `web.calendars.mentor`, or use the ENV variable `MENTOR_GOOGLE_CALENDAR`.
+* Go to the Share Calendar Tab and make the calendar public.
+* Head back to [Google Developer Console](https://console.developers.google.com/apis/library). Go to the same project you created before. Go to Libraries and search for Google Calendar API. Enable that API.
+* Next go to Credentials Tab. Click Create Credentials > API Key. You can store this key in `keys/google.json` under `web.api_key` or set the ENV variable `GOOGLE_API_KEY`.
 
 
 ### Running the app
