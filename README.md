@@ -31,12 +31,12 @@ The following steps walk you through configuring Google OAuth, with the assumpti
 3. Open the Credentials page by selecting it from the navigation pane on the left-hand side of the page.
 4. On the Credentials page, select the option 'Create credentials', and then 'OAuth client ID'.
 5. You should now see a warning that you must set a product name on the consent screen. Select the option to 'Configure consent screen'. You will now be taken to the 'OAuth consent screen' settings pane. On this page, fill in the 'Product name shown to users' field with a name identifiable to your users. `SSE Dev API` is a good choice. When you're ready, click 'Save'.
-6. Next, you'll be guiden through the process of creating your OAuth Client Credentials. First, select 'Web application' as the Application type. Fill in the following information in the form that appears:
+6. Next, you'll be guided through the process of creating your OAuth Client Credentials. First, select 'Web application' as the Application type. Next, fill in the following information on the form that appears:
     - **Name:** `SSE Dev API` (or however you'd like to refer to it internally)
     - **Authorized JavaScript origins:** `http://localhost:5000`
         - This is the default origin of the SSE website client development server.
     - **Authorized redirect URIs:** `http://localhost:5000/api/v1/auth`
-        - The URL that the client expects authentication responses to redirect to.
+        - The URL that your client expects authentication responses to redirect to.
 7. After filling in the above information, press 'Save' and you should now see your newly created credentials in a list view. Download the newly created secret by clicking the 'Download JSON' button in the row of your client (It's the down arrow). A `.json` file should be downloaded to your computer.
 8. Finally, rename the downloaded file to `google.json` and place it in the `keys/` directory of your project.
 
