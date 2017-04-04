@@ -2,7 +2,7 @@
 
 [![Circle CI](https://circleci.com/gh/rit-sse/node-api.svg?style=svg&circle-token=50819f36da32c91bfd2df83ccae75175c0ff9a6e)](https://circleci.com/gh/rit-sse/node-api)
 
-The SSE new and improved unified API. Used in conjunction with the [OneRepoToRuleThemAll](https://github.com/rit-sse/OneRepoToRuleThemAll) project.
+The SSE new and improved unified API.
 
 ## Contents
 * [Development](#development)
@@ -21,9 +21,11 @@ The SSE new and improved unified API. Used in conjunction with the [OneRepoToRul
 [Apiary Docs](http://docs.sse.apiary.io)
 
 ### Authentication
-The API uses Google OAuth for authentication. You'll need to create a Project using Google Developer Console to make use of the API's authenticated requests. The following steps walk you through doing so, with the assumption you are using it for development in conjunction with the [OneRepoToRuleThemAll](https://github.com/rit-sse/OneRepoToRuleThemAll) project.
+The API uses Google OAuth for authentication. You'll need to create a Project using Google Developer Console to make use of the API's authenticated requests.
 
 #### Configuring Google OAuth
+The following steps walk you through configuring Google OAuth, with the assumption you are using it for development in conjunction with the [OneRepoToRuleThemAll](https://github.com/rit-sse/OneRepoToRuleThemAll) project. **If you are using another client, you will have to modify Step 6 to conform with that client's configuration.**
+
 1. Navigate to [Google Developer Console](https://console.developers.google.com/project), making sure you are logged in to the Google account you would like associated with the OAuth Authentication.
 2. Select the option to create a new project, naming it whatever you wish. Click 'Create'. You should be redirected to your Project's API Manager page.
 3. Open the Credentials page by selecting it from the navigation pane on the left-hand side of the page.
@@ -42,10 +44,12 @@ Your dev environment is now configured for authentication using Google OAuth! Fo
 
 
 #### Obtaining a token
+*NOTE: The steps below assume you are using a web-based client. If you are using another type of client, you'll have to retrieve the token in a different manner.*
+
 If you want to perform requests directly against the API (and not through the client), you'll need a valid token. Here's how to get one:
-* Start up the `OneRepoToRuleThemAll` client and authenticate with your `g.rit.edu` RIT account by clicking the Login button on one of the pages listed in the navigation bar.
-* Open the network/requests pane of your browser's developer console and view the Request headers for the `auth` resource.
-  * All your requests against the API should include this `Authorization` header and data, i.e.&nbsp;`Bearer YOUR_TOKEN_STRING`.
+* Start up your client application and authenticate with your `g.rit.edu` RIT account.
+* Open the network/requests pane of your browser's developer console and view the Request headers for any request against the `node-api`.
+  * All of your requests against the API should include this `Authorization` header and data, i.e.&nbsp;"`Bearer YOUR_TOKEN_STRING`".
 
 *You can also perform fake auth by setting all security too low then authing with Slack using the default username and password (hint - its hardcoded in the code)*
 
