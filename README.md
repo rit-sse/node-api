@@ -29,3 +29,4 @@ If you specify seed it will seed the database.
 
 ### Running with docker
 1. `docker-compose up`
+
