@@ -10,7 +10,7 @@ nconf
 
 nconf.set('auth', auth);
 nconf.set('api:prefix', 'api');
-nconf.set('api:version', 'v2');
+nconf.set('api:version', 'v1');
 nconf.set('db', database);
 nconf.set('permissions', permissions);
 
