@@ -5,8 +5,29 @@ import scopify from '../helpers/scopify';
 import { needs, needsApprovedIndex, needsApprovedOne } from '../middleware/permissions';
 import verifyUser from '../middleware/verify-user';
 import paginate from '../middleware/paginate';
+import sequelize from '../config/sequelize';
 
 const router = Router(); // eslint-disable-line new-cap
+
+router
+  .route('/scoreboard')
+    .get(paginate, (req, res, next) => {
+      const scopes = scopify(req.query, 'user', 'active', 'between', 'approved');
+      Membership
+        .scope(scopes)
+        .findAll({
+          attributes: [
+            'userDce',
+            [sequelize.fn('count', sequelize.col('userDce')), 'memberships']
+          ],
+          group: ['userDce'],
+          order: 'memberships DESC',
+        })
+        .then(scoreboard => {
+          return res.send(scoreboard);
+        })
+        .catch(err => next(err));
+    });
 
 router
   .route('/')

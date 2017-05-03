@@ -1,4 +1,8 @@
 {
-  "dialect": "sqlite",
-  "storage": "db/development.db"
+  "dialect": "postgres",
+  "user": "postgres",
+  "password": "zFi1y7SFpyp6pDhsdsi11D9eQbQyn8",
+  "database": "postgres",
+  "host": "sseprod.se.rit.edu",
+  "port": 5432
 }
