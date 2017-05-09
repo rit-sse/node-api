@@ -8,6 +8,7 @@ import memberships from './memberships';
 import officers from './officers';
 import qdb from './qdb';
 import users from './users';
+import status from './status';
 
 const router = Router(); // eslint-disable-line new-cap
 
@@ -19,6 +20,7 @@ router.use('/memberships', memberships );
 router.use('/mentoring', mentoring);
 router.use('/officers', officers);
 router.use('/qdb', qdb);
-router.use('/users', users );
+router.use('/users', users);
+router.use('/status', status);
 
 export default router;
