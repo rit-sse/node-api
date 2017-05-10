@@ -20,7 +20,7 @@ router
         })
         .then(result => {
           const count = typeof result.count !== 'number' ? result.count.length : result.count;
-          return [count, Promise.map(result.rows, quote => quote.reload({ include: [Tag] }))];
+          return [count, Promise.map(result.rows, quote => quote.reload({ include: [{ model: Tag, attributes: ['name'] }] }))];
         })
         .spread((count, quotes) => {
           res.send({
