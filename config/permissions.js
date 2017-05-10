@@ -6,20 +6,6 @@ const levels = {
 
 export default {
   levels,
-  agendas: {
-    create: {
-      level: levels.low,
-      groups: { primary, officers },
-    },
-    update: {
-      level: levels.high,
-      groups: { primary, officers },
-    },
-    destroy: {
-      level: levels.high,
-      groups: { primary, officers },
-    },
-  },
   committees: {
     create: {
       level: levels.high,
@@ -60,20 +46,6 @@ export default {
     destroy: {
       level: levels.high,
       groups: { primary, officers, mentors },
-    },
-  },
-  lingo: {
-    update: {
-      level: levels.high,
-      groups: { primary },
-    },
-    destroy: {
-      level: levels.high,
-      groups: { primary },
-    },
-    unapproved: {
-      level: levels.high,
-      groups: { primary },
     },
   },
   links: {
@@ -164,16 +136,8 @@ export default {
       groups: { primary, officers },
     },
   },
-  tips: {
+  users: {
     update: {
-      level: levels.high,
-      groups: { primary, officers },
-    },
-    destroy: {
-      level: levels.high,
-      groups: { primary, officers },
-    },
-    unapproved: {
       level: levels.high,
       groups: { primary, officers },
     },

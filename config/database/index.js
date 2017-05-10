@@ -2,9 +2,9 @@ import fs from 'fs';
 
 // Build postgres connection string from environment
 const USER = process.env.PG_ENV_POSTGRES_USER || 'postgres';
-const PASSWORD = process.env.PG_ENV_POSTGRES_PASSWORD;
+const PASSWORD = process.env.PG_ENV_POSTGRES_PASSWORD || process.env.POSTGRES_PASSWORD;
 const DB = process.env.pg_ENV_POSTGRES_DB || USER;
-const HOST = process.env.DB_HOST_OVERRIDE || 'pg';
+const HOST = process.env.DB_HOST_OVERRIDE || 'postgres';
 
 const development =  fs.existsSync('config/database/configs/development.json') ? // eslint-disable-line no-sync
   JSON.parse(fs.readFileSync('config/database/configs/development.json')) : // eslint-disable-line no-sync

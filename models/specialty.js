@@ -12,7 +12,7 @@ export default sequelize.define('specialties', {
     },
   },
 }, {
-  socpes: {
+  scopes: {
     paginate,
   },
 });
