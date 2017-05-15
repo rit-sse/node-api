@@ -36,7 +36,7 @@ router
     .post(needs('events', 'create'), (req, res, next) => {
       Event.create(req.body, { fields: ['name', 'startDate', 'endDate', 'description', 'location', 'image', 'committeeName'] })
         .then(event => res.status(201).send(event))
-        .catch(err => {
+        .catch((err) => {
           err.status = 422;
           next(err);
         });
@@ -47,7 +47,7 @@ router
     .get((req, res, next) => {
       Event
         .findById(req.params.id)
-        .then(event => {
+        .then((event) => {
           if (event) {
             return res.send(event);
           }
@@ -58,7 +58,7 @@ router
     .put(needs('events', 'update'), (req, res, next) => {
       Event
         .findById(req.params.id)
-        .then(event => {
+        .then((event) => {
           if (event) {
             return event.updateAttributes(req.body, {
               fields: ['name', 'startDate', 'endDate', 'description', 'location', 'image', 'committeeName'],
@@ -72,7 +72,7 @@ router
     .delete(needs('events', 'destroy'), (req, res, next) => {
       Event
         .findById(req.params.id)
-        .then(event => {
+        .then((event) => {
           if (event) {
             return event.destroy();
           }

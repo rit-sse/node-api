@@ -9,8 +9,7 @@ import Specialty from './specialty';
 import Tag from './tag';
 import User from './user';
 
-export default function() {
-
+export default function () {
   Committee.hasOne(Officer);
   Committee.hasMany(Event);
   Committee.hasMany(Membership);

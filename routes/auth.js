@@ -60,7 +60,7 @@ router
         .then(user => res.send(sign({
           user: user[0], level: provider.authLevel,
         })))
-        .catch(err =>  {
+        .catch((err) => {
           err.status = 401;
           next(err);
         });

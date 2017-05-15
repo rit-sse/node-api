@@ -1,23 +1,23 @@
-import quotes from './quotes.json';
 import Promise from 'bluebird';
+import quotes from './quotes.json';
 import models from './models';
 import Tag from './models/tag';
 import Quote from './models/quote';
 
 models();
 
-Promise.each(quotes, quoteObj => {
+Promise.each(quotes, (quoteObj) => {
   quoteObj.approved = true;
   return Quote
     .create(quoteObj)
-    .then(quote => {
+    .then((quote) => {
       const arr = [quote];
-      for (const tag of quoteObj.tags) {
+      quoteObj.tags.forEach((tag) => {
         arr.push(Tag.findOrCreate({ where: { name: tag } }));
-      }
+      });
       return arr;
     })
     .spread((quote, ...tags) => [quote, quote.setTags(tags.map(tag => tag[0]))])
-    .catch(err => console.log(err));
+    .catch(err => console.log(err)); // eslint-disable-line no-console
 })
-  .then(() => console.log('done'));
+  .then(() => console.log('done')); // eslint-disable-line no-console

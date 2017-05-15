@@ -1,7 +1,7 @@
-import nconf from '../config';
 import jwt from 'jsonwebtoken';
+import nconf from '../config';
 
-export default function(req, res, next) {
+export default function (req, res, next) {
   let token;
   if (req.headers && req.headers.authorization) {
     const parts = req.headers.authorization.split(' ');

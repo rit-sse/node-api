@@ -24,7 +24,7 @@ router
       req.body.userDce = req.auth.user.dce;
       Headcount.create(req.body, { fields: ['count', 'userDce'] })
         .then(headcount => res.status(201).send(headcount))
-        .catch(err => {
+        .catch((err) => {
           err.status = 422;
           next(err);
         });
@@ -35,7 +35,7 @@ router
     .get((req, res, next) => {
       Headcount
         .findById(req.params.id)
-        .then(headcount => {
+        .then((headcount) => {
           if (headcount) {
             return res.send(headcount);
           }
@@ -46,7 +46,7 @@ router
     .put(needs('headcounts', 'update'), (req, res, next) => {
       Headcount
         .findById(req.params.id)
-        .then(headcount => {
+        .then((headcount) => {
           if (headcount) {
             return headcount.updateAttributes(req.body, {
               fields: ['count'],
@@ -60,7 +60,7 @@ router
     .delete(needs('headcounts', 'destroy'), (req, res, next) => {
       Headcount
         .findById(req.params.id)
-        .then(headcount => {
+        .then((headcount) => {
           if (headcount) {
             return headcount.destroy();
           }

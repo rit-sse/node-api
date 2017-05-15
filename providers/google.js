@@ -1,6 +1,6 @@
+import google from 'googleapis';
 import nconf from '../config';
 import User from '../models/user';
-import google from 'googleapis';
 
 const OAuth2 = google.auth.OAuth2;
 
@@ -30,7 +30,7 @@ export default class GoogleProvider {
 
   findOrCreateUser() {
     return User
-      .findOrCreate({ where: { dce: this.dce } } )
+      .findOrCreate({ where: { dce: this.dce } })
       .spread((user, created) => {
         user.firstName = this.payload.given_name;
         user.lastName = this.payload.family_name;

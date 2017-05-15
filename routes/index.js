@@ -16,7 +16,7 @@ router.use('/auth', auth);
 router.use('/committees', committees);
 router.use('/events', events);
 router.use('/links', links);
-router.use('/memberships', memberships );
+router.use('/memberships', memberships);
 router.use('/mentoring', mentoring);
 router.use('/officers', officers);
 router.use('/qdb', qdb);

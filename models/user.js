@@ -1,8 +1,8 @@
-import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
+import Promise from 'bluebird';
+import sequelize from '../config/sequelize';
 import paginate from '../helpers/paginate';
 import nconf from '../config';
-import Promise from 'bluebird';
 
 export default sequelize.define('users', {
   firstName: DataTypes.STRING,
@@ -45,7 +45,7 @@ export default sequelize.define('users', {
       return this
         .currentGroups()
         .filter(group => permission.groups[group] && level >= permission.level)
-        .then(p => {
+        .then((p) => {
           if (p.length === 0) {
             return Promise.reject(false);
           }

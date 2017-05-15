@@ -4,7 +4,7 @@ const router = Router(); // eslint-disable-line new-cap
 
 router
   .route('/')
-  .get((req, res, next) => {
+  .get((req, res) => {
     res.sendStatus(200);
   });
 

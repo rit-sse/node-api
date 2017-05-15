@@ -3,10 +3,10 @@ import bodyParser from 'body-parser';
 import logger from 'morgan';
 import cors from 'cors';
 import jwt from 'express-jwt';
+import mime from 'mime';
 import nconf from './config';
 import router from './routes';
 import models from './models';
-import mime from 'mime';
 
 const app = express();
 
@@ -41,7 +41,7 @@ app.use((req, res, next) => {
   }
   req.headers.accept = mime.lookup(match[1]);
   req.url = req.url.replace(regexp, '');
-  next();
+  return next();
 });
 
 models();
@@ -56,7 +56,7 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   if (err.stack) {
-    console.error(err.stack);
+    console.error(err.stack); // eslint-disable-line no-console
   }
   const status = err.status;
   Reflect.deleteProperty(err, 'status');

@@ -27,7 +27,7 @@ router
     .get((req, res, next) => {
       User
         .findById(req.params.dce)
-        .then(user => {
+        .then((user) => {
           if (user) {
             return res.send(user);
           }
@@ -38,7 +38,7 @@ router
     .put(needs('users', 'update'), (req, res, next) => {
       User
         .findOrCreate({ where: { dce: req.params.dce } })
-        .spread(user => {
+        .spread((user) => {
           if (!user.firstName && !user.lastName) {
             user.firstName = req.body.firstName;
             user.lastName = req.body.lastName;
@@ -48,7 +48,7 @@ router
           return user.save();
         })
         .then(user => res.status(200).send(user))
-        .catch(err => {
+        .catch((err) => {
           err.status = 422;
           next(err);
         });

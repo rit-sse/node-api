@@ -16,7 +16,7 @@ router
           total: result.count,
           perPage: req.query.perPage,
           currentPage: req.query.page,
-          data: result.rows.map(specialty => {
+          data: result.rows.map((specialty) => {
             const s = specialty.get({ plain: true });
             Reflect.deleteProperty(s, 'mentors');
             return s;

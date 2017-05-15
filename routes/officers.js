@@ -1,11 +1,11 @@
 import { Router } from 'express';
+import Promise from 'bluebird';
 import Officer from '../models/officer';
 import User from '../models/user';
 import Committee from '../models/committee';
 import scopify from '../helpers/scopify';
 import { needs } from '../middleware/permissions';
 import paginate from '../middleware/paginate';
-import Promise from 'bluebird';
 
 const router = Router(); // eslint-disable-line new-cap
 
@@ -36,7 +36,7 @@ router
     .post(needs('officers', 'create'), (req, res, next) => {
       Committee
         .findOrCreate({ where: { name: req.body.committeeName } })
-        .spread( committee => {
+        .spread((committee) => {
           req.body.committeeName = committee.name;
           return Officer
             .create(req.body, {
@@ -45,7 +45,7 @@ router
         })
         .then(officer => officer.reload({ include: [User] }))
         .then(officer => res.status(201).send(officer))
-        .catch(err => {
+        .catch((err) => {
           err.status = 422;
           next(err);
         });
@@ -58,7 +58,7 @@ router
         .findById(req.params.id, {
           include: [User],
         })
-        .then(officer => {
+        .then((officer) => {
           if (officer) {
             return res.send(officer);
           }
@@ -69,14 +69,13 @@ router
     .put(needs('officers', 'update'), (req, res, next) => {
       Officer
         .findById(req.params.id)
-        .then(officer => {
+        .then((officer) => {
           if (officer) {
             return officer.updateAttributes(req.body, {
               fields: ['title', 'email', 'userDce', 'termName', 'committeeName', 'primaryOfficer', 'startDate', 'endDate'],
             });
           }
           return Promise.reject({ message: 'Officer not found', status: 404 });
-
         })
         .then(officer => officer.reload({ include: [User] }))
         .then(officer => res.send(officer))
@@ -85,7 +84,7 @@ router
     .delete(needs('officers', 'destroy'), (req, res, next) => {
       Officer
         .findById(req.params.id)
-        .then(officer => {
+        .then((officer) => {
           if (officer) {
             return officer.destroy();
           }
