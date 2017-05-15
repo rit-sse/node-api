@@ -1,8 +1,8 @@
-import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
-import paginate from '../helpers/paginate';
 import moment from 'moment';
 import 'moment-range';
+import sequelize from '../config/sequelize';
+import paginate from '../helpers/paginate';
 
 export default sequelize.define('memberships', {
   reason: {

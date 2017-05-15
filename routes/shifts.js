@@ -1,7 +1,7 @@
 import { Router } from 'express';
+import moment from 'moment';
 import google from 'googleapis';
 import nconf from '../config';
-import moment from 'moment';
 
 const calendar = google.calendar('v3');
 const router = Router(); // eslint-disable-line new-cap
@@ -34,7 +34,6 @@ router
       res.redirect(`https://calendar.google.com/calendar/ical/${nconf.get('auth:google:calendars:mentor')}/public/basic.ics`);
     } else {
       return next({ status: 406, message: `${req.headers.accept} is not acceptable` });
-
     }
   });
 

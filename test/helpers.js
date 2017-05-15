@@ -1,6 +1,6 @@
+import jwt from 'jsonwebtoken';
 import nconf from '../config';
 import bootstrap from '../bootstrap/init';
-import jwt from 'jsonwebtoken';
 import User from '../models/user';
 import Officer from '../models/officer';
 
@@ -23,17 +23,13 @@ export const token = jwt.sign(
 
 export function beforeEachHelper() {
   return bootstrap()
-    .then(() => {
-      return User.create(payload.user);
-    })
-    .then(user => {
-      return Officer.create({
-        title: 'President',
-        email: 'president',
-        primaryOfficer: true,
-        userDce: user.dce,
-        startDate: new Date(),
-        endDate: new Date(2020, 0, 12),
-      });
-    });
+    .then(() => User.create(payload.user))
+    .then(user => Officer.create({
+      title: 'President',
+      email: 'president',
+      primaryOfficer: true,
+      userDce: user.dce,
+      startDate: new Date(),
+      endDate: new Date(2020, 0, 12),
+    }));
 }

@@ -1,5 +1,5 @@
-import sequelize from '../config/sequelize';
 import DataTypes from 'sequelize';
+import sequelize from '../config/sequelize';
 import paginate from '../helpers/paginate';
 import Specialty from './specialty';
 
@@ -17,20 +17,6 @@ export default sequelize.define('mentors', {
   },
 }, {
   scopes: {
-    time(time) {
-      return {
-        include: [{
-          model: MentorShift.scope({ method: ['time', time] }),
-        }],
-      };
-    },
-    day(day) {
-      return {
-        include: [{
-          model: MentorShift.scope({ method: ['day', day] }),
-        }],
-      };
-    },
     active(date) {
       return {
         where: {

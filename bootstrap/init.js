@@ -17,17 +17,17 @@ export default function bootstrap() {
   });
 
   if (nconf.get('keygen')) {
-    console.log('Generating Keys..');
+    console.log('Generating Keys..'); // eslint-disable-line no-console
     keygen();
   }
   if (sequelize.options.storage) {
-    fs.closeSync(fs.openSync(sequelize.options.storage, 'w')); // eslint-disable-line no-sync
+    fs.closeSync(fs.openSync(sequelize.options.storage, 'w'));
   }
 
   return umzug.up()
   .then(() => {
     if (nconf.get('seed')) {
-      console.log('Seeding database...');
+      console.log('Seeding database...'); // eslint-disable-line no-console
       return seeder();
     }
   });

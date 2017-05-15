@@ -1,11 +1,11 @@
 import { Router } from 'express';
+import Promise from 'bluebird';
 import Quote from '../models/quote';
 import Tag from '../models/tag';
 import scopify from '../helpers/scopify';
 import { needs, needsApprovedIndex, needsApprovedOne } from '../middleware/permissions';
 import verifyUser from '../middleware/verify-user';
 import paginate from '../middleware/paginate';
-import Promise from 'bluebird';
 
 const router = Router(); // eslint-disable-line new-cap
 
@@ -18,7 +18,7 @@ router
         .findAndCountAll({
           order: [['id', 'DESC']],
         })
-        .then(result => {
+        .then((result) => {
           const count = typeof result.count !== 'number' ? result.count.length : result.count;
           return [count, Promise.map(result.rows, quote => quote.reload({ include: [{ model: Tag, attributes: ['name'] }] }))];
         })
@@ -35,17 +35,17 @@ router
     .post((req, res, next) => {
       req.body.tags = req.body.tags || [];
       Quote.create(req.body, { fields: ['body', 'description'] })
-        .then(quote => {
+        .then((quote) => {
           const arr = [quote];
-          for (const tag of req.body.tags) {
+          req.body.tags.forEach((tag) => {
             arr.push(Tag.findOrCreate({ where: { name: tag } }));
-          }
+          });
           return arr;
         })
         .spread((quote, ...tags) => [quote, quote.setTags(tags.map(tag => tag[0]))])
         .spread(quote => quote.reload({ include: [Tag] }))
         .then(quote => res.status(201).send(quote))
-        .catch(err => {
+        .catch((err) => {
           err.status = 422;
           next(err);
         });
@@ -58,7 +58,7 @@ router
         .findById(req.params.id, {
           include: [Tag],
         })
-        .then(quote => {
+        .then((quote) => {
           if (quote) {
             if (!quote.approved && !req.auth.allowed) {
               return next({
@@ -78,20 +78,19 @@ router
         .findById(req.params.id, {
           include: [Tag],
         })
-        .then(quote => {
+        .then((quote) => {
           if (quote) {
             return quote.updateAttributes(req.body, {
               fields: ['body', 'description', 'approved'],
             });
           }
           return Promise.reject({ message: 'Quote not found', status: 404 });
-
         })
-        .then(quote => {
+        .then((quote) => {
           const arr = [quote];
-          for (const tag of req.body.tags) {
+          req.body.tags.forEach((tag) => {
             arr.push(Tag.findOrCreate({ where: { name: tag } }));
-          }
+          });
           return arr;
         })
         .spread((quote, ...tags) => {
@@ -107,7 +106,7 @@ router
     .delete(needs('quotes', 'destroy'), (req, res, next) => {
       Quote
         .findById(req.params.id)
-        .then(quote => {
+        .then((quote) => {
           if (quote) {
             return quote.destroy();
           }

@@ -1,9 +1,7 @@
-module.exports = {
-  up(queryInterface, Sequelize) {
-    return queryInterface.addColumn('events', 'link', { type: Sequelize.STRING, allowNull: true });
-  },
+export function up(queryInterface, Sequelize) {
+  return queryInterface.addColumn('events', 'link', { type: Sequelize.STRING, allowNull: true });
+}
 
-  down(queryInterface, Sequelize) {
-    return queryInterface.removeColumn('events', 'link');
-  }
-};
+export function down(queryInterface) {
+  return queryInterface.removeColumn('events', 'link');
+}

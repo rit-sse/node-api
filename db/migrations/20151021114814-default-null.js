@@ -11,7 +11,7 @@ export function up(queryInterface, Sequelize) {
   ]);
 }
 
-export function down(queryInterface) {
+export function down(queryInterface, Sequelize) {
   return Promise.all([
     queryInterface.changeColumn('memberships', 'approved', {
       type: Sequelize.BOOLEAN,

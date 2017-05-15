@@ -7,7 +7,7 @@ export default {
   jwt: {
     secret: fs.readFileSync('./keys/private.key').toString(), // eslint-disable-line no-sync
     pub: fs.readFileSync('./keys/public.key').toString(), // eslint-disable-line no-sync
-    expiresInMinutes: 60*24*2,
+    expiresInMinutes: 60 * 24 * 2,
   },
 
   slack: {
@@ -15,7 +15,7 @@ export default {
   },
 
   google: {
-    id: google.client_id ||  process.env.GOOGLE_CLIENT_ID,
+    id: google.client_id || process.env.GOOGLE_CLIENT_ID,
     secret: google.client_secret || process.env.GOOGLE_CLIENT_SECRET,
     key: google.api_key || process.env.GOOGLE_API_KEY,
     calendars: {

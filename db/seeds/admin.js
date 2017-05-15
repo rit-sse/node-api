@@ -7,8 +7,7 @@ export default function seed() {
   if (admin) {
     return User
       .create(admin)
-      .then(user => {
-        return Officer
+      .then(user => Officer
           .create({
             title: 'President',
             email: 'president',
@@ -16,8 +15,7 @@ export default function seed() {
             userDce: user.dce,
             startDate: new Date(),
             endDate: new Date(2020, 0, 12),
-          });
-      });
+          }));
   }
 
   return Promise.resolve();
