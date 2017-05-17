@@ -58,7 +58,7 @@
     "babel-eslint": "^5.0.0",
     "chai": "^3.2.0",
     "eslint": ">2.2.0",
-    "eslint-config-sse": "rit-sse/eslint",
+    "eslint-config-sse": "rit-sse/eslint#v1.0",
     "mocha": "^2.3.2",
     "nodemon": "^1.9.1",
     "supertest": "^1.1.0"
