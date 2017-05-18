@@ -35,7 +35,7 @@ The following steps walk you through configuring Google OAuth, with the assumpti
     - **Name:** `SSE Dev API` (or however you'd like to refer to it internally)
     - **Authorized JavaScript origins:** `http://localhost:5000`
         - This is the default origin of the SSE website client development server.
-    - **Authorized redirect URIs:** `http://localhost:5000/api/v1/auth`
+    - **Authorized redirect URIs:** `http://localhost:5000/api/v2/auth`
         - The URL that your client expects authentication responses to redirect to.
 7. After filling in the above information, press 'Save' and you should now see your newly created credentials in a list view. Download the newly created secret by clicking the 'Download JSON' button in the row of your client (It's the down arrow). A `.json` file should be downloaded to your computer.
 8. Finally, rename the downloaded file to `google.json` and place it in the `keys/` directory of your project.
