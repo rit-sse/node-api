@@ -1,6 +1,6 @@
-export default function(perPage, page) {
+export default function (perPage, page) {
   return {
     limit: perPage,
-    offset: (page-1)*perPage,
+    offset: (page - 1) * perPage,
   };
 }

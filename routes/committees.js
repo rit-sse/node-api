@@ -16,7 +16,7 @@ router
           total: result.count,
           perPage: req.query.perPage,
           currentPage: req.query.page,
-          data: result.rows.map(committee => {
+          data: result.rows.map((committee) => {
             const c = committee.get({ plain: true });
             Reflect.deleteProperty(c, 'officer');
             return c;
@@ -30,7 +30,7 @@ router
     .get((req, res, next) => {
       Committee
         .findById(req.params.id)
-        .then(committee => {
+        .then((committee) => {
           if (committee) {
             return res.send(committee);
           }

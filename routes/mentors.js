@@ -1,11 +1,11 @@
 import { Router } from 'express';
+import Promise from 'bluebird';
 import Mentor from '../models/mentor';
 import User from '../models/user';
 import Specialty from '../models/specialty';
 import scopify from '../helpers/scopify';
 import { needs } from '../middleware/permissions';
 import paginate from '../middleware/paginate';
-import Promise from 'bluebird';
 
 const router = Router(); // eslint-disable-line new-cap
 
@@ -30,25 +30,23 @@ router
       })
       .catch(err => next(err));
   })
-  .post(needs('mentors', 'create'), (req, res, next) => {
-    return Mentor
+  .post(needs('mentors', 'create'), (req, res, next) => Mentor
       .create(req.body, { fields: ['bio', 'userDce', 'startDate', 'endDate'] })
-      .then(mentor => {
+      .then((mentor) => {
         req.body.specialties = req.body.specialties || [];
         const arr = [mentor];
-        for (const spec of req.body.specialties) {
+        req.body.specialties.forEach((spec) => {
           arr.push(Specialty.findOrCreate({ where: { name: spec } }));
-        }
+        });
         return arr;
       })
       .spread((mentor, ...specialties) => [mentor, mentor.setSpecialties(specialties.map(spec => spec[0]))])
       .spread(mentor => mentor.reload({ include: [Specialty, User] }))
       .then(mentor => res.status(201).send(mentor))
-      .catch(err => {
+      .catch((err) => {
         err.status = 422;
         next(err);
-      });
-  });
+      }));
 
 router
   .route('/:id')
@@ -57,7 +55,7 @@ router
       .findById(req.params.id, {
         include: [Specialty, User],
       })
-      .then(mentor => {
+      .then((mentor) => {
         if (mentor) {
           return res.send(mentor);
         }
@@ -68,7 +66,7 @@ router
   .put(needs('mentors', 'update'), (req, res, next) => {
     Mentor
       .findById(req.params.id)
-      .then(mentor => {
+      .then((mentor) => {
         if (mentor) {
           return mentor.updateAttributes(req.body, {
             fields: ['bio', 'userDce', 'startDate', 'endDate'],
@@ -76,11 +74,11 @@ router
         }
         return Promise.reject({ message: 'Mentor not found', status: 404 });
       })
-      .then(mentor => {
+      .then((mentor) => {
         const arr = [mentor];
-        for (const spec of req.body.specialties) {
+        req.body.specialties.forEach((spec) => {
           arr.push(Specialty.findOrCreate({ where: { name: spec } }));
-        }
+        });
         return arr;
       })
       .spread((mentor, ...specialties) => [mentor, mentor.setSpecialties(specialties.map(spec => spec[0]))])
@@ -91,7 +89,7 @@ router
   .delete(needs('mentors', 'destroy'), (req, res, next) => {
     Mentor
       .findById(req.params.id)
-      .then(mentor => {
+      .then((mentor) => {
         if (mentor) {
           return mentor.setSpecialties([]).then(() => mentor.destroy());
         }

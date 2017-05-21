@@ -10,18 +10,17 @@ export default class SlackProvider {
   }
 
   verify() {
-    return new Promise( (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const validDCE = this.dce.match(/[a-z]{2,3}\d{4}/);
       if (validDCE && this.secret === nconf.get('auth:slack:secret')) {
         return resolve();
       }
 
       return reject({ message: 'Invalid secret or dce' });
-
     });
   }
 
   findOrCreateUser() {
-    return User.findOrCreate({ where: { dce: this.dce } } );
+    return User.findOrCreate({ where: { dce: this.dce } });
   }
 }

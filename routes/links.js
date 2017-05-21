@@ -28,7 +28,7 @@ router
         longLink: req.body.longLink,
       }, { fields: ['shortLink', 'longLink'] })
         .then(link => res.status(201).send(link))
-        .catch(err => {
+        .catch((err) => {
           err.status = 422;
           next(err);
         });
@@ -39,7 +39,7 @@ router
     .get((req, res, next) => {
       Link
         .findById(req.params.shortLink.toLocaleLowerCase())
-        .then(link => {
+        .then((link) => {
           if (link) {
             return res.redirect(link.longLink);
           }
@@ -53,7 +53,7 @@ router
     .get((req, res, next) => {
       Link
         .findById(req.params.shortLink.toLocaleLowerCase())
-        .then(link => {
+        .then((link) => {
           if (link) {
             return res.send(link);
           }
@@ -64,7 +64,7 @@ router
     .put(needs('links', 'update'), (req, res, next) => {
       Link
         .findById(req.params.shortLink.toLocaleLowerCase())
-        .then(link => {
+        .then((link) => {
           if (link) {
             return link.updateAttributes(req.body, {
               fields: ['shortLink', 'longLink'],
@@ -78,7 +78,7 @@ router
     .delete(needs('links', 'destroy'), (req, res, next) => {
       Link
         .findById(req.params.shortLink.toLocaleLowerCase())
-        .then(link => {
+        .then((link) => {
           if (link) {
             return link.destroy();
           }

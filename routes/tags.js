@@ -21,7 +21,7 @@ router
           total: result.count,
           perPage: req.query.perPage,
           currentPage: req.query.page,
-          data: result.rows.map(tag => {
+          data: result.rows.map((tag) => {
             const t = tag.get({ plain: true });
             Reflect.deleteProperty(t, 'quotes');
             return t;

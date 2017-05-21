@@ -18,14 +18,12 @@ router
         .findAll({
           attributes: [
             'userDce',
-            [sequelize.fn('count', sequelize.col('userDce')), 'memberships']
+            [sequelize.fn('count', sequelize.col('userDce')), 'memberships'],
           ],
           group: ['userDce'],
           order: 'memberships DESC',
         })
-        .then(scoreboard => {
-          return res.send(scoreboard);
-        })
+        .then(scoreboard => res.send(scoreboard))
         .catch(err => next(err));
     });
 
@@ -46,18 +44,16 @@ router
       }))
       .catch(err => next(err));
   })
-  .post(needs('memberships', 'create'), (req, res, next) => {
-    return Membership
+  .post(needs('memberships', 'create'), (req, res, next) => Membership
       .create(req.body, {
         fields: ['reason', 'committeeName', 'userDce', 'startDate', 'endDate'],
       })
       .then(membership => membership.reload({ include: [User] }))
       .then(membership => res.status(201).send(membership))
-      .catch(err => {
+      .catch((err) => {
         err.status = 422;
         next(err);
-      });
-  });
+      }));
 
 router
   .route('/:id')
@@ -66,7 +62,7 @@ router
       .findById(req.params.id, {
         include: [User],
       })
-      .then(membership => {
+      .then((membership) => {
         if (membership) {
           if (!membership.approved && !req.auth.allowed) {
             return Promise.reject({
@@ -83,7 +79,7 @@ router
   .put(needs('memberships', 'update'), (req, res, next) => {
     Membership
       .findById(req.params.id)
-      .then(membership => {
+      .then((membership) => {
         if (membership) {
           return membership.updateAttributes(req.body, {
             fields: ['reason', 'approved', 'committeeName', 'userDce', 'startDate', 'endDate'],
@@ -98,7 +94,7 @@ router
   .delete(needs('memberships', 'destroy'), (req, res, next) => {
     Membership
       .findById(req.params.id)
-      .then(membership => {
+      .then((membership) => {
         if (membership) {
           return membership.destroy();
         }

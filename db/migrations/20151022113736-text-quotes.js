@@ -4,22 +4,18 @@ export function up(queryInterface, Sequelize) {
     allowNull: false,
     unique: true,
   })
-  .then( () => {
-    return queryInterface.changeColumn('quotes', 'description', {
-      type: Sequelize.TEXT,
-    });
-  });
+  .then(() => queryInterface.changeColumn('quotes', 'description', {
+    type: Sequelize.TEXT,
+  }));
 }
 
-export function down(queryInterface) {
+export function down(queryInterface, Sequelize) {
   return queryInterface.changeColumn('quotes', 'body', {
     type: Sequelize.STRING,
     allowNull: false,
     unique: true,
   })
-  .then( () => {
-    return queryInterface.changeColumn('quotes', 'description', {
-      type: Sequelize.STRING,
-    });
-  });
+  .then(() => queryInterface.changeColumn('quotes', 'description', {
+    type: Sequelize.STRING,
+  }));
 }

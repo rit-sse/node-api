@@ -14,7 +14,7 @@ export function down(queryInterface, Sequelize) {
     type: Sequelize.DATE,
     allowNull: false,
   })
-    .then(() =>  queryInterface.changeColumn('mentors', 'bio', {
+    .then(() => queryInterface.changeColumn('mentors', 'bio', {
       type: Sequelize.TEXT,
       allowNull: false,
     }));
