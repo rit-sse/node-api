@@ -82,9 +82,6 @@ user with all permissions. If you specify keygen, all keys will be regenerated.
 If you specify seed it will seed the database.
 4. `npm start`
 
-### Running with docker
-1. `docker-compose up`
-
 ### Additional Notes
 1. `PORT="2222" npm start` - Run the server on a different port.
 
