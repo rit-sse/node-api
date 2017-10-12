@@ -12,6 +12,11 @@ import status from './status';
 
 const router = Router(); // eslint-disable-line new-cap
 
+router.use((req, res, next) => {
+  res.header('Cache-Control', 'max-age=300');
+  return next();
+});
+
 router.use('/auth', auth);
 router.use('/committees', committees);
 router.use('/events', events);
