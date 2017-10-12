@@ -20,6 +20,11 @@ router.use((req, res, next) => {
   return next();
 });
 
+router.use((req, res, next) => {
+  res.header('Cache-Control', 'max-age=300');
+  return next();
+});
+
 router.use('/auth', auth);
 router.use('/committees', committees);
 router.use('/events', events);
