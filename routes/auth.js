@@ -6,6 +6,12 @@ import verifyUser from '../middleware/verify-user';
 
 const router = Router(); // eslint-disable-line new-cap
 
+router.use((req, res, next) => {
+  res.header('Cache-Control', 'max-age=0');
+  return next();
+});
+
+
 const jwtConfig = nconf.get('auth:jwt');
 
 function sign(payload) {

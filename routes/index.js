@@ -15,6 +15,11 @@ const router = Router(); // eslint-disable-line new-cap
 const apiConfig = nconf.get('api');
 const apiPath = `/${apiConfig.prefix}/${apiConfig.version}`;
 
+router.use((req, res, next) => {
+  res.header('Cache-Control', 'max-age=300');
+  return next();
+});
+
 router.use('/auth', auth);
 router.use('/committees', committees);
 router.use('/events', events);
