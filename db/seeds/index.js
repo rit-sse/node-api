@@ -1,8 +1,6 @@
 import admin from './admin';
-import models from '../../models';
 import officer from './seed';
-
-models();
+import '../../models';
 
 export default function () {
   return admin()

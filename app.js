@@ -6,7 +6,7 @@ import jwt from 'express-jwt';
 import mime from 'mime';
 import nconf from './config';
 import router from './routes';
-import models from './models';
+import './models';
 
 const app = express();
 
@@ -44,7 +44,6 @@ app.use((req, res, next) => {
   return next();
 });
 
-models();
 app.use(apiPath, router);
 
 // error handlers
