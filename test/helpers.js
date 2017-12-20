@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import nconf from '../config';
 import bootstrap from '../bootstrap/init';
+import sequelize from '../config/sequelize';
 import User from '../models/user';
 import Officer from '../models/officer';
 
@@ -21,15 +22,23 @@ export const token = jwt.sign(
   { expiresInMinutes: jwtConfig.expiresInMinutes, algorithm: 'RS256' }
 );
 
+export function beforeHelper() {
+  return bootstrap();
+}
+
 export function beforeEachHelper() {
-  return bootstrap()
-    .then(() => User.create(payload.user))
-    .then(user => Officer.create({
-      title: 'President',
-      email: 'president',
-      primaryOfficer: true,
-      userDce: user.dce,
-      startDate: new Date(),
-      endDate: new Date(2020, 0, 12),
-    }));
+  return sequelize
+    .transaction(t => Promise.all(
+        [User, Officer]
+          .map(model => model.destroy({ where: {}, transaction: t }))
+      ))
+      .then(() => User.create(payload.user))
+      .then(user => Officer.create({
+        title: 'President',
+        email: 'president',
+        primaryOfficer: true,
+        userDce: user.dce,
+        startDate: new Date(),
+        endDate: new Date(2020, 0, 12),
+      }));
 }
