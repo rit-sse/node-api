@@ -1,11 +1,16 @@
 {
   "name": "node-api",
   "version": "1.0.0",
+  "private": true,
   "description": "The API for the Society of Software Engineers",
   "contributors": [
     {
       "name": "Kristen Mills",
       "email": "kristen@kristen-mills.com"
+    },
+    {
+      "name": "Bill Dybas",
+      "email": "wmdybas@gmail.com"
     }
   ],
   "main": "app.js",
@@ -57,13 +62,13 @@
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
-    "chai": "^3.2.0",
+    "chai": "^4.1.2",
     "eslint": "^3.19.0",
     "eslint-config-sse": "rit-sse/eslint",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
-    "mocha": "^2.3.2",
+    "mocha": "^4.0.1",
     "nodemon": "^1.9.1",
-    "supertest": "^1.1.0"
+    "supertest": "^3.0.0"
   }
 }
