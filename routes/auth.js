@@ -19,7 +19,7 @@ function sign(payload) {
     token: jwt.sign(
       payload,
       jwtConfig.secret,
-      { expiresInMinutes: jwtConfig.expiresInMinutes, algorithm: 'RS256' }
+      { expiresIn: jwtConfig.expiresIn, algorithm: 'RS256' }
     ),
   };
 }
