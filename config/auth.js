@@ -7,7 +7,7 @@ export default {
   jwt: {
     secret: fs.readFileSync('./keys/private.key').toString(), // eslint-disable-line no-sync
     pub: fs.readFileSync('./keys/public.key').toString(), // eslint-disable-line no-sync
-    expiresInMinutes: 60 * 24 * 2,
+    expiresIn: '2 days',
   },
 
   slack: {

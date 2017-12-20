@@ -19,7 +19,7 @@ const payload = {
 export const token = jwt.sign(
   payload,
   jwtConfig.secret,
-  { expiresInMinutes: jwtConfig.expiresInMinutes, algorithm: 'RS256' }
+  { expiresIn: jwtConfig.expiresIn, algorithm: 'RS256' }
 );
 
 export function beforeHelper() {
