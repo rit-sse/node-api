@@ -18,6 +18,7 @@ export default sequelize.define('committees', {
     name(name) {
       return { where: { name } };
     },
+    // Committees which have at least 1 'active' Officer
     active(date) {
       return {
         include: [{
