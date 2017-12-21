@@ -121,6 +121,37 @@ describe('INTEGRATION TESTS: COMMITTEES', function () {
           done();
         });
     });
+
+    // See: https://github.com/rit-sse/node-api/issues/67
+    it('Filters by Active When Multiple Officers Are Assigned to the Same Committee', function (done) {
+      const expected = {
+        total: 2,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [
+          {
+            name: 'Technology',
+            description: 'tech',
+            createdAt: '2017-12-01T05:00:00.000Z',
+            updatedAt: '2017-12-01T05:00:00.000Z',
+          },
+          {
+            name: 'Mentoring',
+            description: 'mentoring',
+            createdAt: '2017-12-10T05:00:00.000Z',
+            updatedAt: '2017-12-10T05:00:00.000Z',
+          },
+        ],
+      };
+
+      request(app)
+        .get(`/api/v2/committees?active=${encodeURIComponent('2017-01-05T05:00:00.000Z')}`)
+        .expect(200)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
+    });
   });
 
   describe('GET /:id', function () {
