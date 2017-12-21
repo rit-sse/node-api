@@ -119,7 +119,15 @@ export function beforeEachHelper() {
           email: 'mentoring',
           userDce: 'axy9999',
           startDate: '2017-01-01T05:00:00.000Z',
-          endDate: moment().add(10, 'years').startOf('day').toISOString(),
+          endDate: null,
+        },
+        {
+          title: 'Mentoring Head',
+          committeeName: 'Mentoring',
+          email: 'mentoring',
+          userDce: 'br4321',
+          startDate: '2016-06-01T05:00:00.000Z',
+          endDate: '2017-01-10T05:00:00.000Z', // A date which overlaps the 'startDate' of the above Mentoring Head to test for 'active' duplicates
         },
         {
           title: 'Art Head',
