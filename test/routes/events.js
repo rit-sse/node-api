@@ -180,7 +180,7 @@ describe('INTEGRATION TESTS: EVENTS', function () {
       done();
     });
 
-    it('Destroys a Specific Event', function (done) {
+    it('Deletes a Specific Event', function (done) {
       expect(false).to.equal(true);
       done();
     });
