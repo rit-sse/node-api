@@ -96,12 +96,17 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         });
     });
 
-    it('Creates an Event', function (done) {
+    it('Requires Correct Permissions', function (done) {
       expect(false).to.equal(true);
       done();
     });
 
     it('Creates an Event', function (done) {
+      expect(false).to.equal(true);
+      done();
+    });
+
+    it('Requires Start Date to be Before End Date', function (done) {
       expect(false).to.equal(true);
       done();
     });
@@ -139,6 +144,11 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         });
     });
 
+    it('Requires Correct Permissions', function (done) {
+      expect(false).to.equal(true);
+      done();
+    });
+
     it('Updates a Specific Event', function (done) {
       expect(false).to.equal(true);
       done();
@@ -163,6 +173,11 @@ describe('INTEGRATION TESTS: EVENTS', function () {
           expect(response.body).to.deep.equal(expected);
           done();
         });
+    });
+
+    it('Requires Correct Permissions', function (done) {
+      expect(false).to.equal(true);
+      done();
     });
 
     it('Destroys a Specific Event', function (done) {
