@@ -9,20 +9,53 @@ import nconf from '../../config';
 
 describe('INTEGRATION TESTS: USERS', function () {
   describe('GET /', function () {
-    it('', function () {
-      return false;
+    it('Gets Users', function (done) {
+      expect(false).to.equal(true);
+      done();
+    });
+
+    it('Filters by First Name', function (done) {
+      expect(false).to.equal(true);
+      done();
+    });
+
+    it('Filters by Last Name', function (done) {
+      expect(false).to.equal(true);
+      done();
     });
   });
 
   describe('GET /:dce', function () {
-    it('', function () {
-      return false;
+    it('Gets a Specific User by Their DCE', function (done) {
+      expect(false).to.equal(true);
+      done();
+    });
+
+    it('Does Not Find a Non-existent User', function (done) {
+      expect(false).to.equal(true);
+      done();
     });
   });
 
   describe('PUT /:dce', function () {
-    it('', function () {
-      return false;
+    it('Requires Authentication', function (done) {
+      expect(false).to.equal(true);
+      done();
+    });
+
+    it('Requires Correct Permissions', function (done) {
+      expect(false).to.equal(true);
+      done();
+    });
+
+    it('Updates a Specific User', function (done) {
+      expect(false).to.equal(true);
+      done();
+    });
+
+    it('Does Not Find and Update a Non-existent User', function (done) {
+      expect(false).to.equal(true);
+      done();
     });
   });
 });
