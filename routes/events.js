@@ -22,12 +22,12 @@ router
             data: result.rows,
           }))
           .catch(err => next(err));
-      } else if (req.accepts('ics')) {
+      } else if (req.accepts('ics')) { // NOTE: ACCEPT 'text/calendar'
         scopes.shift();
         return Event
           .scope(scopes)
           .findAll()
-          .then(events => res.send(ical(events)))
+          .then(events => res.attachment('calendar.ics').send(ical(events)))
           .catch(err => next(err));
       } else {
         return next({ status: 406, message: `${req.headers.accept} is not acceptable` });
