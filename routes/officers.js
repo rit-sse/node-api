@@ -72,7 +72,7 @@ router
         .then((officer) => {
           if (officer) {
             return officer.updateAttributes(req.body, {
-              fields: ['title', 'email', 'userDce', 'termName', 'committeeName', 'primaryOfficer', 'startDate', 'endDate'],
+              fields: ['title', 'email', 'userDce', 'committeeName', 'primaryOfficer', 'startDate', 'endDate'],
             });
           }
           return Promise.reject({ message: 'Officer not found', status: 404 });
