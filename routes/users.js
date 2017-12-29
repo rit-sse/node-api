@@ -37,14 +37,22 @@ router
     })
     .put(needs('users', 'update'), (req, res, next) => {
       User
-        .findOrCreate({ where: { dce: req.params.dce } })
+        .findOrCreate({
+          where: {
+            dce: req.params.dce,
+          },
+          defaults: {
+            image: null, // If creating a new User, default 'image' to 'null'
+          },
+        })
         .spread((user) => {
           if (!user.firstName && !user.lastName) {
             user.firstName = req.body.firstName;
             user.lastName = req.body.lastName;
           }
-
-          user.image = req.body.image;
+          if (req.body.image) {
+            user.image = req.body.image;
+          }
           return user.save();
         })
         .then(user => res.status(200).send(user))
