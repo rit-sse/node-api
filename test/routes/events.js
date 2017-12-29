@@ -17,73 +17,476 @@ import {
 describe('INTEGRATION TESTS: EVENTS', function () {
   describe('GET /', function () {
     it('Returns Events When Accepting JSON', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        total: 3,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [
+          {
+            id: 1,
+            name: 'Review Session',
+            committeeName: 'Mentoring',
+            startDate: '2017-10-12T05:00:00.000Z',
+            endDate: '2017-10-12T05:00:00.000Z',
+            location: 'GOL-1440',
+            link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+            image: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+            description: null,
+          },
+          {
+            id: 2,
+            name: 'Microtalks',
+            committeeName: 'Talks',
+            startDate: '2017-06-12T05:00:00.000Z',
+            endDate: '2017-06-12T10:00:00.000Z',
+            location: 'The Lab',
+            link: null,
+            description: null,
+            image: null,
+          },
+          {
+            id: 3,
+            name: 'Intro to Bitcoin',
+            committeeName: 'Talks',
+            startDate: '2017-12-15T05:00:00.000Z',
+            endDate: '2017-12-15T10:00:00.000Z',
+            location: 'The Lab',
+            link: null,
+            description: null,
+            image: null,
+          },
+        ],
+      };
+
+      request(app)
+        .get('/api/v2/events')
+        .expect(200)
+        .then((response) => {
+          response.body.data.forEach((event) => {
+            delete event.createdAt;
+            delete event.updatedAt;
+          });
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Filters by an Existing Name', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        total: 1,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [
+          {
+            id: 2,
+            name: 'Microtalks',
+            committeeName: 'Talks',
+            startDate: '2017-06-12T05:00:00.000Z',
+            endDate: '2017-06-12T10:00:00.000Z',
+            location: 'The Lab',
+            link: null,
+            description: null,
+            image: null,
+          },
+        ],
+      };
+
+      request(app)
+        .get('/api/v2/events?name=Microtalks')
+        .expect(200)
+        .then((response) => {
+          response.body.data.forEach((event) => {
+            delete event.createdAt;
+            delete event.updatedAt;
+          });
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Filters by an Non-existent Name', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        total: 0,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [],
+      };
+
+      request(app)
+        .get('/api/v2/events?name=Unknown')
+        .expect(200)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Filters by an Existing Committee', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        total: 2,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [
+          {
+            id: 2,
+            name: 'Microtalks',
+            committeeName: 'Talks',
+            startDate: '2017-06-12T05:00:00.000Z',
+            endDate: '2017-06-12T10:00:00.000Z',
+            location: 'The Lab',
+            link: null,
+            description: null,
+            image: null,
+          },
+          {
+            id: 3,
+            name: 'Intro to Bitcoin',
+            committeeName: 'Talks',
+            startDate: '2017-12-15T05:00:00.000Z',
+            endDate: '2017-12-15T10:00:00.000Z',
+            location: 'The Lab',
+            link: null,
+            description: null,
+            image: null,
+          },
+        ],
+      };
+
+      request(app)
+        .get('/api/v2/events?committee=Talks')
+        .expect(200)
+        .then((response) => {
+          response.body.data.forEach((event) => {
+            delete event.createdAt;
+            delete event.updatedAt;
+          });
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Filters by an Non-existent Committee', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        total: 0,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [],
+      };
+
+      request(app)
+        .get('/api/v2/events?committee=Unknown')
+        .expect(200)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Filters by an Existing Location', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        total: 1,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [
+          {
+            id: 1,
+            name: 'Review Session',
+            committeeName: 'Mentoring',
+            startDate: '2017-10-12T05:00:00.000Z',
+            endDate: '2017-10-12T05:00:00.000Z',
+            location: 'GOL-1440',
+            link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+            image: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+            description: null,
+          },
+        ],
+      };
+
+      request(app)
+        .get('/api/v2/events?location=GOL-1440')
+        .expect(200)
+        .then((response) => {
+          response.body.data.forEach((event) => {
+            delete event.createdAt;
+            delete event.updatedAt;
+          });
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Filters by an Non-existent Location', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        total: 0,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [],
+      };
+
+      request(app)
+        .get('/api/v2/events?location=Unknown')
+        .expect(200)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Filters by Between', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        total: 1,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [
+          {
+            id: 1,
+            name: 'Review Session',
+            committeeName: 'Mentoring',
+            startDate: '2017-10-12T05:00:00.000Z',
+            endDate: '2017-10-12T05:00:00.000Z',
+            description: null,
+            location: 'GOL-1440',
+            link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+            image: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+          },
+        ],
+      };
+
+      request(app)
+        .get(`/api/v2/events?between=${encodeURIComponent('2017-07-01T05:00:00.000Z')}/${encodeURIComponent('2017-11-01T05:00:00.000Z')}`)
+        .expect(200)
+        .then((response) => {
+          response.body.data.forEach((event) => {
+            delete event.createdAt;
+            delete event.updatedAt;
+          });
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Filters by Before', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        total: 1,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [
+          {
+            id: 2,
+            name: 'Microtalks',
+            committeeName: 'Talks',
+            startDate: '2017-06-12T05:00:00.000Z',
+            endDate: '2017-06-12T10:00:00.000Z',
+            description: null,
+            location: 'The Lab',
+            link: null,
+            image: null,
+          },
+        ],
+      };
+
+      request(app)
+        .get(`/api/v2/events?before=${encodeURIComponent('2017-07-01T05:00:00.000Z')}`)
+        .expect(200)
+        .then((response) => {
+          response.body.data.forEach((event) => {
+            delete event.createdAt;
+            delete event.updatedAt;
+          });
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Filters by After', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        total: 1,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [
+          {
+            id: 3,
+            name: 'Intro to Bitcoin',
+            committeeName: 'Talks',
+            startDate: '2017-12-15T05:00:00.000Z',
+            endDate: '2017-12-15T10:00:00.000Z',
+            description: null,
+            location: 'The Lab',
+            link: null,
+            image: null,
+          },
+        ],
+      };
+
+      request(app)
+        .get(`/api/v2/events?after=${encodeURIComponent('2017-11-01T05:00:00.000Z')}`)
+        .expect(200)
+        .then((response) => {
+          response.body.data.forEach((event) => {
+            delete event.createdAt;
+            delete event.updatedAt;
+          });
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Filters by Featured', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        total: 1,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [
+          {
+            id: 1,
+            name: 'Review Session',
+            committeeName: 'Mentoring',
+            startDate: '2017-10-12T05:00:00.000Z',
+            endDate: '2017-10-12T05:00:00.000Z',
+            location: 'GOL-1440',
+            link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+            image: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+            description: null,
+          },
+        ],
+      };
+
+      request(app)
+        .get('/api/v2/events?featured')
+        .expect(200)
+        .then((response) => {
+          response.body.data.forEach((event) => {
+            delete event.createdAt;
+            delete event.updatedAt;
+          });
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Filters by Sort', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        total: 3,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [
+          {
+            id: 3,
+            name: 'Intro to Bitcoin',
+            committeeName: 'Talks',
+            startDate: '2017-12-15T05:00:00.000Z',
+            endDate: '2017-12-15T10:00:00.000Z',
+            description: null,
+            location: 'The Lab',
+            link: null,
+            image: null,
+          },
+          {
+            id: 1,
+            name: 'Review Session',
+            committeeName: 'Mentoring',
+            startDate: '2017-10-12T05:00:00.000Z',
+            endDate: '2017-10-12T05:00:00.000Z',
+            description: null,
+            location: 'GOL-1440',
+            link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+            image: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+          },
+          {
+            id: 2,
+            name: 'Microtalks',
+            committeeName: 'Talks',
+            startDate: '2017-06-12T05:00:00.000Z',
+            endDate: '2017-06-12T10:00:00.000Z',
+            description: null,
+            location: 'The Lab',
+            link: null,
+            image: null,
+          },
+        ],
+      };
+
+      request(app)
+        .get('/api/v2/events?sort=DESC')
+        .expect(200)
+        .then((response) => {
+          response.body.data.forEach((event) => {
+            delete event.createdAt;
+            delete event.updatedAt;
+          });
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Returns a Calendar Event When Accepting ICS', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected =
+`BEGIN:VCALENDAR
+CALSCALE:GREGORIAN
+BEGIN:VTIMEZONE
+TZID:America/New_York
+X-LIC-LOCATION:America/New_York
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0400
+TZNAME:EDT
+DTSTART:19700308T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0400
+TZOFFSETTO:-0500
+TZNAME:EST
+DTSTART:19701101T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTEND;TZID=America/New_York;VALUE=DATE-TIME:20171012T010000
+DTSTART;TZID=America/New_York;VALUE=DATE-TIME:20171012T010000
+DESCRIPTION:null
+SUMMARY:Review Session
+LOCATION:GOL-1440
+END:VEVENT
+BEGIN:VEVENT
+DTEND;TZID=America/New_York;VALUE=DATE-TIME:20170612T060000
+DTSTART;TZID=America/New_York;VALUE=DATE-TIME:20170612T010000
+DESCRIPTION:null
+SUMMARY:Microtalks
+LOCATION:The Lab
+END:VEVENT
+BEGIN:VEVENT
+DTEND;TZID=America/New_York;VALUE=DATE-TIME:20171215T050000
+DTSTART;TZID=America/New_York;VALUE=DATE-TIME:20171215T000000
+DESCRIPTION:null
+SUMMARY:Intro to Bitcoin
+LOCATION:The Lab
+END:VEVENT
+END:VCALENDAR`;
+
+      request(app)
+        .get('/api/v2/events')
+        .set('accept', 'text/calendar')
+        .expect(200)
+        .then((response) => {
+          expect(response.text).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Does Not Accept Requests Not Accepting JSON or ICS', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        error: 'xml is not acceptable',
+      };
+
+      request(app)
+        .get('/api/v2/events')
+        .set('accept', 'xml')
+        .expect(406)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
   });
 
