@@ -6,7 +6,13 @@ import request from 'supertest';
 
 import app from '../../app';
 import nconf from '../../config';
-import { token } from '../helpers';
+import {
+  token,
+  lowPermissionPrimaryToken,
+  highPermissionOfficerToken,
+  lowPermissionOfficerToken,
+  highPermissionUserToken,
+} from '../helpers';
 
 describe('INTEGRATION TESTS: EVENTS', function () {
   describe('GET /', function () {
@@ -88,7 +94,7 @@ describe('INTEGRATION TESTS: EVENTS', function () {
       };
 
       request(app)
-        .post('/api/v2/events/1')
+        .post('/api/v2/events')
         .expect(401)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
@@ -96,24 +102,109 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         });
     });
 
-    it('Requires Correct Permissions', function (done) {
-      expect(false).to.equal(true);
-      done();
+    it('Requires Expected Permissions', function (done) {
+      // Need Low Permissions be an Officer or Primary Officer
+      const expected = {
+        error: 'User does not have permission: create events',
+      };
+
+      const eventInput = {
+        name: 'A Cool Talk',
+        committeeName: 'Talks',
+        startDate: '2017-06-12T05:00:00.000Z',
+        endDate: '2017-06-12T10:00:00.000Z',
+        location: 'The Lab',
+      };
+
+      // Deny User w/ High Permission Token
+      const userHigh = request(app)
+        .post('/api/v2/events')
+        .set('Authorization', `Bearer ${highPermissionUserToken}`)
+        .expect(403)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+        });
+      // Allow Primary Officer w/ Low Permission Token
+      const primaryLow = request(app)
+        .post('/api/v2/events')
+        .set('Authorization', `Bearer ${lowPermissionPrimaryToken}`)
+        .send(eventInput)
+        .expect(201);
+      // Allow Officer w/ Low Permission Token
+      const officerLow = request(app)
+        .post('/api/v2/events')
+        .set('Authorization', `Bearer ${lowPermissionOfficerToken}`)
+        .send(eventInput)
+        .expect(201);
+
+      Promise.all([
+        userHigh,
+        primaryLow,
+        officerLow,
+      ]).then(() => {
+        done();
+      });
     });
 
     it('Creates an Event', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        name: 'A Cool Talk',
+        committeeName: 'Talks',
+        startDate: '2017-06-12T05:00:00.000Z',
+        endDate: '2017-06-12T10:00:00.000Z',
+        location: 'The Lab',
+      };
+
+      request(app)
+        .post('/api/v2/events')
+        .set('Authorization', `Bearer ${token}`)
+        .send(expected)
+        .expect(201)
+        .then((response) => {
+          delete response.body.id;
+          delete response.body.createdAt;
+          delete response.body.updatedAt;
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Requires Start Date to be Before End Date', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        error: 'Validation error: Start date must be before the end date',
+      };
+
+      request(app)
+        .post('/api/v2/events')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          name: 'A Cool Talk',
+          committeeName: 'Talks',
+          startDate: '2017-07-12T05:00:00.000Z',
+          endDate: '2017-06-12T10:00:00.000Z',
+          location: 'The Lab',
+        })
+        .expect(422)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Errors When Insufficient Fields Provided', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        error: 'notNull Violation: name cannot be null,\nnotNull Violation: startDate cannot be null,\nnotNull Violation: endDate cannot be null,\nnotNull Violation: location cannot be null',
+      };
+
+      request(app)
+        .post('/api/v2/events')
+        .set('Authorization', `Bearer ${token}`)
+        .send({})
+        .expect(422)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
   });
 
@@ -144,7 +235,7 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         });
     });
 
-    it('Requires Correct Permissions', function (done) {
+    it('Requires Expected Permissions', function (done) {
       expect(false).to.equal(true);
       done();
     });
@@ -175,7 +266,7 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         });
     });
 
-    it('Requires Correct Permissions', function (done) {
+    it('Requires Expected Permissions', function (done) {
       expect(false).to.equal(true);
       done();
     });

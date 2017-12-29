@@ -187,9 +187,6 @@ describe('INTEGRATION TESTS: USERS', function () {
       const primaryLow = request(app)
         .put('/api/v2/users/br4321')
         .set('Authorization', `Bearer ${lowPermissionPrimaryToken}`)
-        .send({
-          image: 'https://goo.gl/k27cYb',
-        })
         .expect(403)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
@@ -198,9 +195,6 @@ describe('INTEGRATION TESTS: USERS', function () {
       const officerLow = request(app)
         .put('/api/v2/users/br4321')
         .set('Authorization', `Bearer ${lowPermissionOfficerToken}`)
-        .send({
-          image: 'https://goo.gl/k27cYb',
-        })
         .expect(403)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
@@ -209,9 +203,6 @@ describe('INTEGRATION TESTS: USERS', function () {
       const userHigh = request(app)
         .put('/api/v2/users/br4321')
         .set('Authorization', `Bearer ${highPermissionUserToken}`)
-        .send({
-          image: 'https://goo.gl/k27cYb',
-        })
         .expect(403)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
