@@ -210,13 +210,43 @@ describe('INTEGRATION TESTS: EVENTS', function () {
 
   describe('GET /:id', function () {
     it('Gets a Specific Event', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        id: 1,
+        name: 'Review Session',
+        committeeName: 'Mentoring',
+        startDate: '2017-10-12T05:00:00.000Z',
+        endDate: '2017-10-12T05:00:00.000Z',
+        location: 'GOL-1440',
+        link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        image: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        description: null,
+      };
+
+      request(app)
+        .get('/api/v2/events/1')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(200)
+        .then((response) => {
+          delete response.body.createdAt;
+          delete response.body.updatedAt;
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Does Not Find a Non-existent Event', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        error: 'Event not found',
+      };
+
+      request(app)
+        .get('/api/v2/events/100')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(404)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
   });
 
@@ -236,18 +266,104 @@ describe('INTEGRATION TESTS: EVENTS', function () {
     });
 
     it('Requires Expected Permissions', function (done) {
-      expect(false).to.equal(true);
-      done();
+      // Need High Permissions be an Officer or Primary Officer
+      const expected = {
+        error: 'User does not have permission: update events',
+      };
+
+      const eventInput = {
+        name: 'A Neat Talk',
+      };
+
+      // Deny Primary Officer w/ Low Permission Token
+      const primaryLow = request(app)
+        .put('/api/v2/events/2')
+        .set('Authorization', `Bearer ${lowPermissionPrimaryToken}`)
+        .expect(403)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+        });
+      // Deny Officer w/ Low Permission Token
+      const officerLow = request(app)
+        .put('/api/v2/events/2')
+        .set('Authorization', `Bearer ${lowPermissionOfficerToken}`)
+        .expect(403)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+        });
+      // Deny User w/ High Permission Token
+      const userHigh = request(app)
+        .put('/api/v2/events/2')
+        .set('Authorization', `Bearer ${highPermissionUserToken}`)
+        .expect(403)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+        });
+      // Allow Primary Officer w/ High Permission Token
+      const primaryHigh = request(app)
+        .put('/api/v2/events/2')
+        .set('Authorization', `Bearer ${token}`)
+        .send(eventInput)
+        .expect(200);
+      // Allow Officer w/ High Permission Token
+      const officerHigh = request(app)
+        .put('/api/v2/events/2')
+        .set('Authorization', `Bearer ${highPermissionOfficerToken}`)
+        .send(eventInput)
+        .expect(200);
+
+      Promise.all([
+        primaryLow,
+        officerLow,
+        userHigh,
+        primaryHigh,
+        officerHigh,
+      ]).then(() => {
+        done();
+      });
     });
 
     it('Updates a Specific Event', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        id: 1,
+        name: 'Lunch and Learn',
+        committeeName: 'Mentoring',
+        startDate: '2017-10-12T05:00:00.000Z',
+        endDate: '2017-10-12T05:00:00.000Z',
+        description: null,
+        location: 'GOL-1440',
+        link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        image: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      };
+
+      request(app)
+        .put('/api/v2/events/1')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          name: 'Lunch and Learn',
+        })
+        .expect(200)
+        .then((response) => {
+          delete response.body.createdAt;
+          delete response.body.updatedAt;
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Does Not Find and Update a Non-existent Event', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        error: 'Event not found',
+      };
+
+      request(app)
+        .put('/api/v2/events/100')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(404)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
   });
 
@@ -267,18 +383,80 @@ describe('INTEGRATION TESTS: EVENTS', function () {
     });
 
     it('Requires Expected Permissions', function (done) {
-      expect(false).to.equal(true);
-      done();
+      // Need High Permissions be an Officer or Primary Officer
+      const expected = {
+        error: 'User does not have permission: destroy events',
+      };
+
+      // Deny Primary Officer w/ Low Permission Token
+      const primaryLow = request(app)
+        .delete('/api/v2/events/2')
+        .set('Authorization', `Bearer ${lowPermissionPrimaryToken}`)
+        .expect(403)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+        });
+      // Deny Officer w/ Low Permission Token
+      const officerLow = request(app)
+        .delete('/api/v2/events/2')
+        .set('Authorization', `Bearer ${lowPermissionOfficerToken}`)
+        .expect(403)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+        });
+      // Deny User w/ High Permission Token
+      const userHigh = request(app)
+        .delete('/api/v2/events/2')
+        .set('Authorization', `Bearer ${highPermissionUserToken}`)
+        .expect(403)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+        });
+      // Allow Primary Officer w/ High Permission Token
+      const primaryHigh = request(app)
+        .delete('/api/v2/events/2')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(204);
+      // Allow Officer w/ High Permission Token
+      const officerHigh = request(app)
+        .delete('/api/v2/events/2')
+        .set('Authorization', `Bearer ${highPermissionOfficerToken}`)
+        .expect(204);
+
+      Promise.all([
+        primaryLow,
+        officerLow,
+        userHigh,
+        primaryHigh,
+        officerHigh,
+      ]).then(() => {
+        done();
+      });
     });
 
     it('Deletes a Specific Event', function (done) {
-      expect(false).to.equal(true);
-      done();
+      request(app)
+        .delete('/api/v2/events/1')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(204)
+        .then(() => {
+          done();
+        });
     });
 
     it('Does Not Find and Delete a Non-existent Event', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        error: 'Event not found',
+      };
+
+      request(app)
+        .delete('/api/v2/events/100')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(404)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
   });
 });
