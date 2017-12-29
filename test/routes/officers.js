@@ -6,41 +6,413 @@ import request from 'supertest';
 
 import app from '../../app';
 import nconf from '../../config';
+import {
+  token,
+  lowPermissionPrimaryToken,
+  highPermissionOfficerToken,
+  lowPermissionOfficerToken,
+  highPermissionUserToken,
+} from '../helpers';
 
 describe('INTEGRATION TESTS: OFFICERS', function () {
   describe('GET /', function () {
-    it('Gets Officers', function () {
-      return false;
+    it('Gets Officers', function (done) {
+      const expected = {
+        total: 5,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [
+          {
+            title: 'President',
+            committeeName: null,
+            email: 'president',
+            primaryOfficer: true,
+            startDate: '2017-01-01T05:00:00.000Z',
+            endDate: null,
+            userDce: 'abc1234',
+            user: {
+              firstName: 'Test',
+              lastName: 'User',
+              dce: 'abc1234',
+              createdAt: '2017-01-01T05:00:00.000Z',
+              updatedAt: '2017-01-01T05:00:00.000Z',
+              image: null,
+            },
+          },
+          {
+            title: 'Technology Head',
+            committeeName: 'Technology',
+            email: 'tech',
+            primaryOfficer: false,
+            userDce: 'ta1111',
+            startDate: '2017-01-01T05:00:00.000Z',
+            endDate: null,
+            user: {
+              firstName: 'Thomas',
+              lastName: 'Anderson',
+              dce: 'ta1111',
+              createdAt: '2017-01-01T05:00:00.000Z',
+              updatedAt: '2017-01-01T05:00:00.000Z',
+              image: null,
+            },
+          },
+          {
+            title: 'Mentoring Head',
+            committeeName: 'Mentoring',
+            email: 'mentoring',
+            primaryOfficer: false,
+            userDce: 'axy9999',
+            startDate: '2017-01-01T05:00:00.000Z',
+            endDate: null,
+            user: {
+              firstName: 'Ada',
+              lastName: 'Lovelace',
+              dce: 'axy9999',
+              createdAt: '2017-01-01T05:00:00.000Z',
+              updatedAt: '2017-01-01T05:00:00.000Z',
+              image: null,
+            },
+          },
+          {
+            title: 'Mentoring Head',
+            committeeName: 'Mentoring',
+            email: 'mentoring',
+            primaryOfficer: false,
+            userDce: 'br4321',
+            startDate: '2016-06-01T05:00:00.000Z',
+            endDate: '2017-01-10T05:00:00.000Z',
+            user: {
+              firstName: 'Bob',
+              lastName: 'Ross',
+              dce: 'br4321',
+              createdAt: '2016-01-01T05:00:00.000Z',
+              updatedAt: '2016-01-01T05:00:00.000Z',
+              image: null,
+            },
+          },
+          {
+            title: 'Art Head',
+            committeeName: 'Art',
+            email: 'art',
+            primaryOfficer: false,
+            userDce: 'br4321',
+            startDate: '2016-01-01T05:00:00.000Z',
+            endDate: '2016-02-01T05:00:00.000Z',
+            user: {
+              firstName: 'Bob',
+              lastName: 'Ross',
+              dce: 'br4321',
+              createdAt: '2016-01-01T05:00:00.000Z',
+              updatedAt: '2016-01-01T05:00:00.000Z',
+              image: null,
+            },
+          },
+        ],
+      };
+
+      request(app)
+        .get('/api/v2/officers')
+        .expect(200)
+        .then((response) => {
+          response.body.data.forEach((officer) => {
+            delete officer.id;
+            delete officer.createdAt;
+            delete officer.updatedAt;
+          });
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Filters by Title', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        total: 1,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [
+          {
+            title: 'Art Head',
+            committeeName: 'Art',
+            email: 'art',
+            primaryOfficer: false,
+            userDce: 'br4321',
+            startDate: '2016-01-01T05:00:00.000Z',
+            endDate: '2016-02-01T05:00:00.000Z',
+            user: {
+              firstName: 'Bob',
+              lastName: 'Ross',
+              dce: 'br4321',
+              createdAt: '2016-01-01T05:00:00.000Z',
+              updatedAt: '2016-01-01T05:00:00.000Z',
+              image: null,
+            },
+          },
+        ],
+      };
+
+      request(app)
+        .get(`/api/v2/officers?title=${encodeURIComponent('Art Head')}`)
+        .expect(200)
+        .then((response) => {
+          response.body.data.forEach((officer) => {
+            delete officer.id;
+            delete officer.createdAt;
+            delete officer.updatedAt;
+          });
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Filters by Email', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        total: 1,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [
+          {
+            title: 'Art Head',
+            committeeName: 'Art',
+            email: 'art',
+            primaryOfficer: false,
+            userDce: 'br4321',
+            startDate: '2016-01-01T05:00:00.000Z',
+            endDate: '2016-02-01T05:00:00.000Z',
+            user: {
+              firstName: 'Bob',
+              lastName: 'Ross',
+              dce: 'br4321',
+              createdAt: '2016-01-01T05:00:00.000Z',
+              updatedAt: '2016-01-01T05:00:00.000Z',
+              image: null,
+            },
+          },
+        ],
+      };
+
+      request(app)
+        .get('/api/v2/officers?email=art')
+        .expect(200)
+        .then((response) => {
+          response.body.data.forEach((officer) => {
+            delete officer.id;
+            delete officer.createdAt;
+            delete officer.updatedAt;
+          });
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Filters by User', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        total: 2,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [
+          {
+            title: 'Mentoring Head',
+            committeeName: 'Mentoring',
+            email: 'mentoring',
+            primaryOfficer: false,
+            userDce: 'br4321',
+            startDate: '2016-06-01T05:00:00.000Z',
+            endDate: '2017-01-10T05:00:00.000Z',
+            user: {
+              firstName: 'Bob',
+              lastName: 'Ross',
+              dce: 'br4321',
+              createdAt: '2016-01-01T05:00:00.000Z',
+              updatedAt: '2016-01-01T05:00:00.000Z',
+              image: null,
+            },
+          },
+          {
+            title: 'Art Head',
+            committeeName: 'Art',
+            email: 'art',
+            primaryOfficer: false,
+            userDce: 'br4321',
+            startDate: '2016-01-01T05:00:00.000Z',
+            endDate: '2016-02-01T05:00:00.000Z',
+            user: {
+              firstName: 'Bob',
+              lastName: 'Ross',
+              dce: 'br4321',
+              createdAt: '2016-01-01T05:00:00.000Z',
+              updatedAt: '2016-01-01T05:00:00.000Z',
+              image: null,
+            },
+          },
+        ],
+      };
+
+      request(app)
+        .get('/api/v2/officers?user=br4321')
+        .expect(200)
+        .then((response) => {
+          response.body.data.forEach((officer) => {
+            delete officer.id;
+            delete officer.createdAt;
+            delete officer.updatedAt;
+          });
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Filters by Primary', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        total: 1,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [
+          {
+            title: 'President',
+            committeeName: null,
+            email: 'president',
+            primaryOfficer: true,
+            startDate: '2017-01-01T05:00:00.000Z',
+            endDate: null,
+            userDce: 'abc1234',
+            user: {
+              firstName: 'Test',
+              lastName: 'User',
+              dce: 'abc1234',
+              createdAt: '2017-01-01T05:00:00.000Z',
+              updatedAt: '2017-01-01T05:00:00.000Z',
+              image: null,
+            },
+          },
+        ],
+      };
+
+      request(app)
+        .get('/api/v2/officers?primary=true')
+        .expect(200)
+        .then((response) => {
+          response.body.data.forEach((officer) => {
+            delete officer.id;
+            delete officer.createdAt;
+            delete officer.updatedAt;
+          });
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Filters by Committee', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        total: 1,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [
+          {
+            title: 'Technology Head',
+            committeeName: 'Technology',
+            email: 'tech',
+            primaryOfficer: false,
+            userDce: 'ta1111',
+            startDate: '2017-01-01T05:00:00.000Z',
+            endDate: null,
+            user: {
+              firstName: 'Thomas',
+              lastName: 'Anderson',
+              dce: 'ta1111',
+              createdAt: '2017-01-01T05:00:00.000Z',
+              updatedAt: '2017-01-01T05:00:00.000Z',
+              image: null,
+            },
+          },
+        ],
+      };
+
+      request(app)
+        .get('/api/v2/officers?committee=Technology')
+        .expect(200)
+        .then((response) => {
+          response.body.data.forEach((officer) => {
+            delete officer.id;
+            delete officer.createdAt;
+            delete officer.updatedAt;
+          });
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Filters by Active', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        total: 3,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [
+          {
+            title: 'President',
+            committeeName: null,
+            email: 'president',
+            primaryOfficer: true,
+            startDate: '2017-01-01T05:00:00.000Z',
+            endDate: null,
+            userDce: 'abc1234',
+            user: {
+              firstName: 'Test',
+              lastName: 'User',
+              dce: 'abc1234',
+              createdAt: '2017-01-01T05:00:00.000Z',
+              updatedAt: '2017-01-01T05:00:00.000Z',
+              image: null,
+            },
+          },
+          {
+            title: 'Technology Head',
+            committeeName: 'Technology',
+            email: 'tech',
+            primaryOfficer: false,
+            userDce: 'ta1111',
+            startDate: '2017-01-01T05:00:00.000Z',
+            endDate: null,
+            user: {
+              firstName: 'Thomas',
+              lastName: 'Anderson',
+              dce: 'ta1111',
+              createdAt: '2017-01-01T05:00:00.000Z',
+              updatedAt: '2017-01-01T05:00:00.000Z',
+              image: null,
+            },
+          },
+          {
+            title: 'Mentoring Head',
+            committeeName: 'Mentoring',
+            email: 'mentoring',
+            primaryOfficer: false,
+            userDce: 'axy9999',
+            startDate: '2017-01-01T05:00:00.000Z',
+            endDate: null,
+            user: {
+              firstName: 'Ada',
+              lastName: 'Lovelace',
+              dce: 'axy9999',
+              createdAt: '2017-01-01T05:00:00.000Z',
+              updatedAt: '2017-01-01T05:00:00.000Z',
+              image: null,
+            },
+          },
+        ],
+      };
+
+      request(app)
+        .get(`/api/v2/officers?active=${encodeURIComponent('2017-12-05T05:00:00.000Z')}`)
+        .expect(200)
+        .then((response) => {
+          response.body.data.forEach((officer) => {
+            delete officer.id;
+            delete officer.createdAt;
+            delete officer.updatedAt;
+          });
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
   });
 
@@ -50,7 +422,7 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
       done();
     });
 
-    it('Requires Correct Permissions', function (done) {
+    it('Requires Expected Permissions', function (done) {
       expect(false).to.equal(true);
       done();
     });
@@ -89,7 +461,7 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
       done();
     });
 
-    it('Requires Correct Permissions', function (done) {
+    it('Requires Expected Permissions', function (done) {
       expect(false).to.equal(true);
       done();
     });
@@ -111,7 +483,7 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
       done();
     });
 
-    it('Requires Correct Permissions', function (done) {
+    it('Requires Expected Permissions', function (done) {
       expect(false).to.equal(true);
       done();
     });
