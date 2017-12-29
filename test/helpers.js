@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import moment from 'moment';
 
 import nconf from '../config';
 import bootstrap from '../bootstrap/init';
@@ -148,7 +147,7 @@ export function beforeEachHelper() {
         primaryOfficer: true,
         userDce: user.dce,
         startDate: '2017-01-01T05:00:00.000Z',
-        endDate: moment().add(10, 'years').startOf('day').toISOString(),
+        endDate: null,
       }))
       // Make some Committees
       .then(() => Committee.bulkCreate([
@@ -214,7 +213,7 @@ export function beforeEachHelper() {
           email: 'tech',
           userDce: 'ta1111',
           startDate: '2017-01-01T05:00:00.000Z',
-          endDate: moment().add(10, 'years').startOf('day').toISOString(),
+          endDate: null,
         },
         {
           title: 'Mentoring Head',
