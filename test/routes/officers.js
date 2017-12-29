@@ -10,7 +10,6 @@ import {
   token,
   lowPermissionPrimaryToken,
   highPermissionOfficerToken,
-  lowPermissionOfficerToken,
   highPermissionUserToken,
 } from '../helpers';
 

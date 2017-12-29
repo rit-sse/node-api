@@ -6,6 +6,7 @@ import sequelize from '../config/sequelize';
 
 import Committee from '../models/committee';
 import Event from '../models/event';
+import Membership from '../models/membership';
 import Officer from '../models/officer';
 import User from '../models/user';
 
@@ -118,6 +119,10 @@ export const events = [
 
 ];
 
+export const memberships = [
+
+];
+
 export function beforeHelper() {
   return bootstrap();
 }
@@ -126,7 +131,7 @@ export function beforeEachHelper() {
   return sequelize
     .transaction(t => Promise.all(
         // Truncate all tables
-        [Event, Committee, User, Officer]
+        [Event, Committee, User, Officer, Membership]
           .map(model => model.destroy({
             truncate: true,
             transaction: t,
@@ -268,6 +273,31 @@ export function beforeEachHelper() {
           endDate: '2017-12-15T10:00:00.000Z',
           location: 'The Lab',
           link: null,
+        },
+      ]))
+      .then(() => Membership.bulkCreate([
+        {
+          reason: 'Being Awesome',
+          startDate: '2017-06-15T05:00:00.000Z',
+          endDate: '2017-12-15T05:00:00.000Z',
+          committeeName: 'Technology',
+          userDce: 'ta1111',
+        },
+        {
+          reason: 'Helping Out',
+          startDate: '2017-04-15T05:00:00.000Z',
+          endDate: '2017-10-15T05:00:00.000Z',
+          committeeName: 'Mentoring',
+          userDce: 'axy9999',
+          approved: true,
+        },
+        {
+          reason: 'Giving a Talk',
+          startDate: '2017-08-15T05:00:00.000Z',
+          endDate: '2017-12-15T05:00:00.000Z',
+          committeeName: 'Talks',
+          userDce: 'br4321',
+          approved: true,
         },
       ]));
 }
