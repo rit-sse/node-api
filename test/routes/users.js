@@ -6,7 +6,13 @@ import request from 'supertest';
 
 import app from '../../app';
 import nconf from '../../config';
-import { token } from '../helpers';
+import {
+  token,
+  lowPermissionPrimaryToken,
+  highPermissionOfficerToken,
+  lowPermissionOfficerToken,
+  highPermissionUserToken,
+} from '../helpers';
 
 describe('INTEGRATION TESTS: USERS', function () {
   describe('GET /', function () {
@@ -171,9 +177,71 @@ describe('INTEGRATION TESTS: USERS', function () {
         });
     });
 
-    it('Requires Correct Permissions', function (done) {
-      expect(false).to.equal(true);
-      done();
+    it('Requires Expected Permissions', function (done) {
+      // Need High Permissions and be an Officer or Primary Officer
+      const expected = {
+        error: 'User does not have permission: update users',
+      };
+
+      // Deny Primary Officer w/ Low Permission Token
+      const primaryLow = request(app)
+        .put('/api/v2/users/br4321')
+        .set('Authorization', `Bearer ${lowPermissionPrimaryToken}`)
+        .send({
+          image: 'https://goo.gl/k27cYb',
+        })
+        .expect(403)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+        });
+      // Deny Officer w/ Low Permission Token
+      const officerLow = request(app)
+        .put('/api/v2/users/br4321')
+        .set('Authorization', `Bearer ${lowPermissionOfficerToken}`)
+        .send({
+          image: 'https://goo.gl/k27cYb',
+        })
+        .expect(403)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+        });
+      // Deny User w/ High Permission Token
+      const userHigh = request(app)
+        .put('/api/v2/users/br4321')
+        .set('Authorization', `Bearer ${highPermissionUserToken}`)
+        .send({
+          image: 'https://goo.gl/k27cYb',
+        })
+        .expect(403)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+        });
+      // Allow Primary Officer w/ High Permission Token
+      const primaryHigh = request(app)
+        .put('/api/v2/users/br4321')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          image: 'https://goo.gl/k27cYb',
+        })
+        .expect(200);
+      // Allow Officer w/ High Permission Token
+      const officerHigh = request(app)
+        .put('/api/v2/users/br4321')
+        .set('Authorization', `Bearer ${highPermissionOfficerToken}`)
+        .send({
+          image: 'https://goo.gl/k27cYb',
+        })
+        .expect(200);
+
+      Promise.all([
+        primaryLow,
+        officerLow,
+        userHigh,
+        primaryHigh,
+        officerHigh,
+      ]).then(() => {
+        done();
+      });
     });
 
     // TODO: Implement this functionality
