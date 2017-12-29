@@ -6,7 +6,7 @@ import bootstrap from '../bootstrap/init';
 import sequelize from '../config/sequelize';
 
 import Committee from '../models/committee';
-import Event from '../models/Event';
+import Event from '../models/event';
 import Officer from '../models/officer';
 import User from '../models/user';
 
@@ -27,6 +27,22 @@ export const token = jwt.sign(
   { expiresIn: jwtConfig.expiresIn, algorithm: 'RS256' }
 );
 
+export const users = [
+
+];
+
+export const officers = [
+
+];
+
+export const committees = [
+
+];
+
+export const events = [
+
+];
+
 export function beforeHelper() {
   return bootstrap();
 }
@@ -46,6 +62,8 @@ export function beforeEachHelper() {
         ...payload.user,
         createdAt: '2017-01-01T05:00:00.000Z',
         updatedAt: '2017-01-01T05:00:00.000Z',
+      }, {
+        silent: true,
       }))
       // Make that User a primary officer
       .then(user => Officer.create({
