@@ -418,13 +418,73 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
 
   describe('POST /', function () {
     it('Requires Authentication', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        error: 'No authorization token was found',
+      };
+
+      request(app)
+        .post('/api/v2/officers')
+        .expect(401)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Requires Expected Permissions', function (done) {
-      expect(false).to.equal(true);
-      done();
+      // Need High Permissions be Primary Officer
+      const expected = {
+        error: 'User does not have permission: create officers',
+      };
+
+      const officerInput = {
+        title: 'Technology Head',
+        committeeName: 'Technology',
+        email: 'tech',
+        userDce: 'ta1111',
+        startDate: '2017-01-01T05:00:00.000Z',
+        endDate: null,
+      };
+
+      // Deny Primary Officer w/ Low Permission Token
+      const primaryLow = request(app)
+        .post('/api/v2/officers')
+        .set('Authorization', `Bearer ${lowPermissionPrimaryToken}`)
+        .expect(403)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+        });
+      // Deny Officer w/ High Permission Token
+      const officerHigh = request(app)
+        .post('/api/v2/officers')
+        .set('Authorization', `Bearer ${highPermissionOfficerToken}`)
+        .expect(403)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+        });
+      // Deny User w/ High Permission Token
+      const userHigh = request(app)
+        .post('/api/v2/officers')
+        .set('Authorization', `Bearer ${highPermissionUserToken}`)
+        .expect(403)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+        });
+      // Allow Primary Officer w/ High Permission Token
+      const primaryHigh = request(app)
+        .post('/api/v2/officers')
+        .set('Authorization', `Bearer ${token}`)
+        .send(officerInput)
+        .expect(201);
+
+      Promise.all([
+        primaryLow,
+        userHigh,
+        primaryHigh,
+        officerHigh,
+      ]).then(() => {
+        done();
+      });
     });
 
     it('Creates a New Committee if there is No Officer belonging to that Committee', function (done) {
@@ -438,64 +498,274 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
     });
 
     it('Errors When Insufficient Fields Provided', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        error: 'notNull Violation: title cannot be null,\nnotNull Violation: email cannot be null',
+      };
+
+      request(app)
+        .post('/api/v2/officers')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          committeeName: 'Technology',
+        })
+        .expect(422)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
   });
 
   describe('GET /:id', function () {
     it('Gets a Specific Officer', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        id: 2,
+        title: 'Technology Head',
+        committeeName: 'Technology',
+        email: 'tech',
+        primaryOfficer: false,
+        userDce: 'ta1111',
+        startDate: '2017-01-01T05:00:00.000Z',
+        endDate: null,
+        user: {
+          firstName: 'Thomas',
+          lastName: 'Anderson',
+          dce: 'ta1111',
+          createdAt: '2017-01-01T05:00:00.000Z',
+          updatedAt: '2017-01-01T05:00:00.000Z',
+          image: null,
+        },
+      };
+
+      request(app)
+        .get('/api/v2/officers/2')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(200)
+        .then((response) => {
+          delete response.body.createdAt;
+          delete response.body.updatedAt;
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Does Not Find a Non-existent Officer', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        error: 'Officer not found',
+      };
+
+      request(app)
+        .get('/api/v2/officers/100')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(404)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
   });
 
   describe('PUT /:id', function () {
     it('Requires Authentication', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        error: 'No authorization token was found',
+      };
+
+      request(app)
+        .put('/api/v2/officers/1')
+        .expect(401)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Requires Expected Permissions', function (done) {
-      expect(false).to.equal(true);
-      done();
+      // Need High Permissions be Primary Officer
+      const expected = {
+        error: 'User does not have permission: update officers',
+      };
+
+      const officerInput = {
+        email: 'nottech',
+      };
+
+      // Deny Primary Officer w/ Low Permission Token
+      const primaryLow = request(app)
+        .put('/api/v2/officers/2')
+        .set('Authorization', `Bearer ${lowPermissionPrimaryToken}`)
+        .expect(403)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+        });
+      // Deny Officer w/ High Permission Token
+      const officerHigh = request(app)
+        .put('/api/v2/officers/2')
+        .set('Authorization', `Bearer ${highPermissionOfficerToken}`)
+        .expect(403)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+        });
+      // Deny User w/ High Permission Token
+      const userHigh = request(app)
+        .put('/api/v2/officers/2')
+        .set('Authorization', `Bearer ${highPermissionUserToken}`)
+        .expect(403)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+        });
+      // Allow Primary Officer w/ High Permission Token
+      const primaryHigh = request(app)
+        .put('/api/v2/officers/2')
+        .set('Authorization', `Bearer ${token}`)
+        .send(officerInput)
+        .expect(200);
+
+      Promise.all([
+        primaryLow,
+        userHigh,
+        primaryHigh,
+        officerHigh,
+      ]).then(() => {
+        done();
+      });
     });
 
     it('Updates a Specific Officer', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        id: 2,
+        title: 'Best Officer',
+        committeeName: 'Technology',
+        email: 'tech',
+        primaryOfficer: false,
+        userDce: 'ta1111',
+        startDate: '2017-01-01T05:00:00.000Z',
+        endDate: null,
+        user: {
+          firstName: 'Thomas',
+          lastName: 'Anderson',
+          dce: 'ta1111',
+          createdAt: '2017-01-01T05:00:00.000Z',
+          updatedAt: '2017-01-01T05:00:00.000Z',
+          image: null,
+        },
+      };
+
+      request(app)
+        .put('/api/v2/officers/2')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          title: 'Best Officer',
+        })
+        .expect(200)
+        .then((response) => {
+          delete response.body.createdAt;
+          delete response.body.updatedAt;
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Does Not Find and Update a Non-existent Officer', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        error: 'Officer not found',
+      };
+
+      request(app)
+        .put('/api/v2/officers/100')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(404)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
   });
 
   describe('DELETE /:id', function () {
     it('Requires Authentication', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        error: 'No authorization token was found',
+      };
+
+      request(app)
+        .delete('/api/v2/officers/1')
+        .expect(401)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Requires Expected Permissions', function (done) {
-      expect(false).to.equal(true);
-      done();
+      // Need High Permissions be Primary Officer
+      const expected = {
+        error: 'User does not have permission: destroy officers',
+      };
+
+      // Deny Primary Officer w/ Low Permission Token
+      const primaryLow = request(app)
+        .delete('/api/v2/officers/2')
+        .set('Authorization', `Bearer ${lowPermissionPrimaryToken}`)
+        .expect(403)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+        });
+      // Deny Officer w/ High Permission Token
+      const officerHigh = request(app)
+        .delete('/api/v2/officers/2')
+        .set('Authorization', `Bearer ${highPermissionOfficerToken}`)
+        .expect(403)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+        });
+      // Deny User w/ High Permission Token
+      const userHigh = request(app)
+        .delete('/api/v2/officers/2')
+        .set('Authorization', `Bearer ${highPermissionUserToken}`)
+        .expect(403)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+        });
+      // Allow Primary Officer w/ High Permission Token
+      const primaryHigh = request(app)
+        .delete('/api/v2/officers/2')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(204);
+
+      Promise.all([
+        primaryLow,
+        officerHigh,
+        userHigh,
+        primaryHigh,
+      ]).then(() => {
+        done();
+      });
     });
 
     it('Deletes a Specific Officer', function (done) {
-      expect(false).to.equal(true);
-      done();
+      request(app)
+        .delete('/api/v2/officers/1')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(204)
+        .then(() => {
+          done();
+        });
     });
 
     it('Does Not Find and Delete a Non-existent Officer', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        error: 'Officer not found',
+      };
+
+      request(app)
+        .delete('/api/v2/officers/100')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(404)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
   });
 });
