@@ -12,17 +12,93 @@ import User from '../models/user';
 
 const jwtConfig = nconf.get('auth:jwt');
 
-const payload = {
+const highPermissionPrimary = {
   user: {
     firstName: 'Test',
     lastName: 'User',
     dce: 'abc1234',
   },
-  level: nconf.get('permissions:levels:high'),
+  level: nconf.get('permissions:levels:high'), // Is a primary officer so part of 'primary' group
 };
 
+const lowPermissionPrimary = {
+  user: {
+    firstName: 'Test',
+    lastName: 'User',
+    dce: 'abc1234',
+  },
+  level: nconf.get('permissions:levels:low'), // Is a primary officer so part of 'primary' group
+};
+
+const highPermissionOfficer = {
+  user: {
+    firstName: 'Thomas',
+    lastName: 'Anderson',
+    dce: 'ta1111',
+  },
+  level: nconf.get('permissions:levels:high'), // Is Technology Head, so also part of 'officers' group
+};
+
+const lowPermissionOfficer = {
+  user: {
+    firstName: 'Thomas',
+    lastName: 'Anderson',
+    dce: 'ta1111',
+  },
+  level: nconf.get('permissions:levels:low'), // Is Technology Head, so also part of 'officers' group
+};
+
+const highPermissionUser = {
+  user: {
+    firstName: null,
+    lastName: null,
+    dce: 'unk0000',
+  },
+  level: nconf.get('permissions:levels:high'), // Not part of any groups
+};
+
+const lowPermissionUser = {
+  user: {
+    firstName: null,
+    lastName: null,
+    dce: 'unk0000',
+  },
+  level: nconf.get('permissions:levels:low'), // Not part of any groups
+};
+
+// NOTE: Use this token for testing when not explicitly testing permissions
 export const token = jwt.sign(
-  payload,
+  highPermissionPrimary,
+  jwtConfig.secret,
+  { expiresIn: jwtConfig.expiresIn, algorithm: 'RS256' }
+);
+
+export const lowPermissionPrimaryToken = jwt.sign(
+  lowPermissionPrimary,
+  jwtConfig.secret,
+  { expiresIn: jwtConfig.expiresIn, algorithm: 'RS256' }
+);
+
+export const highPermissionOfficerToken = jwt.sign(
+  highPermissionOfficer,
+  jwtConfig.secret,
+  { expiresIn: jwtConfig.expiresIn, algorithm: 'RS256' }
+);
+
+export const lowPermissionOfficerToken = jwt.sign(
+  lowPermissionOfficer,
+  jwtConfig.secret,
+  { expiresIn: jwtConfig.expiresIn, algorithm: 'RS256' }
+);
+
+export const highPermissionUserToken = jwt.sign(
+  highPermissionUser,
+  jwtConfig.secret,
+  { expiresIn: jwtConfig.expiresIn, algorithm: 'RS256' }
+);
+
+export const lowPermissionUserToken = jwt.sign(
+  lowPermissionUser,
   jwtConfig.secret,
   { expiresIn: jwtConfig.expiresIn, algorithm: 'RS256' }
 );
@@ -59,7 +135,7 @@ export function beforeEachHelper() {
       ))
       // Create a User we can auth with
       .then(() => User.create({
-        ...payload.user,
+        ...highPermissionPrimary.user,
         createdAt: '2017-01-01T05:00:00.000Z',
         updatedAt: '2017-01-01T05:00:00.000Z',
       }, {
