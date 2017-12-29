@@ -124,6 +124,11 @@ export function beforeEachHelper() {
           createdAt: '2016-01-01T05:00:00.000Z',
           updatedAt: '2016-01-01T05:00:00.000Z',
         },
+        {
+          dce: 'unk0000',
+          createdAt: '2016-01-01T05:00:00.000Z',
+          updatedAt: '2016-01-01T05:00:00.000Z',
+        },
       ]))
       // Make those Users Officers
       .then(() => Officer.bulkCreate([

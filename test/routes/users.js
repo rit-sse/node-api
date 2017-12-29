@@ -12,7 +12,7 @@ describe('INTEGRATION TESTS: USERS', function () {
   describe('GET /', function () {
     it('Gets Users', function (done) {
       const expected = {
-        total: 4,
+        total: 5,
         perPage: nconf.get('pagination:perPage'),
         currentPage: 1,
         data: [
@@ -44,6 +44,14 @@ describe('INTEGRATION TESTS: USERS', function () {
             firstName: 'Bob',
             lastName: 'Ross',
             dce: 'br4321',
+            image: null,
+            createdAt: '2016-01-01T05:00:00.000Z',
+            updatedAt: '2016-01-01T05:00:00.000Z',
+          },
+          {
+            firstName: null,
+            lastName: null,
+            dce: 'unk0000',
             image: null,
             createdAt: '2016-01-01T05:00:00.000Z',
             updatedAt: '2016-01-01T05:00:00.000Z',
@@ -235,8 +243,27 @@ describe('INTEGRATION TESTS: USERS', function () {
     });
 
     it("Updates a User's First and Last Name if they were Not Previously Defined", function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        firstName: 'Unknown',
+        lastName: 'Jones',
+        dce: 'unk0000',
+        image: null,
+      };
+
+      request(app)
+        .put('/api/v2/users/unk0000')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          firstName: 'Unknown',
+          lastName: 'Jones',
+        })
+        .expect(200)
+        .then((response) => {
+          delete response.body.createdAt;
+          delete response.body.updatedAt;
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it("Updates a User's Image", function (done) {
