@@ -62,6 +62,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
+    "babel-register": "^6.26.0",
     "chai": "^4.1.2",
     "eslint": "^3.19.0",
     "eslint-config-sse": "rit-sse/eslint",
