@@ -43,39 +43,385 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
   });
 
   describe('GET /', function () {
+    it('Gets Approved Memberships', function (done) {
+      const expected = {
+        total: 2,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [
+          {
+            reason: 'Helping Out',
+            startDate: '2017-04-15T05:00:00.000Z',
+            endDate: '2017-10-15T05:00:00.000Z',
+            committeeName: 'Mentoring',
+            userDce: 'axy9999',
+            approved: true,
+            user: {
+              firstName: 'Ada',
+              lastName: 'Lovelace',
+              dce: 'axy9999',
+              createdAt: '2017-01-01T05:00:00.000Z',
+              updatedAt: '2017-01-01T05:00:00.000Z',
+              image: null,
+            },
+          },
+          {
+            reason: 'Giving a Talk',
+            startDate: '2017-08-15T05:00:00.000Z',
+            endDate: '2017-12-15T05:00:00.000Z',
+            committeeName: 'Talks',
+            userDce: 'br4321',
+            approved: true,
+            user: {
+              firstName: 'Bob',
+              lastName: 'Ross',
+              dce: 'br4321',
+              createdAt: '2016-01-01T05:00:00.000Z',
+              updatedAt: '2016-01-01T05:00:00.000Z',
+              image: null,
+            },
+          },
+        ],
+      };
+
+      request(app)
+        .get('/api/v2/memberships')
+        .expect(200)
+        .then((response) => {
+          response.body.data.forEach((membership) => {
+            delete membership.id;
+            delete membership.createdAt;
+            delete membership.updatedAt;
+          });
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
+    });
+
     it('Requires Correct Permissions', function (done) {
-      expect(false).to.equal(true);
-      done();
+      // Need Low Permissions be Primary Officer for Pending and Denied
+      const expected = {
+        error: 'User does not have permission: unapproved memberships',
+      };
+
+      // Test Pending Memberships (approved=null)
+      // Deny Officer w/ High Permission Token
+      const officerHigh = request(app)
+        .get('/api/v2/memberships?approved=null')
+        .set('Authorization', `Bearer ${highPermissionOfficerToken}`)
+        .expect(403)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+        });
+      // Deny User w/ High Permission Token
+      const userHigh = request(app)
+        .get('/api/v2/memberships?approved=null')
+        .set('Authorization', `Bearer ${highPermissionUserToken}`)
+        .expect(403)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+        });
+      // Allow Primary Officer w/ Low Permission Token
+      const primaryHigh = request(app)
+        .get('/api/v2/memberships?approved=null')
+        .set('Authorization', `Bearer ${lowPermissionPrimaryToken}`)
+        .expect(200);
+
+      // Test Denied Memberships (approved=false)
+      // Deny Officer w/ High Permission Token
+      const officerHigh2 = request(app)
+        .get('/api/v2/memberships?approved=false')
+        .set('Authorization', `Bearer ${highPermissionOfficerToken}`)
+        .expect(403)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+        });
+      // Deny User w/ High Permission Token
+      const userHigh2 = request(app)
+        .get('/api/v2/memberships?approved=false')
+        .set('Authorization', `Bearer ${highPermissionUserToken}`)
+        .expect(403)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+        });
+      // Allow Primary Officer w/ Low Permission Token
+      const primaryHigh2 = request(app)
+        .get('/api/v2/memberships?approved=false')
+        .set('Authorization', `Bearer ${lowPermissionPrimaryToken}`)
+        .expect(200);
+
+      // Test Approved Memberships (default scope)
+      // Allow Anyone
+      const anyone = request(app)
+        .get('/api/v2/memberships')
+        .expect(200);
+
+      Promise.all([
+        officerHigh,
+        userHigh,
+        primaryHigh,
+        officerHigh2,
+        userHigh2,
+        primaryHigh2,
+        anyone,
+      ]).then(() => {
+        done();
+      });
     });
 
     it('Filters by Reason', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        total: 1,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [
+          {
+            reason: 'Giving a Talk',
+            startDate: '2017-08-15T05:00:00.000Z',
+            endDate: '2017-12-15T05:00:00.000Z',
+            committeeName: 'Talks',
+            userDce: 'br4321',
+            approved: true,
+            user: {
+              firstName: 'Bob',
+              lastName: 'Ross',
+              dce: 'br4321',
+              createdAt: '2016-01-01T05:00:00.000Z',
+              updatedAt: '2016-01-01T05:00:00.000Z',
+              image: null,
+            },
+          },
+        ],
+      };
+
+      request(app)
+        .get(`/api/v2/memberships?reason=${encodeURIComponent('Giving a Talk')}`)
+        .expect(200)
+        .then((response) => {
+          response.body.data.forEach((membership) => {
+            delete membership.id;
+            delete membership.createdAt;
+            delete membership.updatedAt;
+          });
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Filters by Committee', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        total: 1,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [
+          {
+            reason: 'Giving a Talk',
+            startDate: '2017-08-15T05:00:00.000Z',
+            endDate: '2017-12-15T05:00:00.000Z',
+            committeeName: 'Talks',
+            userDce: 'br4321',
+            approved: true,
+            user: {
+              firstName: 'Bob',
+              lastName: 'Ross',
+              dce: 'br4321',
+              createdAt: '2016-01-01T05:00:00.000Z',
+              updatedAt: '2016-01-01T05:00:00.000Z',
+              image: null,
+            },
+          },
+        ],
+      };
+
+      request(app)
+        .get('/api/v2/memberships?committee=Talks')
+        .expect(200)
+        .then((response) => {
+          response.body.data.forEach((membership) => {
+            delete membership.id;
+            delete membership.createdAt;
+            delete membership.updatedAt;
+          });
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
     it('Filters by User', function (done) {
-      expect(false).to.equal(true);
-      done();
+      const expected = {
+        total: 1,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [
+          {
+            reason: 'Helping Out',
+            startDate: '2017-04-15T05:00:00.000Z',
+            endDate: '2017-10-15T05:00:00.000Z',
+            committeeName: 'Mentoring',
+            userDce: 'axy9999',
+            approved: true,
+            user: {
+              firstName: 'Ada',
+              lastName: 'Lovelace',
+              dce: 'axy9999',
+              createdAt: '2017-01-01T05:00:00.000Z',
+              updatedAt: '2017-01-01T05:00:00.000Z',
+              image: null,
+            },
+          },
+        ],
+      };
+
+      request(app)
+        .get('/api/v2/memberships?user=axy9999')
+        .expect(200)
+        .then((response) => {
+          response.body.data.forEach((membership) => {
+            delete membership.id;
+            delete membership.createdAt;
+            delete membership.updatedAt;
+          });
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
-    it('Filters by Active', function (done) {
-      expect(false).to.equal(true);
-      done();
+    it('Filters by Active (and Approved)', function (done) {
+      const expected = {
+        total: 1,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [
+          {
+            reason: 'Giving a Talk',
+            startDate: '2017-08-15T05:00:00.000Z',
+            endDate: '2017-12-15T05:00:00.000Z',
+            committeeName: 'Talks',
+            userDce: 'br4321',
+            approved: true,
+            user: {
+              firstName: 'Bob',
+              lastName: 'Ross',
+              dce: 'br4321',
+              createdAt: '2016-01-01T05:00:00.000Z',
+              updatedAt: '2016-01-01T05:00:00.000Z',
+              image: null,
+            },
+          },
+        ],
+      };
+
+      request(app)
+        .get(`/api/v2/memberships?active=${encodeURIComponent('2017-11-01T05:00:00.000Z')}`)
+        .set('Authorization', `Bearer ${token}`)
+        .expect(200)
+        .then((response) => {
+          response.body.data.forEach((membership) => {
+            delete membership.id;
+            delete membership.createdAt;
+            delete membership.updatedAt;
+          });
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
-    it('Filters by Between', function (done) {
-      expect(false).to.equal(true);
-      done();
+    it('Filters by Between Start Date (and Approved)', function (done) {
+      const expected = {
+        total: 1,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [
+          {
+            reason: 'Giving a Talk',
+            startDate: '2017-08-15T05:00:00.000Z',
+            endDate: '2017-12-15T05:00:00.000Z',
+            committeeName: 'Talks',
+            userDce: 'br4321',
+            approved: true,
+            user: {
+              firstName: 'Bob',
+              lastName: 'Ross',
+              dce: 'br4321',
+              createdAt: '2016-01-01T05:00:00.000Z',
+              updatedAt: '2016-01-01T05:00:00.000Z',
+              image: null,
+            },
+          },
+        ],
+      };
+
+      request(app)
+        .get(`/api/v2/memberships?between=${encodeURIComponent('2017-05-01T05:00:00.000Z')}/${encodeURIComponent('2017-09-01T05:00:00.000Z')}`)
+        .set('Authorization', `Bearer ${token}`)
+        .expect(200)
+        .then((response) => {
+          response.body.data.forEach((membership) => {
+            delete membership.id;
+            delete membership.createdAt;
+            delete membership.updatedAt;
+          });
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
 
-    it('Filters by Approved', function (done) {
-      expect(false).to.equal(true);
-      done();
+    it('Filters by Pending', function (done) {
+      const expected = {
+        total: 1,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [
+          {
+            reason: 'Being Awesome',
+            startDate: '2017-06-15T05:00:00.000Z',
+            endDate: '2017-12-15T05:00:00.000Z',
+            committeeName: 'Technology',
+            userDce: 'ta1111',
+            approved: null,
+            user: {
+              firstName: 'Thomas',
+              lastName: 'Anderson',
+              dce: 'ta1111',
+              createdAt: '2017-01-01T05:00:00.000Z',
+              updatedAt: '2017-01-01T05:00:00.000Z',
+              image: null,
+            },
+          },
+        ],
+      };
+
+      request(app)
+        .get('/api/v2/memberships?approved=null')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(200)
+        .then((response) => {
+          response.body.data.forEach((membership) => {
+            delete membership.id;
+            delete membership.createdAt;
+            delete membership.updatedAt;
+          });
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
+    });
+
+    it('Filters by Denied', function (done) {
+      const expected = {
+        total: 0,
+        perPage: nconf.get('pagination:perPage'),
+        currentPage: 1,
+        data: [],
+      };
+
+      request(app)
+        .get('/api/v2/memberships?approved=false')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(200)
+        .then((response) => {
+          expect(response.body).to.deep.equal(expected);
+          done();
+        });
     });
   });
 

@@ -12,6 +12,9 @@ export default sequelize.define('memberships', {
   committeeName: {
     type: DataTypes.STRING,
   },
+  // true = approved
+  // null = pending
+  // false = denied
   approved: {
     type: DataTypes.BOOLEAN,
   },
