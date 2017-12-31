@@ -32,6 +32,7 @@ Specialty.belongsToMany(Mentor, { through: 'mentors_specialties' });
 Specialty.addScope('active', date => ({ include: [{ model: Mentor.scope({ method: ['active', date] }), required: true }] }));
 
 Tag.belongsToMany(Quote, { through: 'quotes_tags' });
+// An 'active' tag requires at least one Quote to be tagged with it
 Tag.addScope('active', active => ({ include: [{ model: Quote, required: active }] }));
 
 User.hasMany(Headcount);

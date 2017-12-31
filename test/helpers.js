@@ -8,6 +8,8 @@ import Committee from '../models/committee';
 import Event from '../models/event';
 import Membership from '../models/membership';
 import Officer from '../models/officer';
+import Quote from '../models/quote';
+import Tag from '../models/tag';
 import User from '../models/user';
 
 const jwtConfig = nconf.get('auth:jwt');
@@ -103,25 +105,15 @@ export const lowPermissionUserToken = jwt.sign(
   { expiresIn: jwtConfig.expiresIn, algorithm: 'RS256' }
 );
 
-export const users = [
-
-];
-
-export const officers = [
-
-];
-
-export const committees = [
-
-];
-
-export const events = [
-
-];
-
-export const memberships = [
-
-];
+export const data = {
+  users: [],
+  officers: [],
+  committees: [],
+  events: [],
+  memberships: [],
+  quotes: [],
+  tags: [],
+};
 
 export function beforeHelper() {
   return bootstrap();
@@ -131,7 +123,7 @@ export function beforeEachHelper() {
   return sequelize
     .transaction(t => Promise.all(
         // Truncate all tables
-        [Event, Committee, User, Officer, Membership]
+        [Event, Committee, User, Officer, Membership, Quote, Tag]
           .map(model => model.destroy({
             truncate: true,
             transaction: t,
@@ -299,5 +291,44 @@ export function beforeEachHelper() {
           userDce: 'br4321',
           approved: true,
         },
+      ]))
+      .then(() => Promise.all([
+        Quote.bulkCreate([
+          {
+            id: 1,
+            body: 'A neat quote.',
+            description: 'A neat description.',
+            approved: null,
+          },
+          {
+            id: 2,
+            body: 'Is this a quote?',
+            description: 'Is this a description?',
+            approved: true,
+          },
+          {
+            id: 3,
+            body: 'Is the QDB relevant anymore?',
+            description: '',
+            approved: true,
+          },
+          {
+            id: 4,
+            body: 'Zoinks!',
+            description: '',
+            approved: true,
+          },
+        ]),
+        Tag.bulkCreate([
+          { name: 'tag1' },
+          { name: 'tag2' },
+          { name: 'tag3' },
+        ]),
+      ]))
+      .spread((quotes, tags) => Promise.all([
+        quotes[0].setTags([]),
+        quotes[1].setTags([tags[0]]),
+        quotes[2].setTags([tags[0], tags[1]]),
+        quotes[3].setTags([tags[0], tags[1], tags[2]]),
       ]));
 }
