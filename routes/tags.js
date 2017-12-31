@@ -9,9 +9,9 @@ router
   .route('/')
     .get(paginate, (req, res, next) => {
       if (req.query.active === 'true') {
-        req.query.active = true;
+        req.query.active = true; // INNER JOIN quotes
       } else {
-        req.query.active = false;
+        req.query.active = false; // LEFT OUTER JOIN quotes
       }
       const scopes = scopify(req.query, 'active');
       Tag
