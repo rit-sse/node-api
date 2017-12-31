@@ -127,6 +127,8 @@ export function beforeEachHelper() {
           .map(model => model.destroy({
             truncate: true,
             transaction: t,
+            cascade: true, // If testing using Postgres, this allows it to truncate tables that have foreign key constraints
+            restartIdentity: true, // If testing using Postgres, this allows id's to be consistent across runs
           }))
       ))
       // Create a User we can auth with
