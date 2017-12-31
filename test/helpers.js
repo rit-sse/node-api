@@ -325,6 +325,7 @@ export function beforeEachHelper() {
           { name: 'tag1' },
           { name: 'tag2' },
           { name: 'tag3' },
+          { name: 'tag4' }, // An inactive tag
         ]),
       ]))
       .spread((quotes, tags) => Promise.all([
