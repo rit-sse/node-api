@@ -98,7 +98,7 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
         });
     });
 
-    it('Requires Correct Permissions', function (done) {
+    it('Requires Expected Permissions', function (done) {
       // Need Low Permissions be Primary Officer for Pending and Denied
       const expected = {
         error: 'User does not have permission: unapproved memberships',
@@ -440,7 +440,7 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
         });
     });
 
-    it('Requires Correct Permissions', function (done) {
+    it('Requires Expected Permissions', function (done) {
       // Need Low Permissions be an Officer or Primary Officer
       const expected = {
         error: 'User does not have permission: create memberships',
@@ -540,7 +540,7 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
   });
 
   describe('GET /:id', function () {
-    it('Requires Correct Permissions', function (done) {
+    it('Requires Expected Permissions', function (done) {
       // Need Low Permissions be Primary Officer
       const expected = {
         error: 'User does not have permission: unapproved memberships',
@@ -639,7 +639,7 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
         });
     });
 
-    it('Requires Correct Permissions', function (done) {
+    it('Requires Expected Permissions', function (done) {
       // Need Low Permissions be Primary Officer
       const expected = {
         error: 'User does not have permission: update memberships',
@@ -746,7 +746,7 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
         });
     });
 
-    it('Requires Correct Permissions', function (done) {
+    it('Requires Expected Permissions', function (done) {
       // Need High Permissions be Primary Officer
       const expected = {
         error: 'User does not have permission: destroy memberships',
@@ -798,7 +798,13 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
         .set('Authorization', `Bearer ${token}`)
         .expect(204)
         .then(() => {
-          done();
+          request(app)
+            .get('/api/v2/memberships/1')
+            .set('Authorization', `Bearer ${token}`)
+            .expect(404)
+            .then(() => {
+              done();
+            });
         });
     });
 

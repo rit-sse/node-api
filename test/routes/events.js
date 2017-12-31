@@ -843,7 +843,13 @@ END:VCALENDAR`;
         .set('Authorization', `Bearer ${token}`)
         .expect(204)
         .then(() => {
-          done();
+          request(app)
+            .get('/api/v2/events/1')
+            .set('Authorization', `Bearer ${token}`)
+            .expect(404)
+            .then(() => {
+              done();
+            });
         });
     });
 

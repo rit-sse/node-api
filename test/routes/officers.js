@@ -748,7 +748,13 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
         .set('Authorization', `Bearer ${token}`)
         .expect(204)
         .then(() => {
-          done();
+          request(app)
+            .get('/api/v2/officers/1')
+            .set('Authorization', `Bearer ${token}`)
+            .expect(404)
+            .then(() => {
+              done();
+            });
         });
     });
 
