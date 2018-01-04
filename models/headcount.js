@@ -1,8 +1,10 @@
 import DataTypes from 'sequelize';
-import moment from 'moment';
-import 'moment-range';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
 import sequelize from '../config/sequelize';
 import paginate from '../helpers/paginate';
+
+const moment = extendMoment(Moment);
 
 export default sequelize.define('headcounts', {
   count: {
