@@ -89,17 +89,17 @@ describe('INTEGRATION TESTS: AUTH', function () {
     });
 
     it('Verifies a Google User', function (done) {
-      expect(false).to.equal(true);
+      expect(false).to.equal(true); // TODO: Probably need to mock Google
       done();
     });
 
     it('Verifies a Slack User', function (done) {
-      expect(false).to.equal(true);
+      expect(false).to.equal(true); // TODO: Probably need to mock Slack
       done();
     });
 
     it('Does Not Verify Incorrect Credentials', function (done) {
-      expect(false).to.equal(true);
+      expect(false).to.equal(true); // TODO
       done();
     });
   });
