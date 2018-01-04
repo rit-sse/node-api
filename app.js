@@ -31,6 +31,10 @@ if (env === 'development') {
 }
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+// If an extension is provided in the route, we set the proper ACCEPT header
+// This is primarily used for events
+// /api/v2/events.json    Set the ACCEPT 'application/json' header
+// /api/v2/events.ics     Set the ACCEPT 'text/calendar' header
 app.use((req, res, next) => {
   const regexp = /\.(json|ics)$/;
 
@@ -39,8 +43,10 @@ app.use((req, res, next) => {
   if (!match) {
     return next();
   }
-  req.headers.accept = mime.lookup(match[1]);
-  req.url = req.url.replace(regexp, '');
+
+  // NOTE: Will overwrite any/invalid existing ACCEPT header if the route extension matches
+  req.headers.accept = mime.getType(match[1]);
+  req.url = req.url.replace(regexp, ''); // Remove the extension so that the router routes properly
   return next();
 });
 
