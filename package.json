@@ -54,8 +54,6 @@
     "nconf": "^0.10.0",
     "pg": "^4.4.1",
     "pg-hstore": "^2.3.2",
-    "redis": "^2.5.3",
-    "request-promise": "^2.0.1",
     "sequelize": "^3.19.0",
     "sqlite3": "^3.0.10",
     "umzug": "^1.6.0"
