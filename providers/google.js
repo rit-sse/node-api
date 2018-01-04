@@ -15,6 +15,8 @@ export default class GoogleProvider {
 
   verify() {
     return new Promise((resolve, reject) => {
+      // TODO: 'clientId' is 'undefined'; should be 'clientId_'
+      // This may change when upgrading 'googleapis'
       this.client.verifyIdToken(this.token, this.client.clientId, (err, ticket) => {
         if (err) {
           return reject(err);
