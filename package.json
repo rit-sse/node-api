@@ -51,7 +51,7 @@
     "moment-range": "^2.0.3",
     "moment-timezone": "^0.4.0",
     "morgan": "^1.6.1",
-    "nconf": "^0.7.2",
+    "nconf": "^0.10.0",
     "pg": "^4.4.1",
     "pg-hstore": "^2.3.2",
     "redis": "^2.5.3",
