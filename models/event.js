@@ -33,7 +33,7 @@ export default sequelize.define('events', {
   },
   link: {
     type: DataTypes.STRING,
-    allowNull: true,
+    allowNull: true, // TODO: Remove & verify nothing breaks. allowNull: 'true' is the default value.
   },
   image: {
     type: DataTypes.STRING,

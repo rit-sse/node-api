@@ -7,7 +7,7 @@ import nconf from '../config';
 export default sequelize.define('users', {
   firstName: DataTypes.STRING,
   lastName: DataTypes.STRING,
-  image: DataTypes.STRING,
+  image: DataTypes.STRING, // TODO: Validate that this is a URL
   dce: {
     type: DataTypes.STRING,
     validate: {

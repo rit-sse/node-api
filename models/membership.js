@@ -20,10 +20,14 @@ export default sequelize.define('memberships', {
   },
   startDate: {
     type: DataTypes.DATE,
+    // TODO: A DATE field having 'false' as a defaultValue doesn't make sense.
+    // This should probably be "allowNull: 'false'"
     defaultValue: false,
   },
   endDate: {
     type: DataTypes.DATE,
+    // TODO: A DATE field having 'false' as a defaultValue doesn't make sense.
+    // This should probably be "allowNull: 'false'"
     defaultValue: false,
   },
 }, {
@@ -68,5 +72,5 @@ export default sequelize.define('memberships', {
       };
     },
     paginate,
-  },
+  }, // TODO: Validate startDateBeforeEndDate like in 'models/event.js'
 });
