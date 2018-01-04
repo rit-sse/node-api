@@ -58,7 +58,7 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         ],
       };
 
-      request(app)
+      const nakedURL = request(app)
         .get('/api/v2/events')
         .expect(200)
         .then((response) => {
@@ -67,8 +67,25 @@ describe('INTEGRATION TESTS: EVENTS', function () {
             delete event.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
+
+      const jsonExtension = request(app)
+        .get('/api/v2/events.json')
+        .expect(200)
+        .then((response) => {
+          response.body.data.forEach((event) => {
+            delete event.createdAt;
+            delete event.updatedAt;
+          });
+          expect(response.body).to.deep.equal(expected);
+        });
+
+      Promise.all([
+        nakedURL,
+        jsonExtension,
+      ]).then(() => {
+        done();
+      });
     });
 
     it('Filters by an Existing Name', function (done) {
@@ -464,14 +481,27 @@ LOCATION:The Lab
 END:VEVENT
 END:VCALENDAR`;
 
-      request(app)
+      const nakedURL = request(app)
         .get('/api/v2/events')
         .set('accept', 'text/calendar')
         .expect(200)
         .then((response) => {
           expect(response.text).to.deep.equal(expected);
-          done();
         });
+
+      const icsExtension = request(app)
+        .get('/api/v2/events.ics')
+        .expect(200)
+        .then((response) => {
+          expect(response.text).to.deep.equal(expected);
+        });
+
+      Promise.all([
+        nakedURL,
+        icsExtension,
+      ]).then(() => {
+        done();
+      });
     });
 
     it('Does Not Accept Requests Not Accepting JSON or ICS', function (done) {
