@@ -105,16 +105,6 @@ export const lowPermissionUserToken = jwt.sign(
   { expiresIn: jwtConfig.expiresIn, algorithm: 'RS256' }
 );
 
-export const data = {
-  users: [],
-  officers: [],
-  committees: [],
-  events: [],
-  memberships: [],
-  quotes: [],
-  tags: [],
-};
-
 export function beforeHelper() {
   return bootstrap();
 }

@@ -186,6 +186,11 @@ describe('INTEGRATION TESTS: QUOTES', function () {
       done();
     });
 
+    it('Removes All Tags From a Quote', function (done) {
+      expect(false).to.equal(true);
+      done();
+    });
+
     it('Does Not Find and Update a Non-existent Quote', function (done) {
       expect(false).to.equal(true);
       done();
