@@ -241,7 +241,6 @@ export function beforeEachHelper() {
       ]))
       .then(() => Event.bulkCreate([
         {
-          id: 1,
           name: 'Review Session',
           committeeName: 'Mentoring',
           startDate: '2017-10-12T05:00:00.000Z',
@@ -251,7 +250,6 @@ export function beforeEachHelper() {
           image: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
         },
         {
-          id: 2,
           name: 'Microtalks',
           committeeName: 'Talks',
           startDate: '2017-06-12T05:00:00.000Z',
@@ -260,7 +258,6 @@ export function beforeEachHelper() {
           link: null,
         },
         {
-          id: 3,
           name: 'Intro to Bitcoin',
           committeeName: 'Talks',
           startDate: '2017-12-15T05:00:00.000Z',

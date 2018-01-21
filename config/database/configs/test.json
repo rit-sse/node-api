@@ -1,5 +1,5 @@
 {
-  "dialect": "sqlite",
-  "storage": "db/test.db",
+  "dialect": "postgres",
+  "database": "node_api_test",
   "logging": false
 }

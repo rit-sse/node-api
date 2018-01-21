@@ -12,8 +12,8 @@ The SSE new and improved unified API.
     * [Obtaining a token](#obtaining-a-token)
   * [Configuring Google Calendar](#configuring-google-calendar)
 * [Running the app](#running-the-app)
-* [Running with docker](#running-with-docker)
 * [Additional notes](#additional-notes)
+* [Testing](#testing)
 ---
 ## Development
 
@@ -84,3 +84,8 @@ If you specify seed it will seed the database.
 
 ### Additional Notes
 1. `PORT="2222" npm start` - Run the server on a different port.
+
+### Testing
+Testing requires a PostgreSQL database named `node_api_test` to exist. This means you'll have to [install and run PostgreSQL](https://www.postgresql.org/download/) on your development computer.
+
+If you're using macOS, [Postgres.app](https://postgresapp.com) and [Postico](https://eggerapps.at/postico) are friendly, easy-to-use tools for running PostgreSQL.
