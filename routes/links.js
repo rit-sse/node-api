@@ -34,6 +34,9 @@ router
         });
     });
 
+// TODO: Move this to the top level of the API
+// Instead of /api/v2/links/go/:shortLink
+// it should be /go/:shortLink
 router
   .route('/go/:shortLink')
     .get((req, res, next) => {

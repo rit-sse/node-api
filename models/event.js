@@ -1,8 +1,10 @@
 import DataTypes from 'sequelize';
-import moment from 'moment';
-import 'moment-range';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
 import sequelize from '../config/sequelize';
 import paginate from '../helpers/paginate';
+
+const moment = extendMoment(Moment);
 
 export default sequelize.define('events', {
   name: {
@@ -33,7 +35,7 @@ export default sequelize.define('events', {
   },
   link: {
     type: DataTypes.STRING,
-    allowNull: true,
+    allowNull: true, // TODO: Remove & verify nothing breaks. allowNull: 'true' is the default value.
   },
   image: {
     type: DataTypes.STRING,

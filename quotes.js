@@ -1,10 +1,8 @@
 import Promise from 'bluebird';
 import quotes from './quotes.json';
-import models from './models';
 import Tag from './models/tag';
 import Quote from './models/quote';
-
-models();
+import './models';
 
 Promise.each(quotes, (quoteObj) => {
   quoteObj.approved = true;

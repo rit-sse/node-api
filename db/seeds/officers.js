@@ -12,6 +12,10 @@ export default [
       userDce: 'kd9205',
       startDate: new Date(2016, 7, 22),
     },
+    committee: {
+      name: 'General',
+      description: 'General',
+    },
   },
   {
     user: {
@@ -25,6 +29,7 @@ export default [
       primaryOfficer: true,
       userDce: 'mpt2360',
       startDate: new Date(2016, 7, 22),
+      committeeName: 'General',
     },
   },
   {
@@ -39,6 +44,7 @@ export default [
       primaryOfficer: true,
       userDce: 'cmb9400',
       startDate: new Date(2016, 7, 22),
+      committeeName: 'General',
     },
   },
   {
@@ -53,6 +59,7 @@ export default [
       primaryOfficer: true,
       userDce: 'mxs7353',
       startDate: new Date(2016, 7, 22),
+      committeeName: 'General',
     },
   },
   {

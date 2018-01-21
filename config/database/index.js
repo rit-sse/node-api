@@ -3,14 +3,14 @@ import fs from 'fs';
 // Build postgres connection string from environment
 const USER = process.env.PG_ENV_POSTGRES_USER || 'postgres';
 const PASSWORD = process.env.PG_ENV_POSTGRES_PASSWORD || process.env.POSTGRES_PASSWORD;
-const DB = process.env.pg_ENV_POSTGRES_DB || USER;
+const DB = process.env.pg_ENV_POSTGRES_DB || USER; // TODO: pg_ENV_POSTGRES_DB or PG_ENV_POSTGRES_DB?
 const HOST = process.env.DB_HOST_OVERRIDE || 'localhost';
 
-const development = fs.existsSync('config/database/configs/development.json') ? // eslint-disable-line no-sync
+export const development = fs.existsSync('config/database/configs/development.json') ? // eslint-disable-line no-sync
   JSON.parse(fs.readFileSync('config/database/configs/development.json')) : // eslint-disable-line no-sync
   null;
 
-const production = fs.existsSync('config/database/configs/production.json') ? // eslint-disable-line no-sync
+export const production = fs.existsSync('config/database/configs/production.json') ? // eslint-disable-line no-sync
   JSON.parse(fs.readFileSync('config/database/configs/production.json')) : // eslint-disable-line no-sync
 {
   dialect: 'postgres',
@@ -21,7 +21,7 @@ const production = fs.existsSync('config/database/configs/production.json') ? //
   port: 5432,
 };
 
-const test = fs.existsSync('config/database/configs/test.json') ? // eslint-disable-line no-sync
+export const test = fs.existsSync('config/database/configs/test.json') ? // eslint-disable-line no-sync
   JSON.parse(fs.readFileSync('config/database/configs/test.json')) : // eslint-disable-line no-sync
   null;
 

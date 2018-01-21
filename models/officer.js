@@ -49,6 +49,10 @@ export default sequelize.define('officers', {
     user(userDce) {
       return { where: { userDce } };
     },
+    // An 'active' Officer is one which has a 'startDate'
+    // before the provided date and an 'endDate' after
+    // the provided date (or a 'null' endDate).
+    // startDate <= date <= endDate
     active(date) {
       return {
         where: {

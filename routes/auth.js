@@ -15,11 +15,22 @@ router.use((req, res, next) => {
 const jwtConfig = nconf.get('auth:jwt');
 
 function sign(payload) {
+  // Since version 6.0.0 of 'node-jsonwebtoken', 'expiresIn' and 'exp' are
+  // mutually exclusive (and will error if both are provided). This means
+  // if the 'payload' provided has an 'exp' key - which will happen if
+  // we're refreshing an old token - we have to remove it. We also need
+  // to remove the 'iat' key so that the new token will have a new 'iat'.
+  // If we don't remove 'iat', then the new token's 'exp' will be based
+  // off of the old 'iat' - we will not have actually refreshed the token.
+  // See: https://github.com/auth0/node-jsonwebtoken/blob/master/CHANGELOG.md#600---2016-04-27
+  delete payload.iat; // delete works even if 'iat' doesn't exist
+  delete payload.exp; // delete works even if 'exp' doesn't exist
+
   return {
     token: jwt.sign(
       payload,
       jwtConfig.secret,
-      { expiresInMinutes: jwtConfig.expiresInMinutes, algorithm: 'RS256' }
+      { expiresIn: jwtConfig.expiresIn, algorithm: 'RS256' }
     ),
   };
 }

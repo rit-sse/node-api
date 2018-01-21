@@ -1,8 +1,10 @@
 import DataTypes from 'sequelize';
-import moment from 'moment';
-import 'moment-range';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
 import sequelize from '../config/sequelize';
 import paginate from '../helpers/paginate';
+
+const moment = extendMoment(Moment);
 
 export default sequelize.define('memberships', {
   reason: {
@@ -12,15 +14,22 @@ export default sequelize.define('memberships', {
   committeeName: {
     type: DataTypes.STRING,
   },
+  // true = approved
+  // null = pending
+  // false = denied
   approved: {
     type: DataTypes.BOOLEAN,
   },
   startDate: {
     type: DataTypes.DATE,
+    // TODO: A DATE field having 'false' as a defaultValue doesn't make sense.
+    // This should probably be "allowNull: 'false'"
     defaultValue: false,
   },
   endDate: {
     type: DataTypes.DATE,
+    // TODO: A DATE field having 'false' as a defaultValue doesn't make sense.
+    // This should probably be "allowNull: 'false'"
     defaultValue: false,
   },
 }, {
@@ -65,5 +74,5 @@ export default sequelize.define('memberships', {
       };
     },
     paginate,
-  },
+  }, // TODO: Validate startDateBeforeEndDate like in 'models/event.js'
 });

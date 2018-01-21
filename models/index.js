@@ -9,34 +9,33 @@ import Specialty from './specialty';
 import Tag from './tag';
 import User from './user';
 
-export default function () {
-  Committee.hasOne(Officer);
-  Committee.hasMany(Event);
-  Committee.hasMany(Membership);
+Committee.hasOne(Officer);
+Committee.hasMany(Event);
+Committee.hasMany(Membership);
 
-  Event.belongsTo(Committee);
+Event.belongsTo(Committee);
 
-  Headcount.belongsTo(User);
+Headcount.belongsTo(User);
 
-  Membership.belongsTo(Committee);
-  Membership.belongsTo(User);
+Membership.belongsTo(Committee);
+Membership.belongsTo(User);
 
-  Mentor.belongsTo(User);
-  Mentor.belongsToMany(Specialty, { through: 'mentors_specialties' });
+Mentor.belongsTo(User);
+Mentor.belongsToMany(Specialty, { through: 'mentors_specialties' });
 
-  Officer.belongsTo(User);
-  Officer.belongsTo(Committee);
+Officer.belongsTo(User);
+Officer.belongsTo(Committee);
 
-  Quote.belongsToMany(Tag, { through: 'quotes_tags' });
+Quote.belongsToMany(Tag, { through: 'quotes_tags' });
 
-  Specialty.belongsToMany(Mentor, { through: 'mentors_specialties' });
-  Specialty.addScope('active', date => ({ include: [{ model: Mentor.scope({ method: ['active', date] }), required: true }] }));
+Specialty.belongsToMany(Mentor, { through: 'mentors_specialties' });
+Specialty.addScope('active', date => ({ include: [{ model: Mentor.scope({ method: ['active', date] }), required: true }] }));
 
-  Tag.belongsToMany(Quote, { through: 'quotes_tags' });
-  Tag.addScope('active', active => ({ include: [{ model: Quote, required: active }] }));
+Tag.belongsToMany(Quote, { through: 'quotes_tags' });
+// An 'active' tag requires at least one Quote to be tagged with it
+Tag.addScope('active', active => ({ include: [{ model: Quote, required: active }] }));
 
-  User.hasMany(Headcount);
-  User.hasMany(Membership);
-  User.hasMany(Mentor);
-  User.hasMany(Officer);
-}
+User.hasMany(Headcount);
+User.hasMany(Membership);
+User.hasMany(Mentor);
+User.hasMany(Officer);

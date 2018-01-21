@@ -1,7 +1,9 @@
-require("babel-core/register");
-var path = require('path')
-var config = require('./config/database');
-config.config = __filename;
-config['migrations-path'] = path.resolve('db', 'migrations')
+require('babel-register')
+const path = require('path')
 
-module.exports = config;
+module.exports = {
+  'config': path.resolve('config', 'database', 'index.js'),
+  'models-path': path.resolve('models'),
+  'seeders-path': path.resolve('db', 'seeds'),
+  'migrations-path': path.resolve('db', 'migrations')
+}
