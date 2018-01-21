@@ -23,7 +23,6 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         currentPage: 1,
         data: [
           {
-            id: 1,
             name: 'Review Session',
             committeeName: 'Mentoring',
             startDate: '2017-10-12T05:00:00.000Z',
@@ -34,7 +33,6 @@ describe('INTEGRATION TESTS: EVENTS', function () {
             description: null,
           },
           {
-            id: 2,
             name: 'Microtalks',
             committeeName: 'Talks',
             startDate: '2017-06-12T05:00:00.000Z',
@@ -45,7 +43,6 @@ describe('INTEGRATION TESTS: EVENTS', function () {
             image: null,
           },
           {
-            id: 3,
             name: 'Intro to Bitcoin',
             committeeName: 'Talks',
             startDate: '2017-12-15T05:00:00.000Z',
@@ -63,6 +60,7 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         .expect(200)
         .then((response) => {
           response.body.data.forEach((event) => {
+            delete event.id;
             delete event.createdAt;
             delete event.updatedAt;
           });
@@ -74,6 +72,7 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         .expect(200)
         .then((response) => {
           response.body.data.forEach((event) => {
+            delete event.id;
             delete event.createdAt;
             delete event.updatedAt;
           });
@@ -95,7 +94,6 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         currentPage: 1,
         data: [
           {
-            id: 2,
             name: 'Microtalks',
             committeeName: 'Talks',
             startDate: '2017-06-12T05:00:00.000Z',
@@ -113,6 +111,7 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         .expect(200)
         .then((response) => {
           response.body.data.forEach((event) => {
+            delete event.id;
             delete event.createdAt;
             delete event.updatedAt;
           });
@@ -145,7 +144,6 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         currentPage: 1,
         data: [
           {
-            id: 2,
             name: 'Microtalks',
             committeeName: 'Talks',
             startDate: '2017-06-12T05:00:00.000Z',
@@ -156,7 +154,6 @@ describe('INTEGRATION TESTS: EVENTS', function () {
             image: null,
           },
           {
-            id: 3,
             name: 'Intro to Bitcoin',
             committeeName: 'Talks',
             startDate: '2017-12-15T05:00:00.000Z',
@@ -174,6 +171,7 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         .expect(200)
         .then((response) => {
           response.body.data.forEach((event) => {
+            delete event.id;
             delete event.createdAt;
             delete event.updatedAt;
           });
@@ -206,7 +204,6 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         currentPage: 1,
         data: [
           {
-            id: 1,
             name: 'Review Session',
             committeeName: 'Mentoring',
             startDate: '2017-10-12T05:00:00.000Z',
@@ -224,6 +221,7 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         .expect(200)
         .then((response) => {
           response.body.data.forEach((event) => {
+            delete event.id;
             delete event.createdAt;
             delete event.updatedAt;
           });
@@ -256,7 +254,6 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         currentPage: 1,
         data: [
           {
-            id: 1,
             name: 'Review Session',
             committeeName: 'Mentoring',
             startDate: '2017-10-12T05:00:00.000Z',
@@ -274,6 +271,7 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         .expect(200)
         .then((response) => {
           response.body.data.forEach((event) => {
+            delete event.id;
             delete event.createdAt;
             delete event.updatedAt;
           });
@@ -289,7 +287,6 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         currentPage: 1,
         data: [
           {
-            id: 2,
             name: 'Microtalks',
             committeeName: 'Talks',
             startDate: '2017-06-12T05:00:00.000Z',
@@ -307,6 +304,7 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         .expect(200)
         .then((response) => {
           response.body.data.forEach((event) => {
+            delete event.id;
             delete event.createdAt;
             delete event.updatedAt;
           });
@@ -322,7 +320,6 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         currentPage: 1,
         data: [
           {
-            id: 3,
             name: 'Intro to Bitcoin',
             committeeName: 'Talks',
             startDate: '2017-12-15T05:00:00.000Z',
@@ -340,6 +337,7 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         .expect(200)
         .then((response) => {
           response.body.data.forEach((event) => {
+            delete event.id;
             delete event.createdAt;
             delete event.updatedAt;
           });
@@ -355,7 +353,6 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         currentPage: 1,
         data: [
           {
-            id: 1,
             name: 'Review Session',
             committeeName: 'Mentoring',
             startDate: '2017-10-12T05:00:00.000Z',
@@ -373,6 +370,7 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         .expect(200)
         .then((response) => {
           response.body.data.forEach((event) => {
+            delete event.id;
             delete event.createdAt;
             delete event.updatedAt;
           });
@@ -388,7 +386,6 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         currentPage: 1,
         data: [
           {
-            id: 3,
             name: 'Intro to Bitcoin',
             committeeName: 'Talks',
             startDate: '2017-12-15T05:00:00.000Z',
@@ -399,7 +396,6 @@ describe('INTEGRATION TESTS: EVENTS', function () {
             image: null,
           },
           {
-            id: 1,
             name: 'Review Session',
             committeeName: 'Mentoring',
             startDate: '2017-10-12T05:00:00.000Z',
@@ -410,7 +406,6 @@ describe('INTEGRATION TESTS: EVENTS', function () {
             image: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
           },
           {
-            id: 2,
             name: 'Microtalks',
             committeeName: 'Talks',
             startDate: '2017-06-12T05:00:00.000Z',
@@ -428,6 +423,7 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         .expect(200)
         .then((response) => {
           response.body.data.forEach((event) => {
+            delete event.id;
             delete event.createdAt;
             delete event.updatedAt;
           });
@@ -586,6 +582,9 @@ END:VCALENDAR`;
         startDate: '2017-06-12T05:00:00.000Z',
         endDate: '2017-06-12T10:00:00.000Z',
         location: 'The Lab',
+        description: null,
+        image: null,
+        link: null,
       };
 
       request(app)
