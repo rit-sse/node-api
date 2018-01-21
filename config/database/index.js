@@ -3,7 +3,7 @@ import fs from 'fs';
 // Build postgres connection string from environment
 const USER = process.env.PG_ENV_POSTGRES_USER || 'postgres';
 const PASSWORD = process.env.PG_ENV_POSTGRES_PASSWORD || process.env.POSTGRES_PASSWORD;
-const DB = process.env.pg_ENV_POSTGRES_DB || USER;
+const DB = process.env.pg_ENV_POSTGRES_DB || USER; // TODO: pg_ENV_POSTGRES_DB or PG_ENV_POSTGRES_DB?
 const HOST = process.env.DB_HOST_OVERRIDE || 'localhost';
 
 export const development = fs.existsSync('config/database/configs/development.json') ? // eslint-disable-line no-sync
