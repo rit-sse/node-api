@@ -1,0 +1,43 @@
+<heml>
+  <head>
+    <style>
+      body {
+        background: #1e5a8d;
+        padding: 50px 5px;
+      }
+      block {
+        background: #ffffff;
+        padding: 25px;
+      }
+      p {
+        font-family: "lucida sans unicode", "lucida grande", sans-serif
+      }
+    </style>
+  </head>
+  <body>
+    <container>
+      <block>
+        <img src="" />
+      </block>
+      <block>
+        <p>Hello ,</p>
+        <p>Congratulations! 🎉 You have earned your first SSE membership for this semester.</p>
+        <p>Thank you for contributing to the organization, we greatly appreciate your support. You now have access to exclusive discounted pricing on select SSE events, as well as voting rights in the Primary Officers' election.</p>
+        <p>Thanks for being awesome!</p>
+        <p></p>
+        <p>Secretary, <a href="https://sse.rit.edu/">Society of Software Engineers</a></p>
+      </block>
+      <block style="text-align:center;">
+        <p>
+          <strong>Our mailing address is:</strong><br/>
+          134 Lomb Memorial Drive<br/>
+          Rochester, NY 14623-5608
+        </p>
+        <p>
+          Want to change how you receive these emails?<br/>
+          Send us an email at <a href="mailto:technology@sse.rit.edu">technology@sse.rit.edu</a>
+        </p>
+      </block>
+    </container>
+  </body>
+</heml>
