@@ -11,6 +11,7 @@ The SSE new and improved unified API.
     * [Configuring Google OAuth](#configuring-google-oauth)
     * [Obtaining a token](#obtaining-a-token)
   * [Configuring Google Calendar](#configuring-google-calendar)
+  * [Configuring Mailgun](#configuring-mailgun)
 * [Running the app](#running-the-app)
 * [Additional notes](#additional-notes)
 * [Testing](#testing)
@@ -65,7 +66,7 @@ You only need to do this if you are working on mentoring-related endpoints.
 * Next go to Credentials Tab. Click Create Credentials > API Key. You can store this key in `keys/google.json` under `web.api_key` or set the ENV variable `GOOGLE_API_KEY`.
 
 ### Google Calendar
-Only need to do this if you are working on mentroing related endpoints.
+Only need to do this if you are working on mentoring-related endpoints.
 
 * Create a new Google Calendar for the Mentor Schedule
 * In the side bar, Click on the arrow next to your new calendar and go to calendar settings.
@@ -73,6 +74,16 @@ Only need to do this if you are working on mentroing related endpoints.
 * Go to the Share Calendar Tab and make the calendar public.
 * Head back to [Google Developer Console](https://console.developers.google.com/apis/library). Go to the same project you created before. Go to Libraries and search for Google Calendar API. Enable that API.
 * Next go to Credentials Tab. Click Create Credentials > API Key. You can store this key in `keys/google.json` under `web.api_key` or set the ENV variable `GOOGLE_API_KEY`.
+
+### Configuring Mailgun
+Only need to do this if you are working on scoreboard-related endpoints.
+
+* Create a [Mailgun](https://www.mailgun.com/) account or sign in to your existing account
+* Mailgun creates a sandbox address for testing with each account (eg. `sandbox<random_string>.mailgun.org`)
+* In order to send email from this sandbox, you have to add an authorized recipient. Click on the sandbox domain and click on the button 'Add Recipients'. Then invite a new recipient by typing in your email address.
+* You'll receive an email from Mailgun asking you to confirm that you want to receive test emails from this Mailgun account. Accept this request.
+* Set the ENV variable `MAILGUN_DOMAIN` with the sandbox domain, and set the ENV variable `MAILGUN_SECRET` with the API key for this sandbox.
+* When testing scoreboard-related endpoints (i.e. approving memberships), make sure the test user you're using has your email associated with it, so that you'll receive the test emails.
 
 ### Running the app
 1. `npm install`
