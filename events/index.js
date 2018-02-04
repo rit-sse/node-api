@@ -1,1 +1,1 @@
-import Membership from './membership'
+import './membership';
