@@ -1,11 +1,8 @@
-Hello <%= user.firstName %>,
+<p>Hello <%= user.firstName %>,</p>
 
-Congratulations! You have earned your first SSE membership for this semester. Thank you for contributing to the organization, we greatly appreciate your support.
+<p>Congratulations! You have earned your first SSE membership for this semester. Thank you for contributing to the organization, we greatly appreciate your support. You now have access to exclusive discounted pricing on select SSE events, as well as voting rights in the Primary Officers' election.</p>
 
-You now have access to exclusive discounted pricing on select SSE events, as well as voting rights in the Primary Officers' election.
+<p>Thanks for being awesome!</p>
 
-Thanks for being awesome!
-<% if (secretary) { %>
-  <%= secretary.firstName secretary.lastName %>
-<% } %>
-Secretary, Society of Software Engineers
+<% if (secretary) %><p><%= secretary.firstName %> <%= secretary.lastName %></p>
+<p>Secretary, Society of Software Engineers</p>

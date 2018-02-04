@@ -7,6 +7,7 @@ import mime from 'mime';
 import nconf from './config';
 import router from './routes';
 import './models';
+import './events';
 
 const app = express();
 
