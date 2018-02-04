@@ -1,12 +1,12 @@
 import nodemailer from 'nodemailer';
 import mailgun from 'nodemailer-mailgun-transport';
 
-import nconf from '../config';
+import config from '../config';
 
 const mailer = nodemailer.createTransport(mailgun({
   auth: {
-    api_key: nconf.get('email:mailgun:secret'),
-    domain: nconf.get('email:mailgun:domain'),
+    api_key: config.get('email:mailgun:secret'),
+    domain: config.get('email:mailgun:domain'),
   },
 }));
 
