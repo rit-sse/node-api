@@ -67,6 +67,7 @@ Membership.afterUpdate((membership) => {
               const secretary = values[1][0].user;
               // Don't send emails during testing
               if (config.get('NODE_ENV') !== 'test') {
+                console.log(`${moment().toISOString()}: Sending membership email to ${user.dce}@rit.edu`); // eslint-disable-line no-console
                 sendCongratsEmail(user, secretary);
               }
             });
