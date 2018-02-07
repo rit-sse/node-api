@@ -55,7 +55,7 @@ jobs:
       - add_ssh_keys
       - deploy:
           command: |
-            ssh deployer@eggs.se.rit.edu docker service update --image=ritsse/node-api:$BUILD_TAG sse_dev_api_v2_dev --detach=false
+            ssh deployer@eggs.se.rit.edu docker service update --image=ritsse/node-api:$BUILD_TAG sse_dev_dev_api_v2 --detach=false
   deploy:
     machine: true
     working_directory: ~/api
