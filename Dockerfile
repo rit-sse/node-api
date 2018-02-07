@@ -1,4 +1,4 @@
-FROM node:5
+FROM node:carbon
 
 WORKDIR /app
 COPY ./package.json /app/package.json
