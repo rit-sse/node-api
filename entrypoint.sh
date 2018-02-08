@@ -29,8 +29,6 @@ file_env 'SLACK_SECRET'
 file_env 'POSTGRES_PASSWORD'
 file_env 'MENTOR_GOOGLE_CALENDAR'
 file_env 'GOOGLE_API_KEY'
-file_env 'MAILGUN_DOMAIN_DEV'
-file_env 'MAILGUN_SECRET_DEV'
 file_env 'MAILGUN_DOMAIN'
 file_env 'MAILGUN_SECRET'
 
