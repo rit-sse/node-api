@@ -11,7 +11,7 @@ import User from '../models/user';
 // 'user' = person the email should go to
 // 'secretary' = current SSE secretary
 const sendCongratsEmail = (user, secretary = null) => mailer.sendMail({
-  from: 'secretary@sse.rit.edu',
+  from: 'Society of Software Engineers <secretary@sse.rit.edu>',
   to: `${user.dce}@rit.edu`,
   subject: "You've earned SSE Membership!",
   template: {
