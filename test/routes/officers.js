@@ -486,12 +486,12 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
       });
     });
 
-    it('Creates a New Committee if there is No Officer belonging to that Committee', function (done) {
+    xit('Creates a New Committee if there is No Officer belonging to that Committee', function (done) {
       expect(false).to.equal(true);
       done();
     });
 
-    it('Creates a an Officer and assigns them to an Existing Committee', function (done) {
+    xit('Creates a an Officer and assigns them to an Existing Committee', function (done) {
       expect(false).to.equal(true);
       done();
     });

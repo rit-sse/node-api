@@ -16,27 +16,27 @@ import {
 
 describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
   describe('GET /scoreboard', function () {
-    it('Gets Memberships by DCE in Descending Order', function (done) {
+    xit('Gets Memberships by DCE in Descending Order', function (done) {
       expect(false).to.equal(true);
       done();
     });
 
-    it('Filters by an Existing User', function (done) {
+    xit('Filters by an Existing User', function (done) {
       expect(false).to.equal(true);
       done();
     });
 
-    it('Filters by Active', function (done) {
+    xit('Filters by Active', function (done) {
       expect(false).to.equal(true);
       done();
     });
 
-    it('Filters by Between', function (done) {
+    xit('Filters by Between', function (done) {
       expect(false).to.equal(true);
       done();
     });
 
-    it('Filters by Approved', function (done) {
+    xit('Filters by Approved', function (done) {
       expect(false).to.equal(true);
       done();
     });
