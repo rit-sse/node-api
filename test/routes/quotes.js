@@ -60,33 +60,33 @@ describe('INTEGRATION TESTS: QUOTES', function () {
         });
     });
 
-    it('Requires Expected Permissions', function (done) {
+    xit('Requires Expected Permissions', function (done) {
       // Need Low Permissions be Primary Officer or Officer for Pending and Denied
       expect(false).to.equal(true);
       done();
     });
 
-    it('Filters by Body', function (done) {
+    xit('Filters by Body', function (done) {
       expect(false).to.equal(true);
       done();
     });
 
-    it('Filters by Tag', function (done) {
+    xit('Filters by Tag', function (done) {
       expect(false).to.equal(true);
       done();
     });
 
-    it('Filters by Search', function (done) {
+    xit('Filters by Search', function (done) {
       expect(false).to.equal(true);
       done();
     });
 
-    it('Filters by Pending', function (done) {
+    xit('Filters by Pending', function (done) {
       expect(false).to.equal(true);
       done();
     });
 
-    it('Filters by Denied', function (done) {
+    xit('Filters by Denied', function (done) {
       expect(false).to.equal(true);
       done();
     });
@@ -107,17 +107,17 @@ describe('INTEGRATION TESTS: QUOTES', function () {
         });
     });
 
-    it('Allows Any User to Create', function (done) {
+    xit('Allows Any User to Create', function (done) {
       expect(false).to.equal(true);
       done();
     });
 
-    it('Creates a Quote', function (done) {
+    xit('Creates a Quote', function (done) {
       expect(false).to.equal(true);
       done();
     });
 
-    it("Creates New Tags if they Don't Exist", function (done) {
+    xit("Creates New Tags if they Don't Exist", function (done) {
       expect(false).to.equal(true);
       done();
     });
@@ -140,17 +140,17 @@ describe('INTEGRATION TESTS: QUOTES', function () {
   });
 
   describe('GET /:id', function () {
-    it('Requires Expected Permissions', function (done) {
+    xit('Requires Expected Permissions', function (done) {
       expect(false).to.equal(true);
       done();
     });
 
-    it('Gets a Specific Quote', function (done) {
+    xit('Gets a Specific Quote', function (done) {
       expect(false).to.equal(true);
       done();
     });
 
-    it('Does Not Find a Non-existent Quote', function (done) {
+    xit('Does Not Find a Non-existent Quote', function (done) {
       expect(false).to.equal(true);
       done();
     });
@@ -171,27 +171,27 @@ describe('INTEGRATION TESTS: QUOTES', function () {
         });
     });
 
-    it('Requires Expected Permissions', function (done) {
+    xit('Requires Expected Permissions', function (done) {
       expect(false).to.equal(true);
       done();
     });
 
-    it('Updates a Specific Quote', function (done) {
+    xit('Updates a Specific Quote', function (done) {
       expect(false).to.equal(true);
       done();
     });
 
-    it("Creates New Tags if they Don't Exist", function (done) {
+    xit("Creates New Tags if they Don't Exist", function (done) {
       expect(false).to.equal(true);
       done();
     });
 
-    it('Removes All Tags From a Quote', function (done) {
+    xit('Removes All Tags From a Quote', function (done) {
       expect(false).to.equal(true);
       done();
     });
 
-    it('Does Not Find and Update a Non-existent Quote', function (done) {
+    xit('Does Not Find and Update a Non-existent Quote', function (done) {
       expect(false).to.equal(true);
       done();
     });
@@ -212,17 +212,17 @@ describe('INTEGRATION TESTS: QUOTES', function () {
         });
     });
 
-    it('Requires Expected Permissions', function (done) {
+    xit('Requires Expected Permissions', function (done) {
       expect(false).to.equal(true);
       done();
     });
 
-    it('Deletes a Specific Quote', function (done) {
+    xit('Deletes a Specific Quote', function (done) {
       expect(false).to.equal(true);
       done();
     });
 
-    it('Does Not Find and Delete a Non-existent Quote', function (done) {
+    xit('Does Not Find and Delete a Non-existent Quote', function (done) {
       expect(false).to.equal(true);
       done();
     });
