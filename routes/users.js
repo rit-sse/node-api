@@ -2,13 +2,14 @@ import { Router } from 'express';
 import User from '../models/user';
 import scopify from '../helpers/scopify';
 import paginate from '../middleware/paginate';
+import sorting from '../middleware/sorting';
 import { needs } from '../middleware/permissions';
 
 const router = Router(); // eslint-disable-line new-cap
 
 router
   .route('/')
-    .get(paginate, (req, res, next) => {
+    .get(paginate, sorting, (req, res, next) => {
       const scopes = scopify(req.query, 'firstName', 'lastName');
       User
         .scope(scopes)

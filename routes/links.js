@@ -2,13 +2,14 @@ import { Router } from 'express';
 import Link from '../models/link';
 import scopify from '../helpers/scopify';
 import { needs } from '../middleware/permissions';
+import sorting from '../middleware/sorting';
 import paginate from '../middleware/paginate';
 
 const router = Router(); // eslint-disable-line new-cap
 
 router
   .route('/')
-    .get(paginate, (req, res, next) => {
+    .get(paginate, sorting, (req, res, next) => {
       const scopes = scopify(req.query);
       Link.scope(scopes)
         .findAndCountAll({

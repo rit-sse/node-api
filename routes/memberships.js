@@ -6,6 +6,7 @@ import scopify from '../helpers/scopify';
 import Membership from '../models/membership';
 import User from '../models/user';
 import paginate from '../middleware/paginate';
+import sorting from '../middleware/sorting';
 import { needs, needsApprovedIndex, needsApprovedOne } from '../middleware/permissions';
 import verifyUser from '../middleware/verify-user';
 
@@ -13,7 +14,7 @@ const router = Router(); // eslint-disable-line new-cap
 
 router
   .route('/scoreboard')
-    .get(paginate, (req, res, next) => {
+    .get(paginate, sorting, (req, res, next) => {
       const scopes = scopify(req.query, 'user', 'active', 'between', 'approved');
       Membership
         .scope(scopes)
@@ -31,7 +32,7 @@ router
 
 router
   .route('/')
-  .get(verifyUser, paginate, needsApprovedIndex('memberships'), (req, res, next) => {
+  .get(verifyUser, paginate, sorting, needsApprovedIndex('memberships'), (req, res, next) => {
     const scopes = scopify(req.query, 'reason', 'committee', 'user', 'active', 'between', 'approved');
     Membership
       .scope(scopes)
