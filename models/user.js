@@ -2,6 +2,7 @@ import DataTypes from 'sequelize';
 import Promise from 'bluebird';
 import sequelize from '../config/sequelize';
 import paginate from '../helpers/paginate';
+import sorting from '../helpers/sorting';
 import nconf from '../config';
 
 export default sequelize.define('users', {
@@ -63,5 +64,15 @@ export default sequelize.define('users', {
       return { where: { dce } };
     },
     paginate,
+    orderBy(field, direction) {
+      return sorting(field, direction, [
+        'firstName',
+        'lastName',
+        'dce',
+        'image',
+        'createdAt',
+        'updatedAt',
+      ]);
+    },
   },
 });

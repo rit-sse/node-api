@@ -1,6 +1,7 @@
 import DataTypes from 'sequelize';
 import sequelize from '../config/sequelize';
 import paginate from '../helpers/paginate';
+import sorting from '../helpers/sorting';
 
 export default sequelize.define('officers', {
   title: {
@@ -69,5 +70,19 @@ export default sequelize.define('officers', {
       };
     },
     paginate,
+    orderBy(field, direction) {
+      return sorting(field, direction, [
+        'id',
+        'title',
+        'email',
+        'primaryOfficer',
+        'committeName',
+        'userDce',
+        'startDate',
+        'endDate',
+        'createdAt',
+        'updatedAt',
+      ]);
+    },
   },
 });

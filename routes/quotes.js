@@ -6,12 +6,13 @@ import scopify from '../helpers/scopify';
 import { needs, needsApprovedIndex, needsApprovedOne } from '../middleware/permissions';
 import verifyUser from '../middleware/verify-user';
 import paginate from '../middleware/paginate';
+import sorting from '../middleware/sorting';
 
 const router = Router(); // eslint-disable-line new-cap
 
 router
   .route('/')
-    .get(verifyUser, paginate, needsApprovedIndex('quotes'), (req, res, next) => {
+    .get(verifyUser, paginate, sorting, needsApprovedIndex('quotes'), (req, res, next) => {
       const scopes = scopify(req.query, 'body', 'tag', 'search', 'approved');
       Quote
         .scope(scopes)
