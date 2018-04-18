@@ -1,6 +1,7 @@
 import DataTypes from 'sequelize';
 import sequelize from '../config/sequelize';
 import paginate from '../helpers/paginate';
+import sorting from '../helpers/sorting';
 import Tag from './tag';
 
 export default sequelize.define('quotes', {
@@ -65,5 +66,14 @@ export default sequelize.define('quotes', {
       };
     },
     paginate,
+    orderBy(field, direction) {
+      return sorting(field, direction, [
+        'id',
+        'body',
+        'description',
+        'createdAt',
+        'updatedAt',
+      ]);
+    },
   },
 });

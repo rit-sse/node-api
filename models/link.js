@@ -1,6 +1,7 @@
 import DataTypes from 'sequelize';
 import sequelize from '../config/sequelize';
 import paginate from '../helpers/paginate';
+import sorting from '../helpers/sorting';
 
 export default sequelize.define('links', {
   shortLink: {
@@ -23,5 +24,13 @@ export default sequelize.define('links', {
 }, {
   scopes: {
     paginate,
+    orderBy(field, direction) {
+      return sorting(field, direction, [
+        'shortLink',
+        'longLink',
+        'createdAt',
+        'updatedAt',
+      ]);
+    },
   },
 });

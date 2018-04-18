@@ -3,6 +3,7 @@ import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import sequelize from '../config/sequelize';
 import paginate from '../helpers/paginate';
+import sorting from '../helpers/sorting';
 
 const moment = extendMoment(Moment);
 
@@ -74,5 +75,18 @@ export default sequelize.define('memberships', {
       };
     },
     paginate,
+    orderBy(field, direction) {
+      return sorting(field, direction, [
+        'id',
+        'userDce',
+        'committeeName',
+        'startDate',
+        'endDate',
+        'reason',
+        'approved',
+        'createdAt',
+        'updatedAt',
+      ]);
+    },
   }, // TODO: Validate startDateBeforeEndDate like in 'models/event.js'
 });

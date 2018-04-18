@@ -1,6 +1,7 @@
 import DataTypes from 'sequelize';
 import sequelize from '../config/sequelize';
 import paginate from '../helpers/paginate';
+import sorting from '../helpers/sorting';
 import Officer from './officer';
 
 export default sequelize.define('committees', {
@@ -27,5 +28,13 @@ export default sequelize.define('committees', {
       };
     },
     paginate,
+    orderBy(field, direction) {
+      return sorting(field, direction, [
+        'name',
+        'description',
+        'createdAt',
+        'updatedAt',
+      ]);
+    },
   },
 });

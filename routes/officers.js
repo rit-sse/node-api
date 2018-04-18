@@ -6,12 +6,13 @@ import Committee from '../models/committee';
 import scopify from '../helpers/scopify';
 import { needs } from '../middleware/permissions';
 import paginate from '../middleware/paginate';
+import sorting from '../middleware/sorting';
 
 const router = Router(); // eslint-disable-line new-cap
 
 router
   .route('/')
-    .get(paginate, (req, res, next) => {
+    .get(paginate, sorting, (req, res, next) => {
       if (req.query.primary === 'true') {
         req.query.primary = true;
       } else if (req.query.primary === 'false') {

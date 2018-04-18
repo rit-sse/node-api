@@ -2,12 +2,13 @@ import { Router } from 'express';
 import Tag from '../models/tag';
 import scopify from '../helpers/scopify';
 import paginate from '../middleware/paginate';
+import sorting from '../middleware/sorting';
 
 const router = Router(); // eslint-disable-line new-cap
 
 router
   .route('/')
-    .get(paginate, (req, res, next) => {
+    .get(paginate, sorting, (req, res, next) => {
       if (req.query.active === 'true') {
         req.query.active = true; // INNER JOIN quotes
       } else {
