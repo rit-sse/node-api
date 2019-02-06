@@ -21,6 +21,20 @@ export default sequelize.define('links', {
       },
     },
   },
+  goDescription: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
+  publicGO: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    },
+  },
 }, {
   scopes: {
     paginate,
@@ -28,6 +42,8 @@ export default sequelize.define('links', {
       return sorting(field, direction, [
         'shortLink',
         'longLink',
+        'goDescription',
+        'publicGO',
         'createdAt',
         'updatedAt',
       ]);
