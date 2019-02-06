@@ -24,10 +24,13 @@ router
         .catch(err => next(err));
     })
     .post(needs('links', 'create'), (req, res, next) => {
+      console.log('public go value: ' + req.body.publicGO);
       Link.create({
         shortLink: req.body.shortLink.toLocaleLowerCase(),
         longLink: req.body.longLink,
-      }, { fields: ['shortLink', 'longLink'] })
+        goDescription: req.body.goDescription,
+        publicGO: req.body.publicGO,
+      }, { fields: ['shortLink', 'longLink', 'goDescription', 'publicGO'] })
         .then(link => res.status(201).send(link))
         .catch((err) => {
           err.status = 422;
@@ -71,7 +74,7 @@ router
         .then((link) => {
           if (link) {
             return link.updateAttributes(req.body, {
-              fields: ['shortLink', 'longLink'],
+              fields: ['shortLink', 'longLink', 'goDescription', 'publicGO'],
             });
           }
           return Promise.reject({ message: 'Link not found', status: 404 });
