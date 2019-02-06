@@ -9,6 +9,14 @@ export function up(queryInterface, Sequelize) {
       type: Sequelize.STRING,
       allowNull: false,
     },
+    goDescription: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    publicGO: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE,
   });
