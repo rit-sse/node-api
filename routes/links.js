@@ -24,7 +24,6 @@ router
         .catch(err => next(err));
     })
     .post(needs('links', 'create'), (req, res, next) => {
-      console.log('public go value: ' + req.body.publicGO);
       Link.create({
         shortLink: req.body.shortLink.toLocaleLowerCase(),
         longLink: req.body.longLink,
