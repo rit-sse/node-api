@@ -10,7 +10,7 @@ const router = Router(); // eslint-disable-line new-cap
 router
   .route('/')
     .get(paginate, sorting, (req, res, next) => {
-      const scopes = scopify(req.query);
+      const scopes = scopify(req.query, 'onlyPublic');
       Link.scope(scopes)
         .findAndCountAll({
           order: '"createdAt" DESC',
@@ -27,9 +27,9 @@ router
       Link.create({
         shortLink: req.body.shortLink.toLocaleLowerCase(),
         longLink: req.body.longLink,
-        goDescription: req.body.goDescription,
-        publicGO: req.body.publicGO,
-      }, { fields: ['shortLink', 'longLink', 'goDescription', 'publicGO'] })
+        description: req.body.description,
+        public: req.body.public,
+      }, { fields: ['shortLink', 'longLink', 'description', 'public'] })
         .then(link => res.status(201).send(link))
         .catch((err) => {
           err.status = 422;
@@ -73,7 +73,7 @@ router
         .then((link) => {
           if (link) {
             return link.updateAttributes(req.body, {
-              fields: ['shortLink', 'longLink', 'goDescription', 'publicGO'],
+              fields: ['shortLink', 'longLink', 'description', 'public'],
             });
           }
           return Promise.reject({ message: 'Link not found', status: 404 });
