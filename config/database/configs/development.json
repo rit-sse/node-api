@@ -1,4 +1,4 @@
 {
-  "dialect": "sqlite",
-  "storage": "db/development.db"
+  "dialect": "postgres",
+  "database": "node_api"
 }
