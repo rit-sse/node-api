@@ -8,8 +8,11 @@ import nconf from './config';
 import router from './routes';
 import './models';
 import './events';
+import apollo from './graphql';
 
 const app = express();
+
+apollo.applyMiddleware({ app });
 
 const env = nconf.get('NODE_ENV');
 const apiConfig = nconf.get('api');

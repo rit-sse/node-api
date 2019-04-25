@@ -18,6 +18,26 @@ The SSE new and improved unified API.
 ---
 ## Development
 
+### Prerequisites
+You'll need to have Node 8 and [PostgreSQL](https://www.postgresql.org/download/) installed on your computer.
+You'll need to create a PostgreSQL database named `node_api`.
+
+If you're using macOS, [Postgres.app](https://postgresapp.com) and [Postico](https://eggerapps.at/postico) are friendly, easy-to-use tools for running PostgreSQL.
+
+### Running the app
+1. `npm install`
+2. `mkdir keys`
+3. `npm run keygen`
+4. `npm run bootstrap -- --admin:firstName [YOUR NAME] --admin:lastName [YOUR LAST NAME] --admin:dce [YOUR DCE] --keygen --seed` - Migrates the database. If you specify the admin args, a membership will be created for that
+user with all permissions. If you specify keygen, all keys will be regenerated. If you specify seed it will seed the database.
+5. `npm start`
+
+#### Additional Notes
+1. `PORT="2222" npm start` - Run the server on a different port.
+
+### Testing
+Testing requires a PostgreSQL database named `node_api_test` to exist.
+
 ### API Reference
 [Apiary Docs](http://docs.sse.apiary.io)
 
@@ -84,20 +104,3 @@ Only need to do this if you are working on scoreboard-related endpoints.
 * You'll receive an email from Mailgun asking you to confirm that you want to receive test emails from this Mailgun account. Accept this request.
 * Set the ENV variable `MAILGUN_DOMAIN` with the sandbox domain, and set the ENV variable `MAILGUN_SECRET` with the API key for this sandbox.
 * When testing scoreboard-related endpoints (i.e. approving memberships), make sure the test user you're using has your email associated with it, so that you'll receive the test emails.
-
-### Running the app
-1. `npm install`
-2. `mkdir keys`
-3. `npm run keygen`
-4. `npm run bootstrap -- --admin:firstName [YOUR NAME] --admin:lastName [YOUR LAST NAME] --admin:dce [YOUR DCE] --keygen --seed` - Creates and migrates the database. If you specify the admin args, a membership will be created for that
-user with all permissions. If you specify keygen, all keys will be regenerated.
-If you specify seed it will seed the database.
-5. `npm start`
-
-### Additional Notes
-1. `PORT="2222" npm start` - Run the server on a different port.
-
-### Testing
-Testing requires a PostgreSQL database named `node_api_test` to exist. This means you'll have to [install and run PostgreSQL](https://www.postgresql.org/download/) on your development computer.
-
-If you're using macOS, [Postgres.app](https://postgresapp.com) and [Postico](https://eggerapps.at/postico) are friendly, easy-to-use tools for running PostgreSQL.
