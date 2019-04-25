@@ -39,3 +39,15 @@ User.hasMany(Headcount);
 User.hasMany(Membership);
 User.hasMany(Mentor);
 User.hasMany(Officer);
+
+const models = {
+  Committee,
+  Event,
+  Membership,
+  Officer,
+  Quote,
+  Tag,
+  User,
+};
+
+export default models;
