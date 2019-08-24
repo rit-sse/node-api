@@ -56,7 +56,7 @@ router
   .route('/:id')
     .get(verifyUser, needsApprovedOne('quotes'), (req, res, next) => {
       Quote
-        .findById(req.params.id, {
+        .findByPk(req.params.id, {
           include: [Tag],
         })
         .then((quote) => {
@@ -76,7 +76,7 @@ router
     .put(needs('quotes', 'update'), (req, res, next) => {
       req.body.tags = req.body.tags || [];
       Quote
-        .findById(req.params.id, {
+        .findByPk(req.params.id, {
           include: [Tag],
         })
         .then((quote) => {
@@ -106,7 +106,7 @@ router
     })
     .delete(needs('quotes', 'destroy'), (req, res, next) => {
       Quote
-        .findById(req.params.id)
+        .findByPk(req.params.id)
         .then((quote) => {
           if (quote) {
             return quote.destroy();

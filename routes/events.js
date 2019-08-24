@@ -47,7 +47,7 @@ router
   .route('/:id')
     .get((req, res, next) => {
       Event
-        .findById(req.params.id)
+        .findByPk(req.params.id)
         .then((event) => {
           if (event) {
             return res.send(event);
@@ -58,7 +58,7 @@ router
     })
     .put(needs('events', 'update'), (req, res, next) => {
       Event
-        .findById(req.params.id)
+        .findByPk(req.params.id)
         .then((event) => {
           if (event) {
             return event.updateAttributes(req.body, {
@@ -72,7 +72,7 @@ router
     })
     .delete(needs('events', 'destroy'), (req, res, next) => {
       Event
-        .findById(req.params.id)
+        .findByPk(req.params.id)
         .then((event) => {
           if (event) {
             return event.destroy();

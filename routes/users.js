@@ -27,7 +27,7 @@ router
   .route('/:dce')
     .get((req, res, next) => {
       User
-        .findById(req.params.dce)
+        .findByPk(req.params.dce)
         .then((user) => {
           if (user) {
             return res.send(user);

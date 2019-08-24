@@ -30,7 +30,7 @@ router
   .route('/:id')
     .get((req, res, next) => {
       Committee
-        .findById(req.params.id)
+        .findByPk(req.params.id)
         .then((committee) => {
           if (committee) {
             return res.send(committee);

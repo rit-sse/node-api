@@ -53,7 +53,7 @@ router
   .route('/:id')
   .get((req, res, next) => {
     Mentor
-      .findById(req.params.id, {
+      .findByPk(req.params.id, {
         include: [Specialty, User],
       })
       .then((mentor) => {
@@ -66,7 +66,7 @@ router
   })
   .put(needs('mentors', 'update'), (req, res, next) => {
     Mentor
-      .findById(req.params.id)
+      .findByPk(req.params.id)
       .then((mentor) => {
         if (mentor) {
           return mentor.updateAttributes(req.body, {
@@ -89,7 +89,7 @@ router
   })
   .delete(needs('mentors', 'destroy'), (req, res, next) => {
     Mentor
-      .findById(req.params.id)
+      .findByPk(req.params.id)
       .then((mentor) => {
         if (mentor) {
           return mentor.setSpecialties([]).then(() => mentor.destroy());
