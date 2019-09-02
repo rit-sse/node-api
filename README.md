@@ -29,9 +29,9 @@ The following steps walk you through configuring Google OAuth, with the assumpti
 
 1. Navigate to [Google Developer Console](https://console.developers.google.com/project), making sure you are logged in to the Google account you would like associated with the OAuth Authentication.
 2. Select the option to create a new project, naming it whatever you wish. Click 'Create'. You should be redirected to your Project's API Manager page.
-3. Open the Credentials page by selecting it from the navigation pane on the left-hand side of the page.
+3. Open the Credentials page by selecting it from the navigation pane on the left-hand side of the page (hamburger menu > APIs & Services > Credentials).
 4. On the Credentials page, select the option 'Create credentials', and then 'OAuth client ID'.
-5. You should now see a warning that you must set a product name on the consent screen. Select the option to 'Configure consent screen'. You will now be taken to the 'OAuth consent screen' settings pane. On this page, fill in the 'Product name shown to users' field with a name identifiable to your users. `SSE Dev API` is a good choice. When you're ready, click 'Save'.
+5. You should now see a warning that you must set a product name on the consent screen. Select the option to 'Configure consent screen'. You will now be taken to the 'OAuth consent screen' settings pane. On this page, fill in the 'Application name' field with a name identifiable to your users. `SSE Dev API` is a good choice. When you're ready, click 'Save'.
 6. Next, you'll be guided through the process of creating your OAuth Client Credentials. First, select 'Web application' as the Application type. Next, fill in the following information on the form that appears:
     - **Name:** `SSE Dev API` (or however you'd like to refer to it internally)
     - **Authorized JavaScript origins:** `http://localhost:5000`
@@ -65,16 +65,6 @@ You only need to do this if you are working on mentoring-related endpoints.
 * Head back to [Google Developer Console](https://console.developers.google.com/apis/library). Go to the same project you created before. Go to Libraries and search for Google Calendar API. Enable that API.
 * Next go to Credentials Tab. Click Create Credentials > API Key. You can store this key in `keys/google.json` under `web.api_key` or set the ENV variable `GOOGLE_API_KEY`.
 
-### Google Calendar
-Only need to do this if you are working on mentoring-related endpoints.
-
-* Create a new Google Calendar for the Mentor Schedule
-* In the side bar, Click on the arrow next to your new calendar and go to calendar settings.
-* On the Calendar Details screen, you will find your calendar ID in the *Calendar Address* section. You can store this value in `keys/google.json` under `web.calendars.mentor`, or use the ENV variable `MENTOR_GOOGLE_CALENDAR`.
-* Go to the Share Calendar Tab and make the calendar public.
-* Head back to [Google Developer Console](https://console.developers.google.com/apis/library). Go to the same project you created before. Go to Libraries and search for Google Calendar API. Enable that API.
-* Next go to Credentials Tab. Click Create Credentials > API Key. You can store this key in `keys/google.json` under `web.api_key` or set the ENV variable `GOOGLE_API_KEY`.
-
 ### Configuring Mailgun
 Only need to do this if you are working on scoreboard-related endpoints.
 
@@ -89,7 +79,7 @@ Only need to do this if you are working on scoreboard-related endpoints.
 1. `npm install`
 2. `mkdir keys`
 3. `npm run keygen`
-4. `npm run bootstrap -- --admin:firstName [YOUR NAME] --admin:lastName [YOUR LAST NAME] --admin:dce [YOUR DCE] --keygen --seed` - Creates and migrates the database. If you specify the admin args, a membership will be created for that
+4. `npm run bootstrap -- --admin:firstName [YOUR NAME] --admin:lastName [YOUR LAST NAME] --admin:dce [YOUR DCE (ex: abc1234)] --keygen --seed` - Creates and migrates the database. If you specify the admin args, a membership will be created for that
 user with all permissions. If you specify keygen, all keys will be regenerated.
 If you specify seed it will seed the database.
 5. `npm start`
