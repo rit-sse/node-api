@@ -27,6 +27,8 @@ The API uses Google OAuth for authentication. You'll need to create a Project us
 #### Configuring Google OAuth
 The following steps walk you through configuring Google OAuth, with the assumption you are using it for development in conjunction with the [OneRepoToRuleThemAll](https://github.com/rit-sse/OneRepoToRuleThemAll) project. **If you are using another client, you will have to modify Step 6 to conform with that client's configuration.**
 
+Note - OAuth seems to silently fail on Windows, even running with WSL 1. It is suggested you use a unix environment (macOS or a Linux distro)
+
 1. Navigate to [Google Developer Console](https://console.developers.google.com/project), making sure you are logged in to the Google account you would like associated with the OAuth Authentication.
 2. Select the option to create a new project, naming it whatever you wish. Click 'Create'. You should be redirected to your Project's API Manager page.
 3. Open the Credentials page by selecting it from the navigation pane on the left-hand side of the page (hamburger menu > APIs & Services > Credentials).
