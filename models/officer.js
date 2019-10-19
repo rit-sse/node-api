@@ -33,6 +33,9 @@ export default sequelize.define('officers', {
     type: DataTypes.DATE,
     defaultValue: null,
   },
+  linkedinUrl: {
+    type: DataTypes.TEXT,
+  },
 }, {
   scopes: {
     title(title) {
