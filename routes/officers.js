@@ -41,7 +41,7 @@ router
           req.body.committeeName = committee.name;
           return Officer
             .create(req.body, {
-              fields: ['title', 'email', 'primaryOfficer', 'userDce', 'startDate', 'endDate', 'committeeName'],
+              fields: ['title', 'email', 'primaryOfficer', 'userDce', 'startDate', 'endDate', 'committeeName', 'linkedinUrl'],
             });
         })
         .then(officer => officer.reload({ include: [User] }))
@@ -73,7 +73,7 @@ router
         .then((officer) => {
           if (officer) {
             return officer.updateAttributes(req.body, {
-              fields: ['title', 'email', 'userDce', 'committeeName', 'primaryOfficer', 'startDate', 'endDate'],
+              fields: ['title', 'email', 'userDce', 'committeeName', 'primaryOfficer', 'startDate', 'endDate', 'linkedinUrl'],
             });
           }
           return Promise.reject({ message: 'Officer not found', status: 404 });
