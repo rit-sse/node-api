@@ -9,7 +9,7 @@ import Specialty from './specialty';
 import Tag from './tag';
 import User from './user';
 
-Committee.hasOne(Officer);
+Committee.hasMany(Officer);
 Committee.hasMany(Event);
 Committee.hasMany(Membership);
 
