@@ -87,11 +87,12 @@ Only need to do this if you are working on scoreboard-related endpoints.
 
 ### Running the app
 1. `npm install`
-2. `npm run keygen`
-3. `npm run bootstrap -- --admin:firstName [YOUR NAME] --admin:lastName [YOUR LAST NAME] --admin:dce [YOUR DCE] --keygen --seed` - Creates and migrates the database. If you specify the admin args, a membership will be created for that
+2. `mkdir keys`
+3. `npm run keygen`
+4. `npm run bootstrap -- --admin:firstName [YOUR NAME] --admin:lastName [YOUR LAST NAME] --admin:dce [YOUR DCE] --keygen --seed` - Creates and migrates the database. If you specify the admin args, a membership will be created for that
 user with all permissions. If you specify keygen, all keys will be regenerated.
 If you specify seed it will seed the database.
-4. `npm start`
+5. `npm start`
 
 ### Additional Notes
 1. `PORT="2222" npm start` - Run the server on a different port.
