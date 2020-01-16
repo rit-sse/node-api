@@ -15,7 +15,7 @@ import {
 
 describe('INTEGRATION TESTS: OFFICERS', function () {
   describe('GET /', function () {
-    it('Gets Officers', function (done) {
+    it('Gets Officers', function () {
       const expected = {
         total: 5,
         perPage: nconf.get('pagination:perPage'),
@@ -109,7 +109,7 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/officers')
         .expect(200)
         .then((response) => {
@@ -119,11 +119,10 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
             delete officer.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by Title', function (done) {
+    it('Filters by Title', function () {
       const expected = {
         total: 1,
         perPage: nconf.get('pagination:perPage'),
@@ -149,7 +148,7 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get(`/api/v2/officers?title=${encodeURIComponent('Art Head')}`)
         .expect(200)
         .then((response) => {
@@ -159,11 +158,10 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
             delete officer.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by Email', function (done) {
+    it('Filters by Email', function () {
       const expected = {
         total: 1,
         perPage: nconf.get('pagination:perPage'),
@@ -189,7 +187,7 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/officers?email=art')
         .expect(200)
         .then((response) => {
@@ -199,11 +197,10 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
             delete officer.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by User', function (done) {
+    it('Filters by User', function () {
       const expected = {
         total: 2,
         perPage: nconf.get('pagination:perPage'),
@@ -246,7 +243,7 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/officers?user=br4321')
         .expect(200)
         .then((response) => {
@@ -256,11 +253,10 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
             delete officer.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by Primary', function (done) {
+    it('Filters by Primary', function () {
       const expected = {
         total: 1,
         perPage: nconf.get('pagination:perPage'),
@@ -286,7 +282,7 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/officers?primary=true')
         .expect(200)
         .then((response) => {
@@ -296,11 +292,10 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
             delete officer.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by Committee', function (done) {
+    it('Filters by Committee', function () {
       const expected = {
         total: 1,
         perPage: nconf.get('pagination:perPage'),
@@ -326,7 +321,7 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/officers?committee=Technology')
         .expect(200)
         .then((response) => {
@@ -336,11 +331,10 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
             delete officer.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by Active', function (done) {
+    it('Filters by Active', function () {
       const expected = {
         total: 3,
         perPage: nconf.get('pagination:perPage'),
@@ -400,7 +394,7 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get(`/api/v2/officers?active=${encodeURIComponent('2017-12-05T05:00:00.000Z')}`)
         .expect(200)
         .then((response) => {
@@ -410,27 +404,25 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
             delete officer.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
   });
 
   describe('POST /', function () {
-    it('Requires Authentication', function (done) {
+    it('Requires Authentication', function () {
       const expected = {
         error: 'No authorization token was found',
       };
 
-      request(app)
+      return request(app)
         .post('/api/v2/officers')
         .expect(401)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Requires Expected Permissions', function (done) {
+    it('Requires Expected Permissions', function () {
       // Need High Permissions be Primary Officer
       const expected = {
         error: 'User does not have permission: create officers',
@@ -476,14 +468,12 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
         .send(officerInput)
         .expect(201);
 
-      Promise.all([
+      return Promise.all([
         primaryLow,
         userHigh,
         primaryHigh,
         officerHigh,
-      ]).then(() => {
-        done();
-      });
+      ]);
     });
 
     xit('Creates a New Committee if there is No Officer belonging to that Committee', function (done) {
@@ -496,12 +486,12 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
       done();
     });
 
-    it('Errors When Insufficient Fields Provided', function (done) {
+    it('Errors When Insufficient Fields Provided', function () {
       const expected = {
         error: 'notNull Violation: title cannot be null,\nnotNull Violation: email cannot be null',
       };
 
-      request(app)
+      return request(app)
         .post('/api/v2/officers')
         .set('Authorization', `Bearer ${token}`)
         .send({
@@ -510,13 +500,12 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
         .expect(422)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
   });
 
   describe('GET /:id', function () {
-    it('Gets a Specific Officer', function (done) {
+    it('Gets a Specific Officer', function () {
       const expected = {
         id: 2,
         title: 'Technology Head',
@@ -536,7 +525,7 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
         },
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/officers/2')
         .set('Authorization', `Bearer ${token}`)
         .expect(200)
@@ -544,42 +533,39 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
           delete response.body.createdAt;
           delete response.body.updatedAt;
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Does Not Find a Non-existent Officer', function (done) {
+    it('Does Not Find a Non-existent Officer', function () {
       const expected = {
         error: 'Officer not found',
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/officers/100')
         .set('Authorization', `Bearer ${token}`)
         .expect(404)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
   });
 
   describe('PUT /:id', function () {
-    it('Requires Authentication', function (done) {
+    it('Requires Authentication', function () {
       const expected = {
         error: 'No authorization token was found',
       };
 
-      request(app)
+      return request(app)
         .put('/api/v2/officers/1')
         .expect(401)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Requires Expected Permissions', function (done) {
+    it('Requires Expected Permissions', function () {
       // Need High Permissions be Primary Officer
       const expected = {
         error: 'User does not have permission: update officers',
@@ -620,17 +606,15 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
         .send(officerInput)
         .expect(200);
 
-      Promise.all([
+      return Promise.all([
         primaryLow,
         userHigh,
         primaryHigh,
         officerHigh,
-      ]).then(() => {
-        done();
-      });
+      ]);
     });
 
-    it('Updates a Specific Officer', function (done) {
+    it('Updates a Specific Officer', function () {
       const expected = {
         id: 2,
         title: 'Best Officer',
@@ -650,7 +634,7 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
         },
       };
 
-      request(app)
+      return request(app)
         .put('/api/v2/officers/2')
         .set('Authorization', `Bearer ${token}`)
         .send({
@@ -661,42 +645,39 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
           delete response.body.createdAt;
           delete response.body.updatedAt;
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Does Not Find and Update a Non-existent Officer', function (done) {
+    it('Does Not Find and Update a Non-existent Officer', function () {
       const expected = {
         error: 'Officer not found',
       };
 
-      request(app)
+      return request(app)
         .put('/api/v2/officers/100')
         .set('Authorization', `Bearer ${token}`)
         .expect(404)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
   });
 
   describe('DELETE /:id', function () {
-    it('Requires Authentication', function (done) {
+    it('Requires Authentication', function () {
       const expected = {
         error: 'No authorization token was found',
       };
 
-      request(app)
+      return request(app)
         .delete('/api/v2/officers/1')
         .expect(401)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Requires Expected Permissions', function (done) {
+    it('Requires Expected Permissions', function () {
       // Need High Permissions be Primary Officer
       const expected = {
         error: 'User does not have permission: destroy officers',
@@ -732,18 +713,16 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
         .set('Authorization', `Bearer ${token}`)
         .expect(204);
 
-      Promise.all([
+      return Promise.all([
         primaryLow,
         officerHigh,
         userHigh,
         primaryHigh,
-      ]).then(() => {
-        done();
-      });
+      ]);
     });
 
-    it('Deletes a Specific Officer', function (done) {
-      request(app)
+    it('Deletes a Specific Officer', function () {
+      return request(app)
         .delete('/api/v2/officers/1')
         .set('Authorization', `Bearer ${token}`)
         .expect(204)
@@ -751,25 +730,21 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
           request(app)
             .get('/api/v2/officers/1')
             .set('Authorization', `Bearer ${token}`)
-            .expect(404)
-            .then(() => {
-              done();
-            });
+            .expect(404);
         });
     });
 
-    it('Does Not Find and Delete a Non-existent Officer', function (done) {
+    it('Does Not Find and Delete a Non-existent Officer', function () {
       const expected = {
         error: 'Officer not found',
       };
 
-      request(app)
+      return request(app)
         .delete('/api/v2/officers/100')
         .set('Authorization', `Bearer ${token}`)
         .expect(404)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
   });

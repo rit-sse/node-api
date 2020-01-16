@@ -43,7 +43,7 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
   });
 
   describe('GET /', function () {
-    it('Gets Approved Memberships', function (done) {
+    it('Gets Approved Memberships', function () {
       const expected = {
         total: 2,
         perPage: nconf.get('pagination:perPage'),
@@ -84,7 +84,7 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/memberships')
         .expect(200)
         .then((response) => {
@@ -94,11 +94,10 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
             delete membership.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Requires Expected Permissions', function (done) {
+    it('Requires Expected Permissions', function () {
       // Need Low Permissions be Primary Officer for Pending and Denied
       const expected = {
         error: 'User does not have permission: unapproved memberships',
@@ -156,7 +155,7 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
         .get('/api/v2/memberships')
         .expect(200);
 
-      Promise.all([
+      return Promise.all([
         officerHigh,
         userHigh,
         primaryHigh,
@@ -164,12 +163,10 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
         userHigh2,
         primaryHigh2,
         anyone,
-      ]).then(() => {
-        done();
-      });
+      ]);
     });
 
-    it('Filters by Reason', function (done) {
+    it('Filters by Reason', function () {
       const expected = {
         total: 1,
         perPage: nconf.get('pagination:perPage'),
@@ -194,7 +191,7 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get(`/api/v2/memberships?reason=${encodeURIComponent('Giving a Talk')}`)
         .expect(200)
         .then((response) => {
@@ -204,11 +201,10 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
             delete membership.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by Committee', function (done) {
+    it('Filters by Committee', function () {
       const expected = {
         total: 1,
         perPage: nconf.get('pagination:perPage'),
@@ -233,7 +229,7 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/memberships?committee=Talks')
         .expect(200)
         .then((response) => {
@@ -243,11 +239,10 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
             delete membership.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by User', function (done) {
+    it('Filters by User', function () {
       const expected = {
         total: 1,
         perPage: nconf.get('pagination:perPage'),
@@ -272,7 +267,7 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/memberships?user=axy9999')
         .expect(200)
         .then((response) => {
@@ -282,11 +277,10 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
             delete membership.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by Active (and Approved)', function (done) {
+    it('Filters by Active (and Approved)', function () {
       const expected = {
         total: 1,
         perPage: nconf.get('pagination:perPage'),
@@ -311,7 +305,7 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get(`/api/v2/memberships?active=${encodeURIComponent('2017-11-01T05:00:00.000Z')}`)
         .set('Authorization', `Bearer ${token}`)
         .expect(200)
@@ -322,11 +316,10 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
             delete membership.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by Between Start Date (and Approved)', function (done) {
+    it('Filters by Between Start Date (and Approved)', function () {
       const expected = {
         total: 1,
         perPage: nconf.get('pagination:perPage'),
@@ -351,7 +344,7 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get(`/api/v2/memberships?between=${encodeURIComponent('2017-05-01T05:00:00.000Z')}/${encodeURIComponent('2017-09-01T05:00:00.000Z')}`)
         .set('Authorization', `Bearer ${token}`)
         .expect(200)
@@ -362,11 +355,10 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
             delete membership.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by Pending', function (done) {
+    it('Filters by Pending', function () {
       const expected = {
         total: 1,
         perPage: nconf.get('pagination:perPage'),
@@ -391,7 +383,7 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/memberships?approved=null')
         .set('Authorization', `Bearer ${token}`)
         .expect(200)
@@ -402,11 +394,10 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
             delete membership.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by Denied', function (done) {
+    it('Filters by Denied', function () {
       const expected = {
         total: 0,
         perPage: nconf.get('pagination:perPage'),
@@ -414,33 +405,31 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
         data: [],
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/memberships?approved=false')
         .set('Authorization', `Bearer ${token}`)
         .expect(200)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
   });
 
   describe('POST /', function () {
-    it('Requires Authentication', function (done) {
+    it('Requires Authentication', function () {
       const expected = {
         error: 'No authorization token was found',
       };
 
-      request(app)
+      return request(app)
         .post('/api/v2/memberships')
         .expect(401)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Requires Expected Permissions', function (done) {
+    it('Requires Expected Permissions', function () {
       // Need Low Permissions be an Officer or Primary Officer
       const expected = {
         error: 'User does not have permission: create memberships',
@@ -475,16 +464,14 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
         .send(membershipInput)
         .expect(201);
 
-      Promise.all([
+      return Promise.all([
         userHigh,
         primaryLow,
         officerLow,
-      ]).then(() => {
-        done();
-      });
+      ]);
     });
 
-    it('Creates a Membership', function (done) {
+    it('Creates a Membership', function () {
       const expected = {
         reason: 'A Nice Person',
         startDate: '2017-06-15T05:00:00.000Z',
@@ -502,7 +489,7 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
         },
       };
 
-      request(app)
+      return request(app)
         .post('/api/v2/memberships')
         .set('Authorization', `Bearer ${token}`)
         .send({
@@ -518,29 +505,27 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
           delete response.body.createdAt;
           delete response.body.updatedAt;
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Errors When Insufficient Fields Provided', function (done) {
+    it('Errors When Insufficient Fields Provided', function () {
       const expected = {
         error: 'notNull Violation: reason cannot be null',
       };
 
-      request(app)
+      return request(app)
         .post('/api/v2/memberships')
         .set('Authorization', `Bearer ${token}`)
         .send({})
         .expect(422)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
   });
 
   describe('GET /:id', function () {
-    it('Requires Expected Permissions', function (done) {
+    it('Requires Expected Permissions', function () {
       // Need Low Permissions be Primary Officer
       const expected = {
         error: 'User does not have permission: unapproved memberships',
@@ -568,16 +553,14 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
         .set('Authorization', `Bearer ${token}`)
         .expect(200);
 
-      Promise.all([
+      return Promise.all([
         officerHigh,
         userHigh,
         primaryHigh,
-      ]).then(() => {
-        done();
-      });
+      ]);
     });
 
-    it('Gets a Specific Membership', function (done) {
+    it('Gets a Specific Membership', function () {
       const expected = {
         id: 2,
         reason: 'Helping Out',
@@ -596,7 +579,7 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
         },
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/memberships/2')
         .set('Authorization', `Bearer ${token}`)
         .expect(200)
@@ -604,42 +587,39 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
           delete response.body.createdAt;
           delete response.body.updatedAt;
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Does Not Find a Non-existent Membership', function (done) {
+    it('Does Not Find a Non-existent Membership', function () {
       const expected = {
         error: 'Membership not found',
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/memberships/100')
         .set('Authorization', `Bearer ${token}`)
         .expect(404)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
   });
 
   describe('PUT /:id', function () {
-    it('Requires Authentication', function (done) {
+    it('Requires Authentication', function () {
       const expected = {
         error: 'No authorization token was found',
       };
 
-      request(app)
+      return request(app)
         .put('/api/v2/memberships/1')
         .expect(401)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Requires Expected Permissions', function (done) {
+    it('Requires Expected Permissions', function () {
       // Need Low Permissions be Primary Officer
       const expected = {
         error: 'User does not have permission: update memberships',
@@ -672,16 +652,14 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
         .send(membershipInput)
         .expect(200);
 
-      Promise.all([
+      return Promise.all([
         officerHigh,
         userHigh,
         primaryHigh,
-      ]).then(() => {
-        done();
-      });
+      ]);
     });
 
-    it('Updates a Specific Membership', function (done) {
+    it('Updates a Specific Membership', function () {
       const expected = {
         id: 2,
         reason: 'Because',
@@ -700,7 +678,7 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
         },
       };
 
-      request(app)
+      return request(app)
         .put('/api/v2/memberships/2')
         .set('Authorization', `Bearer ${token}`)
         .send({
@@ -711,42 +689,39 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
           delete response.body.createdAt;
           delete response.body.updatedAt;
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Does Not Find and Update a Non-existent Membership', function (done) {
+    it('Does Not Find and Update a Non-existent Membership', function () {
       const expected = {
         error: 'Membership not found',
       };
 
-      request(app)
+      return request(app)
         .put('/api/v2/memberships/100')
         .set('Authorization', `Bearer ${token}`)
         .expect(404)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
   });
 
   describe('DELETE /:id', function () {
-    it('Requires Authentication', function (done) {
+    it('Requires Authentication', function () {
       const expected = {
         error: 'No authorization token was found',
       };
 
-      request(app)
+      return request(app)
         .delete('/api/v2/memberships/1')
         .expect(401)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Requires Expected Permissions', function (done) {
+    it('Requires Expected Permissions', function () {
       // Need High Permissions be Primary Officer
       const expected = {
         error: 'User does not have permission: destroy memberships',
@@ -782,18 +757,16 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
         .set('Authorization', `Bearer ${token}`)
         .expect(204);
 
-      Promise.all([
+      return Promise.all([
         primaryLow,
         officerHigh,
         userHigh,
         primaryHigh,
-      ]).then(() => {
-        done();
-      });
+      ]);
     });
 
-    it('Deletes a Specific Membership', function (done) {
-      request(app)
+    it('Deletes a Specific Membership', function () {
+      return request(app)
         .delete('/api/v2/memberships/1')
         .set('Authorization', `Bearer ${token}`)
         .expect(204)
@@ -801,25 +774,21 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
           request(app)
             .get('/api/v2/memberships/1')
             .set('Authorization', `Bearer ${token}`)
-            .expect(404)
-            .then(() => {
-              done();
-            });
+            .expect(404);
         });
     });
 
-    it('Does Not Find and Delete a Non-existent Membership', function (done) {
+    it('Does Not Find and Delete a Non-existent Membership', function () {
       const expected = {
         error: 'Membership not found',
       };
 
-      request(app)
+      return request(app)
         .delete('/api/v2/memberships/100')
         .set('Authorization', `Bearer ${token}`)
         .expect(404)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
   });
