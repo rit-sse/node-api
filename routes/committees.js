@@ -13,16 +13,20 @@ router
       Committee
         .scope(scopes)
         .findAndCountAll()
-        .then(result => res.send({
-          total: result.count,
-          perPage: req.query.perPage,
-          currentPage: req.query.page,
-          data: result.rows.map((committee) => {
+        .then(result => {
+          const uniqueCommittees = {};
+          result.rows.forEach((committee) => {
             const c = committee.get({ plain: true });
             Reflect.deleteProperty(c, 'officer');
-            return c;
-          }),
-        }))
+            uniqueCommittees[c.name] = c;
+          });
+          return res.send({
+            total: Object.keys(uniqueCommittees).length,
+            perPage: req.query.perPage,
+            currentPage: req.query.page,
+            data: Object.values(uniqueCommittees),
+          })
+        })
         .catch(err => next(err));
     });
 
