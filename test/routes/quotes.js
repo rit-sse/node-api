@@ -16,7 +16,7 @@ import {
 
 describe('INTEGRATION TESTS: QUOTES', function () {
   describe('GET /', function () {
-    it('Gets Approved Quotes (In Descending Order)', function (done) {
+    it('Gets Approved Quotes (In Descending Order)', function () {
       const expected = {
         total: 3,
         perPage: nconf.get('pagination:perPage'),
@@ -43,7 +43,7 @@ describe('INTEGRATION TESTS: QUOTES', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/qdb/quotes')
         .expect(200)
         .then((response) => {
@@ -56,7 +56,6 @@ describe('INTEGRATION TESTS: QUOTES', function () {
             });
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
@@ -93,17 +92,16 @@ describe('INTEGRATION TESTS: QUOTES', function () {
   });
 
   describe('POST /', function () {
-    it('Requires Authentication', function (done) {
+    it('Requires Authentication', function () {
       const expected = {
         error: 'No authorization token was found',
       };
 
-      request(app)
+      return request(app)
         .post('/api/v2/qdb/quotes')
         .expect(401)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
@@ -122,19 +120,18 @@ describe('INTEGRATION TESTS: QUOTES', function () {
       done();
     });
 
-    it('Errors When Insufficient Fields Provided', function (done) {
+    it('Errors When Insufficient Fields Provided', function () {
       const expected = {
         error: 'notNull Violation: body cannot be null',
       };
 
-      request(app)
+      return request(app)
         .post('/api/v2/qdb/quotes')
         .set('Authorization', `Bearer ${token}`)
         .send({})
         .expect(422)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
   });
@@ -157,17 +154,16 @@ describe('INTEGRATION TESTS: QUOTES', function () {
   });
 
   describe('PUT /:id', function () {
-    it('Requires Authentication', function (done) {
+    it('Requires Authentication', function () {
       const expected = {
         error: 'No authorization token was found',
       };
 
-      request(app)
+      return request(app)
         .put('/api/v2/qdb/quotes/1')
         .expect(401)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
@@ -198,17 +194,16 @@ describe('INTEGRATION TESTS: QUOTES', function () {
   });
 
   describe('DELETE /:id', function () {
-    it('Requires Authentication', function (done) {
+    it('Requires Authentication', function () {
       const expected = {
         error: 'No authorization token was found',
       };
 
-      request(app)
+      return request(app)
         .delete('/api/v2/qdb/quotes/1')
         .expect(401)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 

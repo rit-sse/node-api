@@ -16,7 +16,7 @@ import {
 
 describe('INTEGRATION TESTS: EVENTS', function () {
   describe('GET /', function () {
-    it('Returns Events When Accepting JSON', function (done) {
+    it('Returns Events When Accepting JSON', function () {
       const expected = {
         total: 3,
         perPage: nconf.get('pagination:perPage'),
@@ -82,12 +82,10 @@ describe('INTEGRATION TESTS: EVENTS', function () {
       Promise.all([
         nakedURL,
         jsonExtension,
-      ]).then(() => {
-        done();
-      });
+      ]);
     });
 
-    it('Filters by an Existing Name', function (done) {
+    it('Filters by an Existing Name', function () {
       const expected = {
         total: 1,
         perPage: nconf.get('pagination:perPage'),
@@ -116,11 +114,10 @@ describe('INTEGRATION TESTS: EVENTS', function () {
             delete event.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by an Non-existent Name', function (done) {
+    it('Filters by an Non-existent Name', function () {
       const expected = {
         total: 0,
         perPage: nconf.get('pagination:perPage'),
@@ -133,11 +130,10 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         .expect(200)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by an Existing Committee', function (done) {
+    it('Filters by an Existing Committee', function () {
       const expected = {
         total: 2,
         perPage: nconf.get('pagination:perPage'),
@@ -166,7 +162,7 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/events?committee=Talks')
         .expect(200)
         .then((response) => {
@@ -176,11 +172,10 @@ describe('INTEGRATION TESTS: EVENTS', function () {
             delete event.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by an Non-existent Committee', function (done) {
+    it('Filters by an Non-existent Committee', function () {
       const expected = {
         total: 0,
         perPage: nconf.get('pagination:perPage'),
@@ -188,16 +183,15 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         data: [],
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/events?committee=Unknown')
         .expect(200)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by an Existing Location', function (done) {
+    it('Filters by an Existing Location', function () {
       const expected = {
         total: 1,
         perPage: nconf.get('pagination:perPage'),
@@ -216,7 +210,7 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/events?location=GOL-1440')
         .expect(200)
         .then((response) => {
@@ -226,11 +220,10 @@ describe('INTEGRATION TESTS: EVENTS', function () {
             delete event.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by an Non-existent Location', function (done) {
+    it('Filters by an Non-existent Location', function () {
       const expected = {
         total: 0,
         perPage: nconf.get('pagination:perPage'),
@@ -238,16 +231,15 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         data: [],
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/events?location=Unknown')
         .expect(200)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by Between', function (done) {
+    it('Filters by Between', function () {
       const expected = {
         total: 1,
         perPage: nconf.get('pagination:perPage'),
@@ -266,7 +258,7 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get(`/api/v2/events?between=${encodeURIComponent('2017-07-01T05:00:00.000Z')}/${encodeURIComponent('2017-11-01T05:00:00.000Z')}`)
         .expect(200)
         .then((response) => {
@@ -276,11 +268,10 @@ describe('INTEGRATION TESTS: EVENTS', function () {
             delete event.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by Before', function (done) {
+    it('Filters by Before', function () {
       const expected = {
         total: 1,
         perPage: nconf.get('pagination:perPage'),
@@ -299,7 +290,7 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get(`/api/v2/events?before=${encodeURIComponent('2017-07-01T05:00:00.000Z')}`)
         .expect(200)
         .then((response) => {
@@ -309,11 +300,10 @@ describe('INTEGRATION TESTS: EVENTS', function () {
             delete event.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by After', function (done) {
+    it('Filters by After', function () {
       const expected = {
         total: 1,
         perPage: nconf.get('pagination:perPage'),
@@ -332,7 +322,7 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get(`/api/v2/events?after=${encodeURIComponent('2017-11-01T05:00:00.000Z')}`)
         .expect(200)
         .then((response) => {
@@ -342,11 +332,10 @@ describe('INTEGRATION TESTS: EVENTS', function () {
             delete event.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by Featured', function (done) {
+    it('Filters by Featured', function () {
       const expected = {
         total: 1,
         perPage: nconf.get('pagination:perPage'),
@@ -365,7 +354,7 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/events?featured')
         .expect(200)
         .then((response) => {
@@ -375,11 +364,10 @@ describe('INTEGRATION TESTS: EVENTS', function () {
             delete event.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by Sort', function (done) {
+    it('Filters by Sort', function () {
       const expected = {
         total: 3,
         perPage: nconf.get('pagination:perPage'),
@@ -418,7 +406,7 @@ describe('INTEGRATION TESTS: EVENTS', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/events?sort=DESC')
         .expect(200)
         .then((response) => {
@@ -428,11 +416,10 @@ describe('INTEGRATION TESTS: EVENTS', function () {
             delete event.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Returns a Calendar Event When Accepting ICS', function (done) {
+    it('Returns a Calendar Event When Accepting ICS', function () {
       const expected =
 `BEGIN:VCALENDAR
 CALSCALE:GREGORIAN
@@ -492,46 +479,42 @@ END:VCALENDAR`;
           expect(response.text).to.deep.equal(expected);
         });
 
-      Promise.all([
+      return Promise.all([
         nakedURL,
         icsExtension,
-      ]).then(() => {
-        done();
-      });
+      ]);
     });
 
-    it('Does Not Accept Requests Not Accepting JSON or ICS', function (done) {
+    it('Does Not Accept Requests Not Accepting JSON or ICS', function () {
       const expected = {
         error: 'xml is not acceptable',
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/events')
         .set('accept', 'xml')
         .expect(406)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
   });
 
   describe('POST /', function () {
-    it('Requires Authentication', function (done) {
+    it('Requires Authentication', function () {
       const expected = {
         error: 'No authorization token was found',
       };
 
-      request(app)
+      return request(app)
         .post('/api/v2/events')
         .expect(401)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Requires Expected Permissions', function (done) {
+    it('Requires Expected Permissions', function () {
       // Need Low Permissions be an Officer or Primary Officer
       const expected = {
         error: 'User does not have permission: create events',
@@ -566,16 +549,14 @@ END:VCALENDAR`;
         .send(eventInput)
         .expect(201);
 
-      Promise.all([
+      return Promise.all([
         userHigh,
         primaryLow,
         officerLow,
-      ]).then(() => {
-        done();
-      });
+      ]);
     });
 
-    it('Creates an Event', function (done) {
+    it('Creates an Event', function () {
       const expected = {
         name: 'A Cool Talk',
         committeeName: 'Talks',
@@ -587,7 +568,7 @@ END:VCALENDAR`;
         link: null,
       };
 
-      request(app)
+      return request(app)
         .post('/api/v2/events')
         .set('Authorization', `Bearer ${token}`)
         .send(expected)
@@ -597,16 +578,15 @@ END:VCALENDAR`;
           delete response.body.createdAt;
           delete response.body.updatedAt;
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Requires Start Date to be Before End Date', function (done) {
+    it('Requires Start Date to be Before End Date', function () {
       const expected = {
         error: 'Validation error: Start date must be before the end date',
       };
 
-      request(app)
+      return request(app)
         .post('/api/v2/events')
         .set('Authorization', `Bearer ${token}`)
         .send({
@@ -619,29 +599,27 @@ END:VCALENDAR`;
         .expect(422)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Errors When Insufficient Fields Provided', function (done) {
+    it('Errors When Insufficient Fields Provided', function () {
       const expected = {
         error: 'notNull Violation: name cannot be null,\nnotNull Violation: startDate cannot be null,\nnotNull Violation: endDate cannot be null,\nnotNull Violation: location cannot be null',
       };
 
-      request(app)
+      return request(app)
         .post('/api/v2/events')
         .set('Authorization', `Bearer ${token}`)
         .send({})
         .expect(422)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
   });
 
   describe('GET /:id', function () {
-    it('Gets a Specific Event', function (done) {
+    it('Gets a Specific Event', function () {
       const expected = {
         id: 1,
         name: 'Review Session',
@@ -654,7 +632,7 @@ END:VCALENDAR`;
         description: null,
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/events/1')
         .set('Authorization', `Bearer ${token}`)
         .expect(200)
@@ -662,42 +640,39 @@ END:VCALENDAR`;
           delete response.body.createdAt;
           delete response.body.updatedAt;
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Does Not Find a Non-existent Event', function (done) {
+    it('Does Not Find a Non-existent Event', function () {
       const expected = {
         error: 'Event not found',
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/events/100')
         .set('Authorization', `Bearer ${token}`)
         .expect(404)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
   });
 
   describe('PUT /:id', function () {
-    it('Requires Authentication', function (done) {
+    it('Requires Authentication', function () {
       const expected = {
         error: 'No authorization token was found',
       };
 
-      request(app)
+      return request(app)
         .put('/api/v2/events/1')
         .expect(401)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Requires Expected Permissions', function (done) {
+    it('Requires Expected Permissions', function () {
       // Need High Permissions be an Officer or Primary Officer
       const expected = {
         error: 'User does not have permission: update events',
@@ -744,18 +719,16 @@ END:VCALENDAR`;
         .send(eventInput)
         .expect(200);
 
-      Promise.all([
+      return Promise.all([
         primaryLow,
         officerLow,
         userHigh,
         primaryHigh,
         officerHigh,
-      ]).then(() => {
-        done();
-      });
+      ]);
     });
 
-    it('Updates a Specific Event', function (done) {
+    it('Updates a Specific Event', function () {
       const expected = {
         id: 1,
         name: 'Lunch and Learn',
@@ -768,7 +741,7 @@ END:VCALENDAR`;
         image: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
       };
 
-      request(app)
+      return request(app)
         .put('/api/v2/events/1')
         .set('Authorization', `Bearer ${token}`)
         .send({
@@ -779,42 +752,39 @@ END:VCALENDAR`;
           delete response.body.createdAt;
           delete response.body.updatedAt;
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Does Not Find and Update a Non-existent Event', function (done) {
+    it('Does Not Find and Update a Non-existent Event', function () {
       const expected = {
         error: 'Event not found',
       };
 
-      request(app)
+      return request(app)
         .put('/api/v2/events/100')
         .set('Authorization', `Bearer ${token}`)
         .expect(404)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
   });
 
   describe('DELETE /:id', function () {
-    it('Requires Authentication', function (done) {
+    it('Requires Authentication', function () {
       const expected = {
         error: 'No authorization token was found',
       };
 
-      request(app)
+      return request(app)
         .delete('/api/v2/events/1')
         .expect(401)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Requires Expected Permissions', function (done) {
+    it('Requires Expected Permissions', function () {
       // Need High Permissions be an Officer or Primary Officer
       const expected = {
         error: 'User does not have permission: destroy events',
@@ -855,18 +825,16 @@ END:VCALENDAR`;
         .set('Authorization', `Bearer ${highPermissionOfficerToken}`)
         .expect(204);
 
-      Promise.all([
+      return Promise.all([
         primaryLow,
         officerLow,
         userHigh,
         primaryHigh,
         officerHigh,
-      ]).then(() => {
-        done();
-      });
+      ]);
     });
 
-    it('Deletes a Specific Event', function (done) {
+    it('Deletes a Specific Event', function () {
       request(app)
         .delete('/api/v2/events/1')
         .set('Authorization', `Bearer ${token}`)
@@ -875,14 +843,11 @@ END:VCALENDAR`;
           request(app)
             .get('/api/v2/events/1')
             .set('Authorization', `Bearer ${token}`)
-            .expect(404)
-            .then(() => {
-              done();
-            });
+            .expect(404);
         });
     });
 
-    it('Does Not Find and Delete a Non-existent Event', function (done) {
+    it('Does Not Find and Delete a Non-existent Event', function () {
       const expected = {
         error: 'Event not found',
       };
@@ -893,7 +858,6 @@ END:VCALENDAR`;
         .expect(404)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
   });

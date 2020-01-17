@@ -35,7 +35,7 @@ router
       }
     })
     .post(needs('events', 'create'), (req, res, next) => {
-      Event.create(req.body, { fields: ['name', 'startDate', 'endDate', 'description', 'location', 'image', 'committeeName'] })
+      Event.create(req.body, { fields: ['name', 'startDate', 'endDate', 'description', 'location', 'link', 'image', 'committeeName'] })
         .then(event => res.status(201).send(event))
         .catch((err) => {
           err.status = 422;

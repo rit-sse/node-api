@@ -9,7 +9,7 @@ import nconf from '../../config';
 
 describe('INTEGRATION TESTS: COMMITTEES', function () {
   describe('GET /', function () {
-    it('Returns Committees', function (done) {
+    it('Returns Committees', function () {
       const expected = {
         total: 4,
         perPage: nconf.get('pagination:perPage'),
@@ -42,16 +42,15 @@ describe('INTEGRATION TESTS: COMMITTEES', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/committees')
         .expect(200)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by an Existing Name', function (done) {
+    it('Filters by an Existing Name', function () {
       const expected = {
         total: 1,
         perPage: nconf.get('pagination:perPage'),
@@ -66,16 +65,15 @@ describe('INTEGRATION TESTS: COMMITTEES', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/committees?name=Technology')
         .expect(200)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by an Non-existent Name', function (done) {
+    it('Filters by an Non-existent Name', function () {
       const expected = {
         total: 0,
         perPage: nconf.get('pagination:perPage'),
@@ -83,16 +81,15 @@ describe('INTEGRATION TESTS: COMMITTEES', function () {
         data: [],
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/committees?name=Nope')
         .expect(200)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Filters by Active', function (done) {
+    it('Filters by Active', function () {
       const expected = {
         total: 2,
         perPage: nconf.get('pagination:perPage'),
@@ -113,17 +110,16 @@ describe('INTEGRATION TESTS: COMMITTEES', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get(`/api/v2/committees?active=${encodeURIComponent('2017-12-05T05:00:00.000Z')}`)
         .expect(200)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
     // See: https://github.com/rit-sse/node-api/issues/67
-    it('Filters by Active When Multiple Officers Are Assigned to the Same Committee', function (done) {
+    it('Filters by Active When Multiple Officers Are Assigned to the Same Committee', function () {
       const expected = {
         total: 2,
         perPage: nconf.get('pagination:perPage'),
@@ -144,18 +140,17 @@ describe('INTEGRATION TESTS: COMMITTEES', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get(`/api/v2/committees?active=${encodeURIComponent('2017-01-05T05:00:00.000Z')}`)
         .expect(200)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
   });
 
   describe('GET /:id', function () {
-    it('Finds a Specific Committee', function (done) {
+    it('Finds a Specific Committee', function () {
       const expected = {
         name: 'Technology',
         description: 'tech',
@@ -163,26 +158,24 @@ describe('INTEGRATION TESTS: COMMITTEES', function () {
         updatedAt: '2017-12-01T05:00:00.000Z',
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/committees/Technology')
         .expect(200)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Does Not Find a Committee That Does Not Exist', function (done) {
+    it('Does Not Find a Committee That Does Not Exist', function () {
       const expected = {
         error: 'Committee not found',
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/committees/Nope')
         .expect(404)
         .then((response) => {
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
   });
