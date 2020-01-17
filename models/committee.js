@@ -24,6 +24,8 @@ export default sequelize.define('committees', {
       return {
         include: [{
           model: Officer.scope({ method: ['active', date] }),
+          attributes: [],
+          includeIgnoreAttributes: false,
         }],
       };
     },
