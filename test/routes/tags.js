@@ -9,7 +9,7 @@ import nconf from '../../config';
 
 describe('INTEGRATION TESTS: TAGS', function () {
   describe('GET /', function () {
-    it('Gets All Tags', function (done) {
+    it('Gets All Tags', function () {
       const expected = {
         total: 4,
         perPage: nconf.get('pagination:perPage'),
@@ -30,7 +30,7 @@ describe('INTEGRATION TESTS: TAGS', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/qdb/tags')
         .expect(200)
         .then((response) => {
@@ -39,11 +39,10 @@ describe('INTEGRATION TESTS: TAGS', function () {
             delete tag.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
 
-    it('Gets Only Active Tags', function (done) {
+    it('Gets Only Active Tags', function () {
       const expected = {
         total: 3,
         perPage: nconf.get('pagination:perPage'),
@@ -61,7 +60,7 @@ describe('INTEGRATION TESTS: TAGS', function () {
         ],
       };
 
-      request(app)
+      return request(app)
         .get('/api/v2/qdb/tags?active=true')
         .expect(200)
         .then((response) => {
@@ -70,7 +69,6 @@ describe('INTEGRATION TESTS: TAGS', function () {
             delete tag.updatedAt;
           });
           expect(response.body).to.deep.equal(expected);
-          done();
         });
     });
   });
