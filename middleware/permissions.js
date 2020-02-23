@@ -3,7 +3,7 @@ import User from '../models/user';
 export function needs(endpoint, action) {
   return (req, res, next) => {
     User
-      .findById(req.auth.user.dce)
+      .findByPk(req.auth.user.dce)
       .then(user => user.can(endpoint, action, req.auth.level))
       .then(() => next())
       .catch(() => next({
@@ -35,7 +35,7 @@ export function needsApprovedIndex(endpoint) {
     }
 
     User
-      .findById(req.auth.user.dce)
+      .findByPk(req.auth.user.dce)
       .then(user => user.can(endpoint, 'unapproved', req.auth.level))
       .then(() => next())
       .catch(() => {
@@ -54,7 +54,7 @@ export function needsApprovedOne(endpoint) {
       return next();
     }
     User
-      .findById(req.auth.user.dce)
+      .findByPk(req.auth.user.dce)
       .then(user => user.can(endpoint, 'unapproved', req.auth.level))
       .then(() => {
         req.auth.allowed = true;

@@ -1,4 +1,4 @@
-import DataTypes from 'sequelize';
+import { DataTypes, Op } from 'sequelize';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import sequelize from '../config/sequelize';
@@ -57,7 +57,7 @@ export default sequelize.define('memberships', {
       return {
         where: {
           startDate: {
-            $between: [dates.start.toDate(), dates.end.toDate()],
+            [Op.between]: [dates.start.toDate(), dates.end.toDate()],
           },
         },
       };
@@ -66,10 +66,10 @@ export default sequelize.define('memberships', {
       return {
         where: {
           startDate: {
-            $lte: date,
+            [Op.lte]: date,
           },
           endDate: {
-            $gte: date,
+            [Op.gte]: date,
           },
         },
       };

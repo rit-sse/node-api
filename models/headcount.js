@@ -1,4 +1,4 @@
-import DataTypes from 'sequelize';
+import { DataTypes, Op } from 'sequelize';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import sequelize from '../config/sequelize';
@@ -18,17 +18,17 @@ export default sequelize.define('headcounts', {
       return { where: { count } };
     },
     greaterThan(count) {
-      return { where: { count: { $gt: count } } };
+      return { where: { count: { [Op.gt]: count } } };
     },
     lessThan(count) {
-      return { where: { count: { $lt: count } } };
+      return { where: { count: { [Op.lt]: count } } };
     },
     between(range) {
       const dates = moment.range(range);
       return {
         where: {
           createdAt: {
-            $between: [dates.start.toDate(), dates.end.toDate()],
+            [Op.between]: [dates.start.toDate(), dates.end.toDate()],
           },
         },
       };
@@ -42,7 +42,7 @@ export default sequelize.define('headcounts', {
       return {
         where: {
           createdAt: {
-            $between: [start, end],
+            [Op.between]: [start, end],
           },
         },
       };
