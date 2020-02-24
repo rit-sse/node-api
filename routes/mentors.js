@@ -69,7 +69,7 @@ router
       .findByPk(req.params.id)
       .then((mentor) => {
         if (mentor) {
-          return mentor.updateAttributes(req.body, {
+          return mentor.update(req.body, {
             fields: ['bio', 'userDce', 'startDate', 'endDate'],
           });
         }

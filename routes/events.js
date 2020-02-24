@@ -61,7 +61,7 @@ router
         .findByPk(req.params.id)
         .then((event) => {
           if (event) {
-            return event.updateAttributes(req.body, {
+            return event.update(req.body, {
               fields: ['name', 'startDate', 'endDate', 'description', 'location', 'image', 'committeeName'],
             });
           }

@@ -81,7 +81,7 @@ router
         })
         .then((quote) => {
           if (quote) {
-            return quote.updateAttributes(req.body, {
+            return quote.update(req.body, {
               fields: ['body', 'description', 'approved'],
             });
           }

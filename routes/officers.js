@@ -72,7 +72,7 @@ router
         .findByPk(req.params.id)
         .then((officer) => {
           if (officer) {
-            return officer.updateAttributes(req.body, {
+            return officer.update(req.body, {
               fields: ['title', 'email', 'userDce', 'committeeName', 'primaryOfficer', 'startDate', 'endDate'],
             });
           }

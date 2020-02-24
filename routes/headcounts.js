@@ -49,7 +49,7 @@ router
         .findByPk(req.params.id)
         .then((headcount) => {
           if (headcount) {
-            return headcount.updateAttributes(req.body, {
+            return headcount.update(req.body, {
               fields: ['count'],
             });
           }

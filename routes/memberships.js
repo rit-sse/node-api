@@ -24,7 +24,7 @@ router
             [sequelize.fn('count', sequelize.col('userDce')), 'memberships'],
           ],
           group: ['userDce'],
-          order: 'memberships DESC',
+          order: [['memberships', 'DESC']],
         })
         .then(scoreboard => res.send(scoreboard))
         .catch(err => next(err));
@@ -84,7 +84,7 @@ router
       .findByPk(req.params.id)
       .then((membership) => {
         if (membership) {
-          return membership.updateAttributes(req.body, {
+          return membership.update(req.body, {
             fields: ['reason', 'approved', 'committeeName', 'userDce', 'startDate', 'endDate'],
           });
         }

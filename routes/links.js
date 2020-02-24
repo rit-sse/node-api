@@ -13,7 +13,7 @@ router
       const scopes = scopify(req.query, 'onlyPublic');
       Link.scope(scopes)
         .findAndCountAll({
-          order: '"createdAt" DESC',
+          order: [['createdAt', 'DESC']],
         })
         .then(result => res.send({
           total: result.count,
@@ -72,7 +72,7 @@ router
         .findByPk(req.params.shortLink.toLocaleLowerCase())
         .then((link) => {
           if (link) {
-            return link.updateAttributes(req.body, {
+            return link.update(req.body, {
               fields: ['shortLink', 'longLink', 'description', 'public'],
             });
           }
