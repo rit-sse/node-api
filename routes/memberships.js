@@ -62,7 +62,7 @@ router
   .route('/:id')
   .get(verifyUser, needsApprovedOne('memberships'), (req, res, next) => {
     Membership
-      .findById(req.params.id, {
+      .findByPk(req.params.id, {
         include: [User],
       })
       .then((membership) => {
@@ -81,7 +81,7 @@ router
   })
   .put(needs('memberships', 'update'), (req, res, next) => {
     Membership
-      .findById(req.params.id)
+      .findByPk(req.params.id)
       .then((membership) => {
         if (membership) {
           return membership.updateAttributes(req.body, {
@@ -96,7 +96,7 @@ router
   })
   .delete(needs('memberships', 'destroy'), (req, res, next) => {
     Membership
-      .findById(req.params.id)
+      .findByPk(req.params.id)
       .then((membership) => {
         if (membership) {
           return membership.destroy();
