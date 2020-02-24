@@ -1,4 +1,4 @@
-import DataTypes from 'sequelize';
+import { DataTypes, Op } from 'sequelize';
 import sequelize from '../config/sequelize';
 import paginate from '../helpers/paginate';
 import Specialty from './specialty';
@@ -22,12 +22,12 @@ export default sequelize.define('mentors', {
       return {
         where: {
           startDate: {
-            $lte: date,
+            [Op.lte]: date,
           },
           endDate: {
-            $or: {
-              $gte: date,
-              $eq: null,
+            [Op.or]: {
+              [Op.gte]: date,
+              [Op.eq]: null,
             },
           },
         },

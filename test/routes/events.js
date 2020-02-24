@@ -604,7 +604,7 @@ END:VCALENDAR`;
 
     it('Errors When Insufficient Fields Provided', function () {
       const expected = {
-        error: 'notNull Violation: name cannot be null,\nnotNull Violation: startDate cannot be null,\nnotNull Violation: endDate cannot be null,\nnotNull Violation: location cannot be null',
+        error: 'notNull Violation: events.name cannot be null,\nnotNull Violation: events.startDate cannot be null,\nnotNull Violation: events.endDate cannot be null,\nnotNull Violation: events.location cannot be null',
       };
 
       return request(app)

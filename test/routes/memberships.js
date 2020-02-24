@@ -510,7 +510,7 @@ describe('INTEGRATION TESTS: MEMBERSHIPS', function () {
 
     it('Errors When Insufficient Fields Provided', function () {
       const expected = {
-        error: 'notNull Violation: reason cannot be null',
+        error: 'notNull Violation: memberships.reason cannot be null',
       };
 
       return request(app)

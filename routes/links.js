@@ -13,7 +13,7 @@ router
       const scopes = scopify(req.query, 'onlyPublic');
       Link.scope(scopes)
         .findAndCountAll({
-          order: '"createdAt" DESC',
+          order: [['createdAt', 'DESC']],
         })
         .then(result => res.send({
           total: result.count,
@@ -44,7 +44,7 @@ router
   .route('/go/:shortLink')
     .get((req, res, next) => {
       Link
-        .findById(req.params.shortLink.toLocaleLowerCase())
+        .findByPk(req.params.shortLink.toLocaleLowerCase())
         .then((link) => {
           if (link) {
             return res.redirect(link.longLink);
@@ -58,7 +58,7 @@ router
   .route('/:shortLink')
     .get((req, res, next) => {
       Link
-        .findById(req.params.shortLink.toLocaleLowerCase())
+        .findByPk(req.params.shortLink.toLocaleLowerCase())
         .then((link) => {
           if (link) {
             return res.send(link);
@@ -69,10 +69,10 @@ router
     })
     .put(needs('links', 'update'), (req, res, next) => {
       Link
-        .findById(req.params.shortLink.toLocaleLowerCase())
+        .findByPk(req.params.shortLink.toLocaleLowerCase())
         .then((link) => {
           if (link) {
-            return link.updateAttributes(req.body, {
+            return link.update(req.body, {
               fields: ['shortLink', 'longLink', 'description', 'public'],
             });
           }
@@ -83,7 +83,7 @@ router
     })
     .delete(needs('links', 'destroy'), (req, res, next) => {
       Link
-        .findById(req.params.shortLink.toLocaleLowerCase())
+        .findByPk(req.params.shortLink.toLocaleLowerCase())
         .then((link) => {
           if (link) {
             return link.destroy();

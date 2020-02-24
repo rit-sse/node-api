@@ -1,4 +1,4 @@
-import DataTypes from 'sequelize';
+import { DataTypes, Op } from 'sequelize';
 import sequelize from '../config/sequelize';
 import paginate from '../helpers/paginate';
 import sorting from '../helpers/sorting';
@@ -54,12 +54,12 @@ export default sequelize.define('quotes', {
     search(query) {
       return {
         where: {
-          $or: {
+          [Op.or]: {
             body: {
-              $like: `%${query}%`,
+              [Op.like]: `%${query}%`,
             },
             description: {
-              $like: `%${query}%`,
+              [Op.like]: `%${query}%`,
             },
           },
         },

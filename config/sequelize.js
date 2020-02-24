@@ -1,4 +1,4 @@
-import Sequelize from 'sequelize';
+import { Sequelize } from 'sequelize';
 import nconf from './index';
 
 const env = nconf.get('NODE_ENV');

@@ -122,7 +122,7 @@ describe('INTEGRATION TESTS: QUOTES', function () {
 
     it('Errors When Insufficient Fields Provided', function () {
       const expected = {
-        error: 'notNull Violation: body cannot be null',
+        error: 'notNull Violation: quotes.body cannot be null',
       };
 
       return request(app)

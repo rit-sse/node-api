@@ -1,4 +1,4 @@
-import DataTypes from 'sequelize';
+import { DataTypes, Op } from 'sequelize';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import sequelize from '../config/sequelize';
@@ -61,7 +61,7 @@ export default sequelize.define('events', {
       return {
         where: {
           startDate: {
-            $lt: date,
+            [Op.lt]: date,
           },
         },
       };
@@ -70,20 +70,20 @@ export default sequelize.define('events', {
       return {
         where: {
           startDate: {
-            $gt: date,
+            [Op.gt]: date,
           },
         },
       };
     },
     featured() {
-      return { where: { image: { $ne: null } } };
+      return { where: { image: { [Op.ne]: null } } };
     },
     between(range) {
       const dates = moment.range(range);
       return {
         where: {
           startDate: {
-            $between: [dates.start.toDate(), dates.end.toDate()],
+            [Op.between]: [dates.start.toDate(), dates.end.toDate()],
           },
         },
       };
