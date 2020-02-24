@@ -55,7 +55,7 @@ router
     });
 
 router
-  .route('/:shortLink')
+  .route('/:shortLink(*)')
     .get((req, res, next) => {
       Link
         .findByPk(req.params.shortLink.toLocaleLowerCase())
