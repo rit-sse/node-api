@@ -18,16 +18,20 @@ router
       Tag
         .scope(scopes)
         .findAndCountAll()
-        .then(result => res.send({
-          total: result.count,
-          perPage: req.query.perPage,
-          currentPage: req.query.page,
-          data: result.rows.map((tag) => {
-            const t = tag.get({ plain: true });
-            Reflect.deleteProperty(t, 'quotes');
-            return t;
-          }),
-        }))
+        .then(result => {
+          const uniqueTags = {};
+          result.rows.forEach((tag) => {
+            const c = tag.get({ plain: true });
+            Reflect.deleteProperty(c, 'quotes');
+            uniqueTags[c.name] = c;
+          });
+          return res.send({
+            total: Object.keys(uniqueTags).length,
+            perPage: req.query.perPage,
+            currentPage: req.query.page,
+            data: Object.values(uniqueTags),
+          });
+        })
         .catch(err => next(err));
     });
 
