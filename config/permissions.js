@@ -157,4 +157,18 @@ export default {
       groups: { primary, officers },
     },
   },
+  announcements: {
+    create: {
+      level: levels.high,
+      groups: { primary },
+    },
+    update: {
+      level: levels.high,
+      groups: { primary },
+    },
+    destroy: {
+      level: levels.high,
+      groups: { primary },
+    },
+  },
 };

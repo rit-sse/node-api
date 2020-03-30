@@ -11,6 +11,7 @@ import Officer from '../models/officer';
 import Quote from '../models/quote';
 import Tag from '../models/tag';
 import User from '../models/user';
+import Announcement from '../models/announcement';
 
 const jwtConfig = nconf.get('auth:jwt');
 
@@ -113,7 +114,7 @@ export function beforeEachHelper() {
   return sequelize
     .transaction(t => Promise.all(
         // Truncate all tables
-        [Event, Committee, User, Officer, Membership, Quote, Tag]
+        [Event, Committee, User, Officer, Membership, Quote, Tag, Announcement]
           .map(model => model.destroy({
             truncate: true,
             transaction: t,
@@ -320,5 +321,17 @@ export function beforeEachHelper() {
         quotes[1].setTags([tags[0]]),
         quotes[2].setTags([tags[0], tags[1]]),
         quotes[3].setTags([tags[0], tags[1], tags[2]]),
-      ]));
+      ]))
+    .then(() => Announcement.bulkCreate([
+      {
+        announcement: 'hello everyone!',
+        announcementType: 'warning',
+        active: false,
+      },
+      {
+        announcement: 'This is an announcement',
+        announcementType: 'primary',
+        active: true,
+      },
+    ]));
 }
