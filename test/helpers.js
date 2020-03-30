@@ -324,13 +324,13 @@ export function beforeEachHelper() {
       ]))
     .then(() => Announcement.bulkCreate([
       {
-        announcement: 'hello everyone!',
-        announcementType: 'warning',
+        message: 'hello everyone!',
+        category: 'warning',
         active: false,
       },
       {
-        announcement: 'This is an announcement',
-        announcementType: 'primary',
+        message: 'This is an announcement',
+        category: 'primary',
         active: true,
       },
     ]));

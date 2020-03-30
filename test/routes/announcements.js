@@ -24,13 +24,13 @@ describe('INTEGRATION TESTS: ANNOUNCEMENTS', function () {
         data: [
           {
             active: false,
-            announcement: 'hello everyone!',
-            announcementType: 'warning',
+            message: 'hello everyone!',
+            category: 'warning',
           },
           {
             active: true,
-            announcement: 'This is an announcement',
-            announcementType: 'primary',
+            message: 'This is an announcement',
+            category: 'primary',
           },
         ],
       };
@@ -69,8 +69,8 @@ describe('INTEGRATION TESTS: ANNOUNCEMENTS', function () {
       };
 
       const announcementInput = {
-        announcement: 'This is a test',
-        announcementType: 'warning',
+        message: 'This is a test',
+        category: 'warning',
         active: true,
       };
 
@@ -118,8 +118,8 @@ describe('INTEGRATION TESTS: ANNOUNCEMENTS', function () {
     it('Gets a Specific Announcement', function () {
       const expected = {
         id: 2,
-        announcement: 'This is an announcement',
-        announcementType: 'primary',
+        message: 'This is an announcement',
+        category: 'primary',
         active: true,
       };
 
@@ -170,7 +170,7 @@ describe('INTEGRATION TESTS: ANNOUNCEMENTS', function () {
       };
 
       const announcementInput = {
-        announcementType: 'cool',
+        category: 'danger',
       };
 
       // Deny Primary Officer w/ Low Permission Token
@@ -215,8 +215,8 @@ describe('INTEGRATION TESTS: ANNOUNCEMENTS', function () {
     it('Updates a Specific Announcement', function () {
       const expected = {
         id: 2,
-        announcement: 'You just got updated',
-        announcementType: 'potato',
+        message: 'You just got updated',
+        category: 'info',
         active: true,
       };
 
@@ -224,8 +224,8 @@ describe('INTEGRATION TESTS: ANNOUNCEMENTS', function () {
         .put('/api/v2/announcements/2')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          announcement: 'You just got updated',
-          announcementType: 'potato',
+          message: 'You just got updated',
+          category: 'info',
         })
         .expect(200)
         .then((response) => {
@@ -334,5 +334,5 @@ describe('INTEGRATION TESTS: ANNOUNCEMENTS', function () {
           expect(response.body).to.deep.equal(expected);
         });
     });
-  })
+  });
 });

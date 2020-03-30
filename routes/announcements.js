@@ -25,10 +25,10 @@ router
   })
   .post(needs('announcements', 'create'), (req, res, next) => {
     Announcement.create({
-      announcement: req.body.announcement,
-      announcementType: req.body.announcementType,
+      message: req.body.message,
+      category: req.body.category,
       active: req.body.active,
-    }, { fields: ['announcement', 'announcementType', 'active'] })
+    }, { fields: ['message', 'category', 'active'] })
       .then(announcement => res.status(201).send(announcement))
       .catch((err) => {
         err.status = 422;
@@ -55,7 +55,7 @@ router
       .then((announcement) => {
         if (announcement) {
           return announcement.update(req.body, {
-            fields: ['announcement', 'announcementType', 'active'],
+            fields: ['message', 'category', 'active'],
           });
         }
         return Promise.reject({ message: 'Announcement not found', status: 404 });

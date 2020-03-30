@@ -5,11 +5,11 @@ export function up(queryInterface, Sequelize) {
       primaryKey: true,
       autoIncrement: true,
     },
-    announcement: {
+    message: {
       type: Sequelize.TEXT,
       allowNull: false,
     },
-    announcementType: Sequelize.STRING,
+    category: Sequelize.STRING,
     active: {
       type: Sequelize.BOOLEAN,
       allowNull: false,

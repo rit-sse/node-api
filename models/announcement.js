@@ -4,11 +4,11 @@ import paginate from '../helpers/paginate';
 import sorting from '../helpers/sorting';
 
 export default sequelize.define('announcements', {
-  announcement: {
+  message: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  announcementType: DataTypes.STRING,
+  category: DataTypes.STRING,
   active: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
@@ -21,8 +21,8 @@ export default sequelize.define('announcements', {
     paginate,
     orderBy(field, direction) {
       return sorting(field, direction, [
-        'announcement',
-        'announcementType',
+        'message',
+        'category',
         'active',
         'createdAt',
         'updatedAt',
