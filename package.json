@@ -11,6 +11,10 @@
     {
       "name": "Bill Dybas",
       "email": "wmdybas@gmail.com"
+    },
+    {
+      "name": "Gavriel R-H",
+      "email": "gavriel@gavrielrh.com"
     }
   ],
   "main": "app.js",
