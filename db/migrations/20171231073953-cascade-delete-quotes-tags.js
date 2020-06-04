@@ -1,5 +1,5 @@
 // Add ON DELETE CASCADE and ON UPDATE CASCADE to the quotes_tags table
-export function up(queryInterface, Sequelize) {
+export async function up(queryInterface, Sequelize) {
   const dialect = queryInterface.sequelize.getDialect();
   // SQLite does not support the DROP CONSTRAINT syntax,
   // so we have to make a temporary table, copy all the data into it,
@@ -7,8 +7,8 @@ export function up(queryInterface, Sequelize) {
   // development and testing with small amounts of data, while this is
   // gross, it is not necessarily the end of the world.
   if (dialect === 'sqlite') {
-    return queryInterface.sequelize.transaction(t => Promise.all([
-      queryInterface.createTable('temp', {
+    return queryInterface.sequelize.transaction(async (t) => {
+      await queryInterface.createTable('temp', {
         tagName: {
           type: Sequelize.STRING,
           allowNull: false,
@@ -33,17 +33,20 @@ export function up(queryInterface, Sequelize) {
         },
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE,
-      }, { transaction: t }),
-      queryInterface
-        .sequelize
-        .query('INSERT INTO temp SELECT * FROM quotes_tags;', { transaction: t }),
-      queryInterface
-        .sequelize
-        .query('DROP TABLE quotes_tags;', { transaction: t }),
-      queryInterface
-        .sequelize
-        .query('ALTER TABLE temp RENAME TO quotes_tags;', { transaction: t }),
-    ]));
+      }, {transaction: t});
+
+      return Promise.all([
+        queryInterface
+          .sequelize
+          .query('INSERT INTO temp SELECT * FROM quotes_tags;', {transaction: t}),
+        queryInterface
+          .sequelize
+          .query('DROP TABLE quotes_tags;', {transaction: t}),
+        queryInterface
+          .sequelize
+          .query('ALTER TABLE temp RENAME TO quotes_tags;', {transaction: t}),
+      ]);
+    });
   } else if (dialect === 'postgres') {
     return queryInterface.sequelize.transaction(t => Promise.all([
       queryInterface
@@ -71,12 +74,12 @@ export function up(queryInterface, Sequelize) {
 }
 
 // Remove ON DELETE CASCADE and ON UPDATE CASCADE FROM the quotes_tags table
-export function down(queryInterface, Sequelize) {
+export async function down(queryInterface, Sequelize) {
   const dialect = queryInterface.sequelize.getDialect();
   // See above comment about SQLite
   if (dialect === 'sqlite') {
-    return queryInterface.sequelize.transaction(t => Promise.all([
-      queryInterface.createTable('temp', {
+    return queryInterface.sequelize.transaction(async (t) => {
+      await queryInterface.createTable('temp', {
         tagName: {
           type: Sequelize.STRING,
           allowNull: false,
@@ -91,17 +94,20 @@ export function down(queryInterface, Sequelize) {
         },
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE,
-      }, { transaction: t }),
-      queryInterface
-        .sequelize
-        .query('INSERT INTO temp SELECT * FROM quotes_tags;', { transaction: t }),
-      queryInterface
-        .sequelize
-        .query('DROP TABLE quotes_tags;', { transaction: t }),
-      queryInterface
-        .sequelize
-        .query('ALTER TABLE temp RENAME TO quotes_tags;', { transaction: t }),
-    ]));
+      }, { transaction: t });
+
+      return Promise.all([
+        queryInterface
+          .sequelize
+          .query('INSERT INTO temp SELECT * FROM quotes_tags;', { transaction: t }),
+        queryInterface
+          .sequelize
+          .query('DROP TABLE quotes_tags;', { transaction: t }),
+        queryInterface
+          .sequelize
+          .query('ALTER TABLE temp RENAME TO quotes_tags;', { transaction: t }),
+      ]);
+    });
   } else if (dialect === 'postgres') {
     return queryInterface.sequelize.transaction(t => Promise.all([
       queryInterface

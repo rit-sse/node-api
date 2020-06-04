@@ -35,7 +35,7 @@ router
   .route('/:id')
     .get((req, res, next) => {
       Headcount
-        .findById(req.params.id)
+        .findByPk(req.params.id)
         .then((headcount) => {
           if (headcount) {
             return res.send(headcount);
@@ -46,10 +46,10 @@ router
     })
     .put(needs('headcounts', 'update'), (req, res, next) => {
       Headcount
-        .findById(req.params.id)
+        .findByPk(req.params.id)
         .then((headcount) => {
           if (headcount) {
-            return headcount.updateAttributes(req.body, {
+            return headcount.update(req.body, {
               fields: ['count'],
             });
           }
@@ -60,7 +60,7 @@ router
     })
     .delete(needs('headcounts', 'destroy'), (req, res, next) => {
       Headcount
-        .findById(req.params.id)
+        .findByPk(req.params.id)
         .then((headcount) => {
           if (headcount) {
             return headcount.destroy();

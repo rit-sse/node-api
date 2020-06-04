@@ -24,7 +24,7 @@ router
             [sequelize.fn('count', sequelize.col('userDce')), 'memberships'],
           ],
           group: ['userDce'],
-          order: 'memberships DESC',
+          order: [['memberships', 'DESC']],
         })
         .then(scoreboard => res.send(scoreboard))
         .catch(err => next(err));
@@ -62,7 +62,7 @@ router
   .route('/:id')
   .get(verifyUser, needsApprovedOne('memberships'), (req, res, next) => {
     Membership
-      .findById(req.params.id, {
+      .findByPk(req.params.id, {
         include: [User],
       })
       .then((membership) => {
@@ -81,10 +81,10 @@ router
   })
   .put(needs('memberships', 'update'), (req, res, next) => {
     Membership
-      .findById(req.params.id)
+      .findByPk(req.params.id)
       .then((membership) => {
         if (membership) {
-          return membership.updateAttributes(req.body, {
+          return membership.update(req.body, {
             fields: ['reason', 'approved', 'committeeName', 'userDce', 'startDate', 'endDate'],
           });
         }
@@ -96,7 +96,7 @@ router
   })
   .delete(needs('memberships', 'destroy'), (req, res, next) => {
     Membership
-      .findById(req.params.id)
+      .findByPk(req.params.id)
       .then((membership) => {
         if (membership) {
           return membership.destroy();

@@ -8,6 +8,7 @@ import memberships from './memberships';
 import officers from './officers';
 import qdb from './qdb';
 import users from './users';
+import announcements from './announcements';
 import status from './status';
 import nconf from '../config';
 
@@ -35,6 +36,7 @@ router.use('/officers', officers);
 router.use('/qdb', qdb);
 router.use('/status', status);
 router.use('/users', users);
+router.use('/announcements', announcements);
 
 router
   .route('/')
@@ -49,6 +51,7 @@ router
     qdbUrl: `${apiPath}/qdb`,
     statusUrl: `${apiPath}/status`,
     usersUrl: `${apiPath}/users`,
+    announcementsUrl: `${apiPath}/announcements`,
   }));
 
 

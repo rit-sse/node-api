@@ -488,7 +488,7 @@ describe('INTEGRATION TESTS: OFFICERS', function () {
 
     it('Errors When Insufficient Fields Provided', function () {
       const expected = {
-        error: 'notNull Violation: title cannot be null,\nnotNull Violation: email cannot be null',
+        error: 'notNull Violation: officers.title cannot be null,\nnotNull Violation: officers.email cannot be null',
       };
 
       return request(app)

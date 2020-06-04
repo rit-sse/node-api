@@ -67,3 +67,6 @@ config/database/production.json
 
 # vim
 *.swp
+
+# intellij
+.idea

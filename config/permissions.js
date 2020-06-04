@@ -4,7 +4,7 @@
 // their permissions level and group assignment have to allow them to do so.
 //
 // Permission level is 'at least', so someone with
-// a 'low' permission cannot do 'high' permisison actions but
+// a 'low' permission cannot do 'high' permission actions but
 // someone with a 'high' permission can do 'low' permission actions.
 // Permission level is based on the provider they used to authenticate (eg. Google, Slack).
 //
@@ -155,6 +155,20 @@ export default {
     update: {
       level: levels.high,
       groups: { primary, officers },
+    },
+  },
+  announcements: {
+    create: {
+      level: levels.high,
+      groups: { primary },
+    },
+    update: {
+      level: levels.high,
+      groups: { primary },
+    },
+    destroy: {
+      level: levels.high,
+      groups: { primary },
     },
   },
 };

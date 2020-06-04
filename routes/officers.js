@@ -56,7 +56,7 @@ router
   .route('/:id')
     .get((req, res, next) => {
       Officer
-        .findById(req.params.id, {
+        .findByPk(req.params.id, {
           include: [User],
         })
         .then((officer) => {
@@ -69,10 +69,10 @@ router
     })
     .put(needs('officers', 'update'), (req, res, next) => {
       Officer
-        .findById(req.params.id)
+        .findByPk(req.params.id)
         .then((officer) => {
           if (officer) {
-            return officer.updateAttributes(req.body, {
+            return officer.update(req.body, {
               fields: ['title', 'email', 'userDce', 'committeeName', 'primaryOfficer', 'startDate', 'endDate'],
             });
           }
@@ -84,7 +84,7 @@ router
     })
     .delete(needs('officers', 'destroy'), (req, res, next) => {
       Officer
-        .findById(req.params.id)
+        .findByPk(req.params.id)
         .then((officer) => {
           if (officer) {
             return officer.destroy();
