@@ -24,7 +24,7 @@
     "keygen": "babel-node ./keygen.js",
     "bootstrap": "babel-node ./bootstrap/init.js",
     "lint": "eslint .",
-    "test": "cross-env NODE_ENV=test nyc mocha --require babel-core/register --timeout 5000 test/index.js test/**/*.js"
+    "test": "cross-env NODE_ENV=test nyc mocha --require @babel/register --require @babel/polyfill --timeout 5000 test/index.js test/**/*.js"
   },
   "repository": {
     "type": "git",
