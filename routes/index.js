@@ -17,12 +17,7 @@ const apiConfig = nconf.get('api');
 const apiPath = `/${apiConfig.prefix}/${apiConfig.version}`;
 
 router.use((req, res, next) => {
-  res.header('Cache-Control', 'max-age=60');
-  return next();
-});
-
-router.use((req, res, next) => {
-  res.header('Cache-Control', 'max-age=300');
+  res.header('Cache-Control', 'max-age=0');
   return next();
 });
 
