@@ -70,3 +70,5 @@ config/database/production.json
 
 # intellij
 .idea
+
+.vs
